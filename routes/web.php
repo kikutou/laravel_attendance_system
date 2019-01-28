@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//huang
+Route::post('leave_request','UserController@request_leave')->name('post_leave_request')->middleware('auth');
