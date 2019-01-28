@@ -16,4 +16,5 @@ Route::get('/', function () {
 });
 
 //huang
-Route::post('leave_request','UserController@request_leave')->name('post_leave_request')->middleware('auth');
+Route::get('create_leave_request','AttendanceRecordController@create_request_leave')->name('get_leave_request');
+Route::post('store_leave_request','AttendanceRecordController@store_request_leave')->name('post_leave_request');
