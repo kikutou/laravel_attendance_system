@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+//缺勤请求一栏
+Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check");
+Route::post('check',"LeavecheckController@check")->name("post_check");
