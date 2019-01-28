@@ -14,6 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-//Route::get('user_a_week',"AttendenceRecordController@show_index")->name('get_user_a_week');
+//tao
 Route::get('user_a_week',"AttendenceRecordController@get_all")->name('get_user_all');
+//liang
+//缺勤请求一栏
+Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check");
+Route::post('check',"LeavecheckController@check")->name("post_check");
+//huang
+Route::post('leave_request','UserController@request_leave')->name('post_leave_request')->middleware('auth');
