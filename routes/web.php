@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route::get('user_a_week',"AttendenceRecordController@show_index")->name('get_user_a_week');
+Route::get('user_a_week',"AttendenceRecordController@get_all")->name('get_user_all');
