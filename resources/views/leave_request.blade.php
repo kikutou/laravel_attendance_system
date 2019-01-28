@@ -24,15 +24,15 @@
       </div>
       <table class="table">
         <tr>
-         <td><label for="start_day">休暇日</label></td>
+         <td><label for="start_day">欠勤日</label></td>
          <td><input id="start_day" name="attendance_date" type="date" value="{{ old('attendance_date') }}"></td>
         </tr>
         <tr>
-         <td><label for="start">いつから</label></td>
+         <td><label for="start">欠勤開始時間</label></td>
          <td><input id="start" name="leave_start_time" type="text" value="{{ old('leave_start_time') }}">(例: 10:30)</td>
         </tr>
         <tr>
-         <td><label for="end">いつまで</label></td>
+         <td><label for="end">欠勤終了時間</label></td>
          <td><input id="end" name="leave_end_time" type="text" value="{{ old('leave_end_time') }}">(例: 20:30)</td>
         </tr>
         <tr>

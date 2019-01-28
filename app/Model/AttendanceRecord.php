@@ -18,7 +18,7 @@ class AttendanceRecord extends Model
 
     public static $validator_messages = [
 
-       'attendance_date.required' => '休暇日をお選びください!',
+       'attendance_date.required' => '欠勤日をお選びください!',
        'leave_start_time.required' => '欠勤開始時間を入力してください!',
        'leave_start_time.date_format' => '欠勤開始時間の形式が間違っています!',
        'leave_end_time.required' => '欠勤終了時間を入力してください!',

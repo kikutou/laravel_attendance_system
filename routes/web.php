@@ -21,5 +21,5 @@ Route::get('user_a_week',"AttendenceRecordController@get_all")->name('get_user_a
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check");
 Route::post('check',"LeavecheckController@check")->name("post_check");
 //huang
-Route::get('create_leave_request','AttendanceRecordController@create_request_leave')->name('get_leave_request');
-Route::post('store_leave_request','AttendanceRecordController@store_request_leave')->name('post_leave_request');
+Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');
+Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request');
