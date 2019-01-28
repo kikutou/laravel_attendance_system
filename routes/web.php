@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+//liang
 //缺勤请求一栏
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check");
 Route::post('check',"LeavecheckController@check")->name("post_check");
+//huang
+Route::post('leave_request','UserController@request_leave')->name('post_leave_request')->middleware('auth');
