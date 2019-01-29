@@ -15,20 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
-Auth::routes(['verify' => true]);
 
+Auth::routes(['verify' => true]);
 Route::get('/verified', 'Auth\VerificationController@emailverified')->name('verified');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
-
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-
 Route::get('/auth/verify/{token}', 'HomeController@emailtoken');
 
 
-
-=======
 //出退勤管理　金
 Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('begin_finish_view');
 Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish');
@@ -41,4 +36,3 @@ Route::post('check',"LeavecheckController@check")->name("post_check");
 //huang
 Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');
 Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request');
->>>>>>> cef9946985f8b39174978725509abcb93f40cd4f

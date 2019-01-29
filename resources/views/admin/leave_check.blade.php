@@ -102,13 +102,13 @@
                   <div id="socool" class="row top6">
                     <div class="col-sm-6 text-center">欠勤開始時間</div>
                     <div class="col-sm-6 text-center">
-                      {{ $attendancerecord->attendace_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}
+                      {{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}
                     </div>
                   </div>
                   <div id="socool" class="row top6">
                     <div class="col-sm-6 text-center">欠勤終わり時間</div>
                     <div class="col-sm-6 text-center">
-                      {{ $attendancerecord->attendace_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}
+                      {{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}
                     </div>
                   </div>
                   <div id="socool" class="row top6">
