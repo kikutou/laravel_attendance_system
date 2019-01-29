@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //tao
-Route::get('user_a_week',"AttendenceRecordController@get_all")->name('get_user_all');
+Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all');
 //liang
 //缺勤请求一栏
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check");

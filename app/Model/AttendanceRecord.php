@@ -5,8 +5,26 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class AttendanceRecord extends Model
 {
+  protected $table = "attendance_records";
+
+  protected $dates = ['created_at', 'updated_at', 'deleted_at', 'attendace_date'];
+
+
+
+  public function users()
+    {
+      return $this->belongsTo("App\Model\User", "user_id");
+    }
+
+  public function mtb_leave_check_statuses()
+    {
+      return $this->belongsTo("App\Model\Master\MtbLeaveCheckStatuse", "mtb_leave_check_status_id");
+    }
+
+
     public static $validator_rules = [
 
        'attendance_date' => 'required',
@@ -26,20 +44,5 @@ class AttendanceRecord extends Model
        'leave_reason.required' => '欠勤理由を入力してください!'
 
     ];
-    protected $table = "attendance_records";
-
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'attendace_date'];
-
-    use SoftDeletes;
-
-    public function users()
-      {
-        return $this->belongsTo("App\Model\User", "user_id");
-      }
-
-    public function mtb_leave_check_statuses()
-    {
-      return $this->belongsTo("App\Model\Master\MtbLeaveCheckStatus", "mtb_leave_check_status_id");
-    }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\User;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,6 +8,6 @@ class User extends Model
 {
   public function check()
   {
-    return $this->hasMany("App\Model\AttendanceRecord\AttendanceRecord", "user_id");
+    return $this->hasMany("App\Model\AttendanceRecord", "user_id");
   }
 }

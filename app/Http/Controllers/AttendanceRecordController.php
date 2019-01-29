@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use Carbon\Carbon;
+use App\Model\User;
 use App\Model\Master\MtbLeaveCheckStatuse;
 use Validator;
 
@@ -82,5 +83,11 @@ class AttendanceRecordController extends Controller
       $one_message = '欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。';
       return redirect()->back()->with(['one_message' => $one_message]);
 
+    }
+
+    public function get_all(Request $request)
+    {
+      $attendance_records = AttendanceRecord::all();
+      return view('user_a_week',['attendance_records'=>$attendance_records]);
     }
 }
