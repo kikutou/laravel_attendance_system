@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
-use App\Model\Master\MtbLeaveCheckStatuse;
+use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
 
 class LeavecheckController extends Controller
@@ -14,9 +14,9 @@ class LeavecheckController extends Controller
     // 一览页面
     if ($request->isMethod('get')) {
         $statusArr = [
-            'approval_pending' => MtbLeaveCheckStatuse::APPROVAL_PENDING,
-            'approval' => MtbLeaveCheckStatuse::APPROVAL,
-            'refuse' => MtbLeaveCheckStatuse::REFUSE
+            'approval_pending' => MtbLeaveCheckStatus::APPROVAL_PENDING,
+            'approval' => MtbLeaveCheckStatus::APPROVAL,
+            'refuse' => MtbLeaveCheckStatus::REFUSE
         ];
 
         $status = $status ?? 'all';
@@ -36,10 +36,10 @@ class LeavecheckController extends Controller
     // 审核操作
     if ($request->isMethod('post')) {
         // $request->act 是前台post过来的参数 值为 agree: 同意；disagree：不同意
-        $Act = ['agree' => MtbLeaveCheckStatuse::APPROVAL, 'disagree' => MtbLeaveCheckStatuse::REFUSE];
+        $Act = ['agree' => MtbLeaveCheckStatus::APPROVAL, 'disagree' => MtbLeaveCheckStatus::REFUSE];
         if ($request->act && $request->mtb_leave_check_status_id && array_key_exists($request->act, $Act)) {
             $leave = AttendanceRecord::where("mtb_leave_check_status_id", $request->mtb_leave_check_status_id)->first();
-            if ($leave->mtb_leave_check_status_id == MtbLeaveCheckStatuse::APPROVAL_PENDING){
+            if ($leave->mtb_leave_check_status_id == MtbLeaveCheckStatus::APPROVAL_PENDING){
                 $leave->mtb_leave_check_status_id = $Act[$request->act];
                 $leave->save();
                 echo $request->act == 'agree' ? '承認しました' : '断りました';
