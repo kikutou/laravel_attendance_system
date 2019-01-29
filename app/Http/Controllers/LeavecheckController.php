@@ -38,7 +38,7 @@ class LeavecheckController extends Controller
         // $request->act 是前台post过来的参数 值为 agree: 同意；disagree：不同意
         $Act = ['agree' => MtbLeaveCheckStatus::APPROVAL, 'disagree' => MtbLeaveCheckStatus::REFUSE];
         if ($request->act && $request->mtb_leave_check_status_id && array_key_exists($request->act, $Act)) {
-            $leave = AttendanceRecord::where("mtb_leave_check_status_id", $request->mtb_leave_check_status_id)->first();
+            $leave = AttendanceRecord::where("id", $request->id)->first();
             if ($leave->mtb_leave_check_status_id == MtbLeaveCheckStatus::APPROVAL_PENDING){
                 $leave->mtb_leave_check_status_id = $Act[$request->act];
                 $leave->save();
