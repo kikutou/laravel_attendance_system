@@ -31,6 +31,13 @@
   </form>
 </div>
 
+<div>
+@php
+setlocale(LC_ALL, 'ja_JP.UTF-8');
+@endphp
+{{ \Carbon\Carbon::today()->formatLocalized('%Y年%m月%d日(%a)') }}
+</div>
+
 @if($rec1 && !$rec2)
 <div>
 出勤時間：{{ $rec1->start_time }}
