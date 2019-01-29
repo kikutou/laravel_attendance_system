@@ -40,7 +40,7 @@
 
     @if (Session::has('message'))
     <div class="row text-center">
-      <div class="col-sm text-warning">
+      <div class="col-sm">
         <p>{{ Session::get('message') }}</p>
       </div>
     </div>

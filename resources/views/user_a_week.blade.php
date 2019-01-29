@@ -82,6 +82,7 @@
               <p>出勤していません。</p>
             @endif
           </td>
+<<<<<<< HEAD
           <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
           <td>{{ $attendance_record->start_time }}</td>
           <td>{{ $attendance_record->end_time }}</td>
@@ -115,7 +116,10 @@
       </table>
       @endforeach
       @endfor
+=======
+        </tr>
+      </table>
+>>>>>>> 73b7798247cd27528622ab50396b1f63864e6044
     </div>
-
   </body>
 </html>

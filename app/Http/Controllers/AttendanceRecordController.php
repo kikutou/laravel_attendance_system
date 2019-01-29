@@ -16,7 +16,7 @@ class AttendanceRecordController extends Controller
   public function begin_finish_view() {
     $user_id = Auth::id();
     $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-    $time_lim = new Carbon(env("START_TIME", "9:00"));
+    $time_lim = new Carbon(env('START_TIME', '09:00'));
     return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim]);
   }
 
@@ -24,7 +24,7 @@ class AttendanceRecordController extends Controller
     if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
     {
       $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-      $time_lim = new Carbon('09:00:00');
+      $time_lim = new Carbon(env('START_TIME', '09:00'));
 
       if (!$user_rec)
       {
@@ -159,7 +159,7 @@ class AttendanceRecordController extends Controller
 
     //出勤時間外での申請制御。
     $user = Auth::user();
-    if(!AttendanceRecord::check_leave_time(Auth::user(), $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
+    if(!AttendanceRecord::check_leave_time($user, $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
       $one_message = "出勤時間外の時間で申請してください!";
       return redirect()->back()->with(['one_message' => $one_message]);
     }
