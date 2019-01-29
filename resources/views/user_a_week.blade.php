@@ -51,43 +51,42 @@
 
     <div class="row">
       <div class="col-sm-8"></div>
-      <div class="col-sm-4 top1">名前:</div>
+      <div class="col-sm-4 top1">名前:{{ Auth::user()->name }}</div>
     </div>
     <div id="cools"class="row">
       <table>
         <tr>
-          <th></th>
           <th>日付</th>
           <th>出勤時間</th>
           <th>退勤時間</th>
         </tr>
         <tr>
-          <td>
             @for($i=6; $i>=0; $i--)
               @php
               $this_date = \Carbon\Carbon::today()->subDay($i);
               $show_record = null;
               @endphp
+
               @foreach($attendance_records as $attendance_record)
                 @if($attendance_record->attendance_date == $this_date)
                   @php
-                    $show_record = $this_date;
+                    $show_record = $attendance_record;
                   @endphp
                   @break
                 @endif
               @endforeach
 
               @if($show_record)
-                <p>{{ $show_record }}</p>
-
+                <td>{{$show_record->attendance_date->format('Y年n月j日')}}</td>
+                <td>{{$show_record->start_time}}</td>
+                <td>{{$show_record->end_time}}</td>
               @else
-                <p>出勤していません。</p>
+                <td>{{$this_date->format('Y年n月j日')}}</td>
+                <td>出勤していません。</td>
+                <td>出勤していません。</td>
               @endif
-
+            </tr>
             @endfor
-
-          </td>
-        </tr>
       </table>
     </div>
   </body>
