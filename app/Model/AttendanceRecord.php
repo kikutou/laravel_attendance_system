@@ -27,7 +27,7 @@ class AttendanceRecord extends Model
 
     ];
     protected $table = "attendance_records";
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'attendace_date'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'attendance_date'];
 
     public function users()
       {
