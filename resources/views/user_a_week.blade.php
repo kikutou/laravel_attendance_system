@@ -23,7 +23,6 @@
       width: 100%;
       border: 2px solid #ddd;
       }
-
       th,td {
           border: none;
           text-align: center;
@@ -51,39 +50,43 @@
 
     <div class="row">
       <div class="col-sm-8"></div>
-      <div class="col-sm-4 top1">名前:</div>
+      <div class="col-sm-4 top1">名前:{{ Auth::user()->name }}</div>
     </div>
     <div id="cools"class="row">
-      @for($i=6; $i>=0; $i--)
-        @php
-        $this_date = \Carbon\Carbon::today()->subDay($i);
-        $show_record = null;
-        @endphp
-      @foreach($attendance_records as $attendance_record)
-
-            @if($attendance_record->attendance_date == $this_date)
+      <table>
+        <tr>
+          <th>日付</th>
+          <th>出勤時間</th>
+          <th>退勤時間</th>
+        </tr>
+        <tr>
+            @for($i=6; $i>=0; $i--)
               @php
-                $show_record = $this_date;
+              $this_date = \Carbon\Carbon::today()->subDay($i);
+              $show_record = null;
               @endphp
-              @break
-            @endif
-            @if($show_record)
-            <table>
-              <tr>
-                <th></th>
-                <th>日付</th>
-                <th>出勤時間</th>
-                <th>退勤時間</th>
-              </tr>
-              <tr>
-                <td>
-                </td>
-                <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
-                <td>{{ $attendance_record->start_time }}</td>
-                <td>{{ $attendance_record->end_time }}</td>
-              </tr>
-            </table>
 
+              @foreach($attendance_records as $attendance_record)
+                @if($attendance_record->attendance_date == $this_date)
+                  @php
+                    $show_record = $attendance_record;
+                  @endphp
+                  @break
+                @endif
+              @endforeach
+
+              @if($show_record)
+                <td>{{$show_record->attendance_date->format('Y年n月j日')}}</td>
+                <td>{{$show_record->start_time}}</td>
+                <td>{{$show_record->end_time}}</td>
+              @else
+                <td>{{$this_date->format('Y年n月j日')}}</td>
+                <td>出勤していません。</td>
+                <td>出勤していません。</td>
+              @endif
+            </tr>
+            @endfor
+      </table>
     </div>
   </body>
 </html>

@@ -190,8 +190,8 @@ class AttendanceRecordController extends Controller
     public function get_all(Request $request)
     {
       $today = Carbon::now();
-      $attendance_records = AttendanceRecord::query()
-        ->where('user_id', Auth::id())->where('attendance_date', '<=' , Carbon::today())
+      $attendance_records = AttendanceRecord::query()->where('user_id', Auth::id())
+        ->where('attendance_date', '<=' , Carbon::today())
         ->where('attendance_date', '>', Carbon::today()->subWeek(1))
         ->get();
       return view('user_a_week',[

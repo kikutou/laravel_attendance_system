@@ -145,6 +145,7 @@
                             @csrf
                             <input type="hidden" name="mtb_leave_check_status_id" value="{{ $attendancerecord->mtb_leave_check_status_id }}">
                             <input type="hidden" name="act" value="agree">
+                            <input type="hidden" name="id" value="{{ $attendancerecord->id }}">
                             <input onclick="return clear1()" type="submit" value="承認">
                           </form>
                         </div>
@@ -152,6 +153,7 @@
                           <form action="{{ route('post_check') }}" method="post">
                             @csrf
                             <input type="hidden" name="mtb_leave_check_status_id" value="{{ $attendancerecord->mtb_leave_check_status_id }}">
+                            <input type="hidden" name="id" value="{{ $attendancerecord->id }}">
                             <input type="hidden" name="act" value="disagree">
                             <input onclick="return clear2()" type="submit" value="断る">
                           </form>

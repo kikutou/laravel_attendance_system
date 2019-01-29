@@ -75,12 +75,14 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $emailtoken = EmailToken::create([
-            'user_id' => $user->id,
-            'token' => str_random(40)
-        ]);
+        // 管理員より認証になるので、メール認証がいらない。
+        // $emailtoken = EmailToken::create([
+        // 'user_id' => $user->id,
+        // 'token' => str_random(40)
+        // ]);
 
-        Mail::to($user->email)->send(new VerifyMail($user));
+
+        // Mail::to($user->email)->send(new VerifyMail($user));
     
         return $user; 
     }
