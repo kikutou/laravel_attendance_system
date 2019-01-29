@@ -30,8 +30,6 @@ class CommandController extends Controller
        }
        if($temp_count >= 1) echo "\n";
      }
-     if($temp_count == 0){
-       echo "ok";
-     }
+     if($temp_count == 0) echo "ok";
   }
 }
