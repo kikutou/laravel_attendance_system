@@ -29,8 +29,6 @@ class AttendanceRecord extends Model
     protected $table = "attendance_records";
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'attendace_date'];
 
-    use SoftDeletes;
-
     public function users()
       {
         return $this->belongsTo("App\Model\User", "user_id");
@@ -38,8 +36,8 @@ class AttendanceRecord extends Model
 
     public function mtb_leave_check_status()
     {
-      return $this->belongsTo("App\Model\User", "user_id");
+      return $this->belongsTo("App\Model\MtbLeaveCheckStatus", "mtb_leave_check_status_id");
     }
-    
+
 
 }

@@ -51,7 +51,7 @@
     @foreach($attendance_records as $attendance_record)
     <div class="row">
       <div class="col-sm-8"></div>
-      <div class="col-sm-4 top1">名前:{{ $attendance_record->user->name }}</div>
+      <div class="col-sm-4 top1">名前:{{ $attendance_record->users->name }}</div>
     </div>
     <div id="cools"class="row">
       <table>
