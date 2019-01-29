@@ -35,7 +35,9 @@
 
     <form action="{{ route('attendance_begin_finish') }}" method="post">
       @csrf
-      <input type="hidden" name="attendance_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+      <div>
+        <input type="hidden" name="attendance_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+      </div>
 
       @if(!$rec1 || $rec2)
         @if(\Carbon\Carbon::now()->gt($time_lim))
@@ -54,7 +56,7 @@
           <input type="submit" name="begin" value="出勤">
         </div>
       </div>
-      
+
       @elseif(!$rec2 && $rec3)
       <div class="row text-center">
         <div class="col-sm-4">
