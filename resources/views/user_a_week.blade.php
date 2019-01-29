@@ -87,37 +87,8 @@
             @endfor
 
           </td>
-          <!-- <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
-          <td>{{ $attendance_record->start_time }}</td>
-          <td>{{ $attendance_record->end_time }}</td> -->
         </tr>
       </table>
-      <!-- <table>
-        <tr>
-          <th>欠勤開始時間</th>
-          <th>欠勤終了時間</th>
-          <th>欠勤理由</th>
-          <th>欠勤承認状態</th>
-          <th>欠勤申請時間</th>
-          <th>承認時間</th>
-        </tr>
-        <tr>
-          <td id="cool">{{ $attendance_record->leave_start_time }}</td>
-          <td id="cool">{{ $attendance_record->leave_end_time }}</td>
-          <td id="cool">{{ $attendance_record->leave_reason }}</td>
-          <td id="cool">
-            @if ($attendance_record->mtb_leave_check_status_id == 1)
-            承認待ち
-            @elseif ($attendance_record->mtb_leave_check_status_id == 2)
-            承認済
-            @elseif ($attendance_record->mtb_leave_check_status_id == 3)
-            断り
-            @endif
-          </td>
-          <td id="cool">{{ $attendance_record->leave_applicate_time }}</td>
-          <td id="cool">{{ $attendance_record->leave_check_time }}</td>
-        </tr>
-      </table> -->
     </div>
 
   </body>
