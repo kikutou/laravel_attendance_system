@@ -30,7 +30,7 @@
 
     @if($errors->any())
     <div class="row text-center">
-      <div class="col-sm">
+      <div class="col-sm text-danger">
           @foreach ($errors->all() as $error)
           <p>{{ $error }}</p>
           @endforeach
@@ -40,7 +40,7 @@
 
     @if (Session::has('message'))
     <div class="row text-center">
-      <div class="col-sm">
+      <div class="col-sm text-warning">
         <p>{{ Session::get('message') }}</p>
       </div>
     </div>
