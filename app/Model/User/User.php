@@ -8,6 +8,6 @@ class User extends Model
 {
   public function check()
   {
-    return $this->hasMany("App\Model\AttendanceRecords\AttendanceRecord", "user_id");
+    return $this->hasMany("App\Model\AttendanceRecord\AttendanceRecord", "user_id");
   }
 }

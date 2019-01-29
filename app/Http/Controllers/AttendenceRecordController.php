@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\User;
-use App\Model\AttendanceRecord;
-use App\Model\Master\MtbLeaveCheckStatus;
+use App\Model\User\User;
+use App\Model\AttendanceRecord\AttendanceRecord;
+use App\Model\Master\MtbLeaveCheckStatuse;
 use Carbon\Carbon;
 
 class AttendenceRecordController extends Controller
