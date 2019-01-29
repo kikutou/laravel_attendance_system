@@ -15,6 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Auth::routes(['verify' => true]);
+Route::get('/verified', 'Auth\VerificationController@emailverified')->name('verified');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/auth/verify/{token}', 'HomeController@emailtoken');
+
+
 //出退勤管理　金
 Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('begin_finish_view');
 Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish');
