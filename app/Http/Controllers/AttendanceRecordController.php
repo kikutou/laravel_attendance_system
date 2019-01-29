@@ -156,11 +156,8 @@ class AttendanceRecordController extends Controller
       return redirect()->back()->withInput()->with(['one_message' => $one_message]);
     }
 
+    //出勤時間外での申請制御。
       $user = Auth::user();
-      $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
-                                                ->where('attendance_date',$request->attendance_date)
-                                                ->first();
-
       $another_attendance_record = AttendanceRecord::where('user_id',$user->id)
                                                    ->where('attendace_date',$request->attendace_date)
                                                    ->where('start_time','!=',null)
@@ -176,6 +173,9 @@ class AttendanceRecordController extends Controller
       }
 
       //欠勤申請データの書き込み。
+      $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
+                                                ->where('attendance_date',$request->attendance_date)
+                                                ->first();
       if(!$one_attendance_record){
         $one_attendance_record = new AttendanceRecord;
         $one_attendance_record->user_id = $user->id;
