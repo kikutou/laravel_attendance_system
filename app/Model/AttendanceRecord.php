@@ -38,7 +38,6 @@ class AttendanceRecord extends Model
     public static function check_leave_time($user, $attendance_date, $leave_start_at, $leave_end_at)
     {
       $result = true;
-
       $attendance_record = self::where('user_id',$user->id)
         ->where('attendance_date',$attendance_date)
         ->where('start_time','!=',null)
@@ -56,7 +55,6 @@ class AttendanceRecord extends Model
         }
 
       }
-
 
       return $result;
     }
