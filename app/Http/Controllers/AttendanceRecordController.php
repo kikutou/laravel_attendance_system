@@ -39,30 +39,29 @@ class AttendanceRecordController extends Controller
         return redirect()->back()->withInput()->with(['one_message' => $one_message]);
       }
 
-      //$user = Auth::user();
-      $one_attendance_record = AttendanceRecord::where('user_id', 1)
+      $user = Auth::user();
+      $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
                                                 ->where('attendance_date',$request->attendance_date)
                                                 ->first();
 
-      $another_attendance_record = AttendanceRecord::where('user_id',1)
+      $another_attendance_record = AttendanceRecord::where('user_id',$user->id)
                                                    ->where('attendace_date',$request->attendace_date)
                                                    ->where('start_time','!=',null)
                                                    ->where('end_time',"!=",null)
-                                                   ->first();
+                                                   ->firstOrFail();
 
       $start_time = new Carbon($one_attendance_record->start_time);
       $end_time = new Carbon($one_attendance_record->end_time);
       $leave_start_time = new Carbon($request->leave_start_time);
-      $leave_end_time = new Carbon($request->leave_end_time);
-
-      if($another_attendance_record && $end_time->gt($leave_start_time)){
+      if($another_attendance_record &&
+         $start_time->lt($leave_start_time) && $end_time->gt($leave_start_time)){
         $one_message = "出勤時間外の時間で申請してください!";
         return redirect()->back()->with(['one_message' => $one_message]);
       }
 
       if(!$one_attendance_record){
         $one_attendance_record = new AttendanceRecord;
-        $one_attendance_record->user_id = 1;
+        $one_attendance_record->user_id = $user->id;
         $one_attendance_record->attendance_date = $request->attendance_date;
         $one_attendance_record->leave_start_time = $request->leave_start_time;
         $one_attendance_record->leave_end_time = $request->leave_end_time;
