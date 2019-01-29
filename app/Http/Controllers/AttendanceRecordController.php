@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use Carbon\Carbon;
-use App\Model\Master\MtbLeaveCheckStatuse;
+use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
 use Validator;
 
