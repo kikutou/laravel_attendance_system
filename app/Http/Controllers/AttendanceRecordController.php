@@ -15,7 +15,7 @@ class AttendanceRecordController extends Controller
     $user_rec2 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->where('start_time', null)->first();
     $user_rec3 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->where('end_time', null)->first();
 
-    $time_lim = new Carbon('00:00:00');
+    $time_lim = new Carbon('09:00:00');
     return view('begin_finish_view', ['rec1' => $user_rec1, 'rec2' => $user_rec2, 'rec3' => $user_rec3, 'time_lim' => $time_lim]);
   }
 
@@ -23,7 +23,7 @@ class AttendanceRecordController extends Controller
     if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
     {
       $user_rec = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-      $time_lim = new Carbon('00:00:00');
+      $time_lim = new Carbon('09:00:00');
 
       if (!$user_rec)
       {
