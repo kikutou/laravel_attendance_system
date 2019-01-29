@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//出退勤管理　金
+Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('begin_finish_view');
+Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish');
