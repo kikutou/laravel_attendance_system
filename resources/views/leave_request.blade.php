@@ -37,7 +37,7 @@
         </tr>
         <tr>
          <td><label for="reason">申請理由</label></td>
-         <td><textarea id="reason" name="leave_reason" rows="5" cols="25"></textarea></td>
+         <td><textarea id="reason" name="leave_reason" rows="5" cols="25">{{ old('leave_reason') }}</textarea></td>
         </tr>
         <tr>
          <td style="text-align:center"><input type="submit" value="申請"></td>

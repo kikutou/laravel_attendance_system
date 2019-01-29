@@ -159,7 +159,7 @@ class AttendanceRecordController extends Controller
 
     //出勤時間外での申請制御。
     $user = Auth::user();
-    if(!AttendanceRecord::check_leave_time(Auth::user(), $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
+    if(!AttendanceRecord::check_leave_time($user, $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
       $one_message = "出勤時間外の時間で申請してください!";
       return redirect()->back()->with(['one_message' => $one_message]);
     }
@@ -189,7 +189,7 @@ class AttendanceRecordController extends Controller
 
     public function get_all(Request $request)
     {
-      $attendance_records = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', '<=' , Carbon::today())->where('attendance_date', '>', Carbon::);
+      $attendance_records = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', '<=' , Carbon::today())->first();
       return view('user_a_week',['attendance_records'=>$attendance_records]);
     }
 
