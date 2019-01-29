@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MtbLeaveCheckStatus extends Model
 {
-  public function attend()
+  public function users()
   {
-    return $this->hasMany("App\Model\AttendanceRecord", "mtb_leave_check_status_id");
+    return $this->hasMany('App\Model\Master\MtbLeaveCheckStatus', 'mtb_leave_check_status_id');
   }
 }

@@ -13,6 +13,6 @@ class MtbLeaveCheckStatuse extends Model
 
   public function check()
   {
-    return $this->hasMany("App\Model\AttendanceRecords\AttendanceRecord", "mtb_leave_check_status_id");
+    return $this->hasMany("App\Model\AttendanceRecord\AttendanceRecord", "mtb_leave_check_status_id");
   }
 }
