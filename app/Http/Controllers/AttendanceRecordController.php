@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use Carbon\Carbon;
-use App\Model\Master\MtbLeaveCheckStatuse;
+use App\Model\Master\MtbLeaveCheckStatus;
+use App\Model\User;
 use Validator;
 
 class AttendanceRecordController extends Controller
@@ -23,6 +24,7 @@ class AttendanceRecordController extends Controller
     if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
     {
       $user_rec = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
+      $time_lim = new Carbon('09:00:00');
 
       if (!$user_rec)
       {
@@ -31,14 +33,14 @@ class AttendanceRecordController extends Controller
         $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
         $user_rec->start_time = Carbon::now()->format('H:i');
 
-        if ($request->reason)
+        if (Carbon::now()->gt($time_lim))
         {
           $validator_rules = [
             'reason' => 'required'
           ];
 
           $validator_messages = [
-            'reason.required' => '遅刻理由を入力してください。'
+            'reason.required' => '遅刻原因を説明してください。'
           ];
 
           $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
@@ -58,12 +60,12 @@ class AttendanceRecordController extends Controller
 
       }
 
-      if ($user_rec){
+      if ($user_rec) {
         if (!$user_rec->start_time)
         {
           $user_rec->start_time = Carbon::now()->format('H:i');
 
-          if ($request->reason)
+          if (Carbon::now()->gt($time_lim))
           {
             $validator_rules = [
               'reason' => 'required'
@@ -195,5 +197,14 @@ class AttendanceRecordController extends Controller
       $one_message = '欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。';
       return redirect()->back()->with(['one_message' => $one_message]);
 
-  }
+    }
+
+
+    public function get_all(Request $request)
+    {
+      $attendance_records = AttendanceRecord::all();
+      return view('user_a_week',['attendance_records'=>$attendance_records]);
+    }
+
+
 }

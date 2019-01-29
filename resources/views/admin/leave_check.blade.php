@@ -10,10 +10,6 @@
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 
 
-    <!-- 自分のcss -->
-    <link rel="stylesheet" href="{{asset('/css/layout.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/div.css')}}">
-
     <title></title>
     <style>
       div.current {
@@ -101,7 +97,7 @@
 
                   <div id="socool" class="row top36">
                     <div class="col-sm-6 text-center">従業員</div>
-                    <div class="col-sm-6 text-center">{{ $attendancerecord->user->name }}</div>
+                    <div class="col-sm-6 text-center">{{ $attendancerecord->users->name }}</div>
                   </div>
                   <div id="socool" class="row top6">
                     <div class="col-sm-6 text-center">欠勤開始時間</div>
