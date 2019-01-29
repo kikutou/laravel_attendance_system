@@ -11,7 +11,7 @@
       @php
       setlocale(LC_ALL, 'ja_JP.UTF-8');
       @endphp
-      <p>{{ \Carbon\Carbon::today()->formatLocalized('%Y年%m月%d日(%a)') }}</p>
+      <p>{{ \Carbon\Carbon::today()->format('Y年m月d日(w)') }}</p>
       </div>
     </div>
 
