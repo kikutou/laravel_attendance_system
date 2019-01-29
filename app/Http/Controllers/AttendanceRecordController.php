@@ -161,7 +161,7 @@ class AttendanceRecordController extends Controller
       $another_attendance_record = AttendanceRecord::where('user_id',$user->id)
                                                    ->where('attendace_date',$request->attendace_date)
                                                    ->where('start_time','!=',null)
-                                                   ->firstOrFail();
+                                                   ->first();
 
       $start_time = new Carbon($one_attendance_record->start_time);
       $end_time = new Carbon($one_attendance_record->end_time);
@@ -178,7 +178,7 @@ class AttendanceRecordController extends Controller
                                                 ->first();
       if(!$one_attendance_record){
         $one_attendance_record = new AttendanceRecord;
-        $one_attendance_record->user_id = $user->id;
+        $one_attendance_record->user_id = 1;
         $one_attendance_record->attendance_date = $request->attendance_date;
         $one_attendance_record->leave_start_time = $request->leave_start_time;
         $one_attendance_record->leave_end_time = $request->leave_end_time;
