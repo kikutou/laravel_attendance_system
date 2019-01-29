@@ -33,7 +33,7 @@ class CreateAttendanceRecordsTable extends Migration
             $table->foreign('admin_id')->references('id')->on('users');
 
             $table->timestamps();
-            $table->softDeletes();      
+            $table->softDeletes();
         });
     }
 
