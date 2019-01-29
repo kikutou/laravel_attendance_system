@@ -54,6 +54,12 @@
       <div class="col-sm-4 top1">名前:</div>
     </div>
     <div id="cools"class="row">
+      @for($i=6; $i>=0; $i--)
+        @php
+        $this_date = \Carbon\Carbon::today()->subDay($i);
+        $show_record = null;
+        @endphp
+      @foreach($attendance_records as $attendance_record1)
       <table>
         <tr>
           <th></th>
@@ -63,32 +69,57 @@
         </tr>
         <tr>
           <td>
-            @for($i=6; $i>=0; $i--)
+            @if($attendance_record1->attendance_date == $this_date)
               @php
-              $this_date = \Carbon\Carbon::today()->subDay($i);
-              $show_record = null;
+                $show_record = $this_date;
               @endphp
-              @foreach($attendance_records as $attendance_record)
-                @if($attendance_record->attendance_date == $this_date)
-                  @php
-                    $show_record = $this_date;
-                  @endphp
-                  @break
-                @endif
-              @endforeach
+              @continue
+            @endif
+            @if($show_record)
+              <p>{{ $show_record }}</p>
 
-              @if($show_record)
-                <p>{{ $show_record }}</p>
-
-              @else
-                <p>出勤していません。</p>
-              @endif
-
-            @endfor
-
+            @else
+              <p>出勤していません。</p>
+            @endif
           </td>
+<<<<<<< HEAD
+          <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
+          <td>{{ $attendance_record->start_time }}</td>
+          <td>{{ $attendance_record->end_time }}</td>
         </tr>
       </table>
+      <table>
+        <tr>
+          <th>欠勤開始時間</th>
+          <th>欠勤終了時間</th>
+          <th>欠勤理由</th>
+          <th>欠勤承認状態</th>
+          <th>欠勤申請時間</th>
+          <th>承認時間</th>
+        </tr>
+        <tr>
+          <td id="cool">{{ $attendance_record->leave_start_time }}</td>
+          <td id="cool">{{ $attendance_record->leave_end_time }}</td>
+          <td id="cool">{{ $attendance_record->leave_reason }}</td>
+          <td id="cool">
+            @if ($attendance_record->mtb_leave_check_status_id == 1)
+            承認待ち
+            @elseif ($attendance_record->mtb_leave_check_status_id == 2)
+            承認済
+            @elseif ($attendance_record->mtb_leave_check_status_id == 3)
+            断り
+            @endif
+          </td>
+          <td id="cool">{{ $attendance_record->leave_applicate_time }}</td>
+          <td id="cool">{{ $attendance_record->leave_check_time }}</td>
+        </tr>
+      </table>
+      @endforeach
+      @endfor
+=======
+        </tr>
+      </table>
+>>>>>>> 73b7798247cd27528622ab50396b1f63864e6044
     </div>
   </body>
 </html>
