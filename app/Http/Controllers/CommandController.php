@@ -15,24 +15,31 @@ class CommandController extends Controller
   public function check()
   {
     $records = AttendanceRecord::all();
-    $i = 0;
-    $temp_arr = array();
-    $double_records = array();
+    $temp_arr = [];
+    $double_records = [];
     foreach($records as $record){
-      $double_records = AttendanceRecord::where('user_id',$record->user_id)
-                                        ->where('attendance_date',$record->attendance_date)
-                                        ->get();
-      if(count($double_records) >= 2){
-        for($j = 0; $j < count($double_records); $j++){
-          if(!in_array($double_records[$j]->id,$temp_arr)){
-            echo $double_records[$j]->id." ";
-           if($j == count($double_records)-1) echo "\n";
-           }
-          $temp_arr[$i] = $double_records[$j]->id;
-          $i++;
+      $double_records = AttendanceRecord::where('user_id',$record->user_id)->where('attendance_date',$record->attendance_date)->get();
+
+      if (count($double_records) >= 2) {
+        foreach ($double_records as $double_record) {
+          if(in_array($double_record, $temp_arr)){
+            continue;
+          } else {
+            $temp_arr[] = $double_record;
+          }
         }
+      } else {
+        continue;
       }
     }
-    if(count($double_records) < 2) echo "ok";
+
+    if ($temp_arr)
+    {
+      foreach ($temp_arr as $temp_one) {
+        echo $temp_one->id . '(' . $temp_one->attendance_date->format('Y-m-d') . ' ' . $temp_one->user_id  . ')' . "\n";
+      }
+    } else {
+      echo 'ok';
+    }
   }
 }
