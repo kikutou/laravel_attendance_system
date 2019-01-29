@@ -16,6 +16,7 @@ class CommandController extends Controller
   {
     $records = AttendanceRecord::all();
     $i = 0;
+    $count = 0;
     $temp_arr = array();
     $double_records = array();
     foreach($records as $record){
@@ -23,6 +24,7 @@ class CommandController extends Controller
                                         ->where('attendance_date',$record->attendance_date)
                                         ->get();
       if(count($double_records) >= 2){
+        $count++;
         for($j = 0; $j < count($double_records); $j++){
           if(!in_array($double_records[$j]->id,$temp_arr)){
             echo $double_records[$j]->id." ";
@@ -33,6 +35,6 @@ class CommandController extends Controller
         }
       }
     }
-    if(count($double_records) < 2 ) echo "ok";
+    if($count == 0 ) echo "ok";
   }
 }
