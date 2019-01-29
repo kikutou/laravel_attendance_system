@@ -37,7 +37,7 @@ class AttendanceRecord extends Model
         return $this->belongsTo("App\Model\User", "user_id");
       }
 
-    public function mtb_leave_check_statuses()
+    public function mtb_leave_check_status()
     {
       return $this->belongsTo("App\Model\Master\MtbLeaveCheckStatus", "mtb_leave_check_status_id");
     }
