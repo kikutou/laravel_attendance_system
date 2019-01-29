@@ -15,7 +15,7 @@ class AttendanceRecordController extends Controller
     $user_rec2 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->where('start_time', null)->first();
     $user_rec3 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->where('end_time', null)->first();
 
-    $time_lim = new Carbon('09:00:00');
+    $time_lim = new Carbon('00:00:00');
     return view('begin_finish_view', ['rec1' => $user_rec1, 'rec2' => $user_rec2, 'rec3' => $user_rec3, 'time_lim' => $time_lim]);
   }
 
@@ -23,6 +23,7 @@ class AttendanceRecordController extends Controller
     if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
     {
       $user_rec = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
+      $time_lim = new Carbon('00:00:00');
 
       if (!$user_rec)
       {
@@ -31,7 +32,7 @@ class AttendanceRecordController extends Controller
         $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
         $user_rec->start_time = Carbon::now()->format('H:i');
 
-        if ($request->reason)
+        if (Carbon::now()->gt($time_lim))
         {
           $validator_rules = [
             'reason' => 'required'
@@ -58,12 +59,12 @@ class AttendanceRecordController extends Controller
 
       }
 
-      if ($user_rec){
+      if ($user_rec) {
         if (!$user_rec->start_time)
         {
           $user_rec->start_time = Carbon::now()->format('H:i');
 
-          if ($request->reason)
+          if (Carbon::now()->gt($time_lim))
           {
             $validator_rules = [
               'reason' => 'required'
@@ -189,5 +190,5 @@ class AttendanceRecordController extends Controller
     $one_message = '欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。';
     return redirect()->back()->with(['one_message' => $one_message]);
 
-  }
+    }
 }
