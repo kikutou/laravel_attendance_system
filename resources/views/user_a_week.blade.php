@@ -48,10 +48,10 @@
   </head>
   <body>
     <h3>一週間の勤怠表</h3>
-    @foreach($attendance_records as $attendance_record)
+
     <div class="row">
       <div class="col-sm-8"></div>
-      <div class="col-sm-4 top1">名前:{{ $attendance_record->users->name }}</div>
+      <div class="col-sm-4 top1">名前:</div>
     </div>
     <div id="cools"class="row">
       <table>
@@ -63,28 +63,36 @@
         </tr>
         <tr>
           <td>
-            @if(date("w",strtotime($attendance_record->attendance_date)) == 1)
-            月曜日
-            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 2)
-            火曜日
-            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 3)
-            水曜日
-            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 4)
-            木曜日
-            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 5)
-            金曜日
-            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 6)
-            土曜日
-            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 0)
-            日曜日
-            @endif
+            @for($i=6; $i>=0; $i--)
+              @php
+              $this_date = \Carbon\Carbon::today()->subDay($i);
+              $show_record = null;
+              @endphp
+              @foreach($attendance_records as $attendance_record)
+                @if($attendance_record->attendance_date == $this_date)
+                  @php
+                    $show_record = $this_date;
+                  @endphp
+                  @break
+                @endif
+              @endforeach
+
+              @if($show_record)
+                <p>{{ $show_record }}</p>
+
+              @else
+                <p>出勤していません。</p>
+              @endif
+
+            @endfor
+
           </td>
-          <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
+          <!-- <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
           <td>{{ $attendance_record->start_time }}</td>
-          <td>{{ $attendance_record->end_time }}</td>
+          <td>{{ $attendance_record->end_time }}</td> -->
         </tr>
       </table>
-      <table>
+      <!-- <table>
         <tr>
           <th>欠勤開始時間</th>
           <th>欠勤終了時間</th>
@@ -109,8 +117,8 @@
           <td id="cool">{{ $attendance_record->leave_applicate_time }}</td>
           <td id="cool">{{ $attendance_record->leave_check_time }}</td>
         </tr>
-      </table>
+      </table> -->
     </div>
-    @endforeach
+
   </body>
 </html>
