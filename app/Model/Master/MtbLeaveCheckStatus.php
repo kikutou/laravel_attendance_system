@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class MtbLeaveCheckStatus extends Model
 {
-  public function users()
+  const APPROVAL_PENDING = 1;
+  const APPROVAL = 2;
+  const REFUSE = 3;
+  protected $table = "mtb_leave_check_statuses";
+
+  public function check()
   {
-    return $this->hasMany('App\Model\Master\MtbLeaveCheckStatus', 'mtb_leave_check_status_id');
+    return $this->hasMany("App\Model\AttendanceRecord\AttendanceRecord", "mtb_leave_check_status_id");
   }
 }
