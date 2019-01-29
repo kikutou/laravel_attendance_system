@@ -22,7 +22,7 @@
       border-spacing: 0;
       width: 100%;
       border: 2px solid #ddd;
-  }
+      }
 
       th,td {
           border: none;
@@ -41,6 +41,9 @@
       #cools{
         margin-top: 30px;
       }
+      .top1{
+        padding-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -48,7 +51,7 @@
     @foreach($attendance_records as $attendance_record)
     <div class="row">
       <div class="col-sm-8"></div>
-      <div class="col-sm-4">名前:{{ $attendance_record->user->name }}</div>
+      <div class="col-sm-4 top1">名前:{{ $attendance_record->users->name }}</div>
     </div>
     <div id="cools"class="row">
       <table>

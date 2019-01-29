@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Model
 {
-  use SoftDeletes;
-
-  public function attendance_record()
+  public function check()
   {
-    return $this->hasMany('App\Model\AttendanceRecord', 'user_id');
+    return $this->hasMany("App\Model\AttendanceRecord", "user_id");
   }
 }

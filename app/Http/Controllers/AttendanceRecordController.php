@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use Carbon\Carbon;
 use App\Model\Master\MtbLeaveCheckStatuse;
+use App\Model\User;
 use Validator;
 
 class AttendanceRecordController extends Controller
@@ -191,4 +192,13 @@ class AttendanceRecordController extends Controller
     return redirect()->back()->with(['one_message' => $one_message]);
 
     }
+
+
+    public function get_all(Request $request)
+    {
+      $attendance_records = AttendanceRecord::all();
+      return view('user_a_week',['attendance_records'=>$attendance_records]);
+    }
+
+
 }
