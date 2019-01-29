@@ -18,7 +18,7 @@ class CreateAttendanceRecordsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->date('attendace_date');
+            $table->date('attendance_date');
             $table->text('start_time')->nullable();
             $table->text('end_time')->nullable();
             $table->text('leave_start_time')->nullable();
