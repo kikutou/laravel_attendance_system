@@ -8,10 +8,23 @@
   <div class="col-sm-6">
     <div class="row text-center">
       <div class="col-sm">
-      @php
-      setlocale(LC_ALL, 'ja_JP.UTF-8');
-      @endphp
-      <p>{{ \Carbon\Carbon::today()->formatLocalized('%Y年%m月%d日(%a)') }}</p>
+      <p>{{ \Carbon\Carbon::today()->format('Y年m月d日') }}
+        @if(\Carbon\Carbon::today()->dayOfWeek == 1)
+        (月)
+        @elseif(\Carbon\Carbon::today()->dayOfWeek == 2)
+        (火)
+        @elseif(\Carbon\Carbon::today()->dayOfWeek == 3)
+        (水)
+        @elseif(\Carbon\Carbon::today()->dayOfWeek == 4)
+        (木)
+        @elseif(\Carbon\Carbon::today()->dayOfWeek == 5)
+        (金)
+        @elseif(\Carbon\Carbon::today()->dayOfWeek == 6)
+        (土)
+        @elseif(\Carbon\Carbon::today()->dayOfWeek == 0)
+        (日)
+        @endif
+      </p>
       </div>
     </div>
 
