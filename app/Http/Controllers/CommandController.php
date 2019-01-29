@@ -33,6 +33,6 @@ class CommandController extends Controller
         }
       }
     }
-    if(count($double_records) < 2) echo "ok";
+    if(count($double_records) < 2 ) echo "ok";
   }
 }
