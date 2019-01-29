@@ -63,23 +63,23 @@
         </tr>
         <tr>
           <td>
-            @if(date("w",strtotime($attendance_record->attendace_date)) == 1)
+            @if(date("w",strtotime($attendance_record->attendance_date)) == 1)
             月曜日
-            @elseif(date("w",strtotime($attendance_record->attendace_date)) == 2)
+            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 2)
             火曜日
-            @elseif(date("w",strtotime($attendance_record->attendace_date)) == 3)
+            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 3)
             水曜日
-            @elseif(date("w",strtotime($attendance_record->attendace_date)) == 4)
+            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 4)
             木曜日
-            @elseif(date("w",strtotime($attendance_record->attendace_date)) == 5)
+            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 5)
             金曜日
-            @elseif(date("w",strtotime($attendance_record->attendace_date)) == 6)
+            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 6)
             土曜日
-            @elseif(date("w",strtotime($attendance_record->attendace_date)) == 0)
+            @elseif(date("w",strtotime($attendance_record->attendance_date)) == 0)
             日曜日
             @endif
           </td>
-          <td>{{ $attendance_record->attendace_date->format("Y年n月j日") }}</td>
+          <td>{{ $attendance_record->attendance_date->format("Y年n月j日") }}</td>
           <td>{{ $attendance_record->start_time }}</td>
           <td>{{ $attendance_record->end_time }}</td>
         </tr>

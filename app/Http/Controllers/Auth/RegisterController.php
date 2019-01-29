@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Carbon\Carbon;
+use Mail;
+use App\Mail\VerifyMail;
+use App\EmailToken;
 
 class RegisterController extends Controller
 {
@@ -28,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -52,6 +56,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'telephone' => ['required'],
         ]);
     }
 
@@ -63,10 +68,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'telephone_number' => $data['telephone'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $emailtoken = EmailToken::create([
+            'user_id' => $user->id,
+            'token' => str_random(40)
+        ]);
+
+        Mail::to($user->email)->send(new VerifyMail($user));
+    
+        return $user; 
     }
 }

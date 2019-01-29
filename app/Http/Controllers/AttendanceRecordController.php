@@ -8,28 +8,28 @@ use Carbon\Carbon;
 use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
 use Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 class AttendanceRecordController extends Controller
 {
   public function begin_finish_view() {
-    $user_rec1 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-    $user_rec2 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->where('start_time', null)->first();
-    $user_rec3 = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->where('end_time', null)->first();
-
-    $time_lim = new Carbon('09:00:00');
-    return view('begin_finish_view', ['rec1' => $user_rec1, 'rec2' => $user_rec2, 'rec3' => $user_rec3, 'time_lim' => $time_lim]);
+    $user_id = Auth::id();
+    $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
+    $time_lim = new Carbon(env("START_TIME", "9:00"));
+    return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim]);
   }
 
   public function attendance_begin_finish(Request $request) {
     if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
     {
-      $user_rec = AttendanceRecord::query()->where('user_id', 1)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
+      $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
       $time_lim = new Carbon('09:00:00');
 
       if (!$user_rec)
       {
         $user_rec = New AttendanceRecord;
-        $user_rec->user_id = 1;
+        $user_rec->user_id = Auth::id();
         $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
         $user_rec->start_time = Carbon::now()->format('H:i');
 
@@ -149,6 +149,7 @@ class AttendanceRecordController extends Controller
     if($validator->fails()){
       return redirect()->back()->withInput()->withErrors($validator);
     }
+
     //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->attendance_date);
     if($carbon->isPast()){
@@ -157,52 +158,38 @@ class AttendanceRecordController extends Controller
     }
 
     //出勤時間外での申請制御。
-      $user = Auth::user();
-      $another_attendance_record = AttendanceRecord::where('user_id',$user->id)
-                                                   ->where('attendace_date',$request->attendace_date)
-                                                   ->where('start_time','!=',null)
-                                                   ->first();
-
-      $start_time = new Carbon($one_attendance_record->start_time);
-      $end_time = new Carbon($one_attendance_record->end_time);
-      $leave_start_time = new Carbon($request->leave_start_time);
-      if($another_attendance_record &&
-         $start_time->lt($leave_start_time) && Carbon::now()->format('H:i')->gt($leave_start_time)){
-        $one_message = "出勤時間外の時間で申請してください!";
-        return redirect()->back()->with(['one_message' => $one_message]);
-      }
-
-      //欠勤申請データの書き込み。
-      $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
-                                                ->where('attendance_date',$request->attendance_date)
-                                                ->first();
-      if(!$one_attendance_record){
-        $one_attendance_record = new AttendanceRecord;
-        $one_attendance_record->user_id = 1;
-        $one_attendance_record->attendance_date = $request->attendance_date;
-        $one_attendance_record->leave_start_time = $request->leave_start_time;
-        $one_attendance_record->leave_end_time = $request->leave_end_time;
-        $one_attendance_record->leave_reason = $request->leave_reason;
-        $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatuse::APPROVAL_PENDING;
-        $one_attendance_record->save();
-      }
-      if($one_attendance_record){
-        $one_attendance_record->leave_start_time = $request->leave_start_time;
-        $one_attendance_record->leave_end_time = $request->leave_end_time;
-        $one_attendance_record->leave_reason = $request->leave_reason;
-        $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatuse::APPROVAL_PENDING;
-        $one_attendance_record->save();
-      }
-
-      $one_message = '欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。';
+    $user = Auth::user();
+    if(!AttendanceRecord::check_leave_time(Auth::user(), $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
+      $one_message = "出勤時間外の時間で申請してください!";
       return redirect()->back()->with(['one_message' => $one_message]);
-
     }
+
+    //欠勤申請データの書き込み。
+    $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
+      ->where('attendance_date',$request->attendance_date)
+      ->first();
+
+    if(!$one_attendance_record){
+      $one_attendance_record = new AttendanceRecord;
+      $one_attendance_record->user_id = $user->id;
+      $one_attendance_record->attendance_date = $request->attendance_date;
+    }
+
+    $one_attendance_record->leave_start_time = $request->leave_start_time;
+    $one_attendance_record->leave_end_time = $request->leave_end_time;
+    $one_attendance_record->leave_reason = $request->leave_reason;
+    $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatus::APPROVAL_PENDING;
+    $one_attendance_record->save();
+
+    $one_message = '欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。';
+    return redirect()->back()->with(['one_message' => $one_message]);
+
+  }
 
 
     public function get_all(Request $request)
     {
-      $attendance_records = AttendanceRecord::all();
+      $attendance_records = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', '<=' , Carbon::today())->where('attendance_date', '>', Carbon::);
       return view('user_a_week',['attendance_records'=>$attendance_records]);
     }
 
