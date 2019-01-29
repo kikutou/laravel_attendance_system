@@ -40,7 +40,7 @@ class AttendanceRecordController extends Controller
           ];
 
           $validator_messages = [
-            'reason.required' => '遅刻理由を入力してください。'
+            'reason.required' => '遅刻原因を説明してください。'
           ];
 
           $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
