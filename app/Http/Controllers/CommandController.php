@@ -12,24 +12,22 @@ class CommandController extends Controller
    *重複レコードの検出。
    *
    */
-    public function check()
-    {
-      $records = AttendanceRecord::all();
-      $count = $records->count();
-      $temp_count = 0;
-
-      for($i = 0; $i < $count-1; $i++){
-        $temp_count = 0;
-        for($j = $i+1;$j < $count;$j++){
-          if($records[$i]->user_id == $records[$j]->user_id &&
-             $records[$i]->attendance_date == $records[$j]->attendance_date){
-               $temp_count++;
-               if($temp_count == 1) echo $records[$i]->id.",".$records[$j]->id;
-               else echo ",".$records[$j]->id;
-          }
-       }
-       if($temp_count >= 1) echo "\n";
-     }
-     if($temp_count == 0) echo "ok";
-  }
+  public function check()
+  {
+    $records = AttendanceRecord::all();
+    $i = 0;
+    $temp_arr = array();
+    foreach($records as $record){
+      $double_records = AttendanceRecord::where('user_id',$record->user_id)
+                                        ->where('attendance_date',$record->attendance_date)
+                                        ->get();
+      if(count($double_records) >= 2){
+        foreach($double_records as $double_record){
+          if(!in_array($double_record->id,$temp_arr)) echo $double_record->id." ";
+          $temp_arr[$i] = $double_record->id;
+          $i++;
+        }
+      }
+    }
+}
 }
