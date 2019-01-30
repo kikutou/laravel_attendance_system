@@ -98,9 +98,9 @@
           <th>承認時間</th>
         </tr>
         <tr>
-          <td id="cool">{{ $show_record['leave_start_time']??"出勤していません。" }}</td>
-          <td id="cool">{{ $show_record['leave_end_time']??"出勤していません。" }}</td>
-          <td id="cool">{{ $show_record['leave_reason']??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_start_time ??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_end_time ??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_reason ??"出勤していません。" }}</td>
           <td id="cool">
             @if ($show_record['mtb_leave_check_status_id'] == 1)
             承認待ち
@@ -112,8 +112,8 @@
             出勤していません。
             @endif
           </td>
-          <td id="cool">{{ $show_record['leave_applicate_time']??"出勤していません。" }}</td>
-          <td id="cool">{{ $show_record['leave_check_time']??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_applicate_time??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_check_time??"出勤していません。" }}</td>
         </tr>
       </table>
 
