@@ -2,11 +2,7 @@
 
 @section('content')
 <div class="container">
-    @if(Session::has('message'))
-        <p> {{Session::get('message') }}</p>
-    @endif
-
-    
+      
     @if (session('warning'))
         <div class="alert alert-warning">
             {{ session('warning') }}
