@@ -29,14 +29,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-
+        $today = Carbon::today()->format('Y-m-d');
         $login_user = Auth::user();
         $user = User::where('id', $login_user->id)->first();
         if($user->email_verified_at == null){
             return redirect('/verified')->with('warning', "管理員に
-                承認されていませんので、ログインできません。");    
+                承認されていませんので、ログインできません。");
         }else{
-            return view('home')->with('message', "ログインできました。");
+            return view('home'['today' => $today])->with('message', "ログインできました。");
         }
 
     }

@@ -14,11 +14,7 @@
                 <div class="card">
                     <div class="card-header">{{ Auth::user()->name }}</div>
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                    
                     </div>
                 </div>
             </div>
@@ -36,7 +32,7 @@
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
-                    @endif                
+                    @endif
                 </div>
             </div>
         </div>

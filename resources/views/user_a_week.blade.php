@@ -102,13 +102,13 @@
           <td id="cool">{{ $show_record->leave_end_time ??"出勤していません。" }}</td>
           <td id="cool">{{ $show_record->leave_reason ??"出勤していません。" }}</td>
           <td id="cool">
-            @if ($show_record['mtb_leave_check_status_id'] == 1)
+            @if ($show_record && $show_record->mtb_leave_check_status_id == 1)
             承認待ち
-            @elseif ($show_record['mtb_leave_check_status_id'] == 2)
+            @elseif ($show_record && $show_record->mtb_leave_check_status_id == 2)
             承認済
-            @elseif ($show_record['mtb_leave_check_status_id'] == 3)
+            @elseif ($show_record && $show_record->mtb_leave_check_status_id == 3)
             断り
-            @elseif(!$show_record['mtb_leave_check_status_id'])
+            @elseif(!$show_record || !$show_record->mtb_leave_check_status_id)
             出勤していません。
             @endif
           </td>
