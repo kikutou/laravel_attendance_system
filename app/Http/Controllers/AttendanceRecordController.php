@@ -191,9 +191,8 @@ class AttendanceRecordController extends Controller
   {
     session(['admin_flg'=>1]);
     $today = Carbon::now();
-    $attendance_records = AttendanceRecord::
-    // where('user_id', Auth::id())
-      where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+    $attendance_records = AttendanceRecord::where('user_id', Auth::id())
+      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
       ->where('attendance_date', '>', Carbon::today()->subWeek(1)->format('Y-m-d'))
       ->get();
       // ->toSql();
