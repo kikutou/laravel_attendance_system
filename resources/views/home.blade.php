@@ -7,20 +7,22 @@
             margin-bottom: 20px;
         }
     </style>
-
+    @if(!Auth::user()->admin_flg)
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ Auth::user()->name }}</div>
                     <div class="card-body">
-                    
+                      <ul>
+                        <li>本日の日付{{}}</li>
+                      </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    @endif
 
 <div class="container">
     <div class="row justify-content-center">
