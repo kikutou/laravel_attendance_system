@@ -3,7 +3,11 @@
 @section('title','休暇申請')
 
 @section('content')
-
+<script>
+ $(function(){
+   $('#start_day').datepicker();
+ });
+</script>
 <div class="row" style="margin-left:200px;margin-top:100px">
   <div class="col-md-12">
 
