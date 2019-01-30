@@ -31,10 +31,10 @@ Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')
 Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all');
 //liang
 //缺勤请求一栏
-Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check");
-Route::post('check',"LeavecheckController@check")->name("post_check");
-Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail");
-Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check");
+Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->middleware('admin');
+Route::post('check',"LeavecheckController@check")->name("post_check")->middleware('admin');
+Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail")->middleware('admin');
+Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check")->middleware('admin');
 
 //huang
 Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');

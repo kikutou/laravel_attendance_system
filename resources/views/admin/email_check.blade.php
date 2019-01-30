@@ -48,17 +48,6 @@
      }
       }
     </script>
-    <script type="text/javascript">
-      function clear2()
-      {
-       if(confirm("断りをしますか？"))
-       {
-       return true;
-     }else{
-       return false;
-     }
-      }
-    </script>
 
   </head>
 
