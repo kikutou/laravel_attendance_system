@@ -21,11 +21,11 @@ class EmailcheckController extends Controller
     {
       $user = User::find($request->id);
       if($user->email_verified_at){
-        return "既に承認しました";
+        return redirect()->back()->with(["message" => "該当会員はすでに認証されました。"]);
       }
       $user->email_verified_at = Carbon::now();
       $user->updated_at = Carbon::now();
       $user->save();
-      echo "操作成功しました";
+        return redirect()->back()->with(["message" => "認証成功"]);
     }
 }

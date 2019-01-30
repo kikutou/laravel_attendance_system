@@ -66,6 +66,13 @@
                                     </form>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('begin_finish_view') }}">{{ __('勤怠管理') }}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_leave_request') }}">{{ __('休暇申込') }}</a>
+                            </li>
                         @endguest
                     </ul>
                 </div>
