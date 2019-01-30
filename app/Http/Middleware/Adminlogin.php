@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class Adminlogin
 {
@@ -15,11 +16,9 @@ class Adminlogin
      */
     public function handle($request, Closure $next)
     {
-      if(!session('admin_flg')){
+      if(!Auth::user()->admin_flg){
         return redirect('login');
       }
-
-
       return $next($request);
     }
 }
