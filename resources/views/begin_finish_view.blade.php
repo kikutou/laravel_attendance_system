@@ -28,6 +28,13 @@
       </div>
     </div>
 
+    <div class="row text-center">
+      <div class="col-sm">
+      <p>出勤標準時間　{{ $time_lim->format('H:i') }}
+      </p>
+      </div>
+    </div>
+
     @if($errors->any())
     <div class="row text-center">
       <div class="col-sm text-danger">
