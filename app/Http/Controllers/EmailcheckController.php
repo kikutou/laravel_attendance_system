@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
+use Carbon\Carbon;
 
 class EmailcheckController extends Controller
 {
     public function show_mail(Request $request)
     {
-      $users = User::query()->where('email_verified_at', null)
+      $users = User::where('email_verified_at', null)
         ->get();
         return view('admin.email_check',['users' => $users]);
     }
@@ -19,8 +20,12 @@ class EmailcheckController extends Controller
     public function check_mail(Request $request)
     {
       $user = User::find($request->id);
-      $user->email_verified_at = $user->updated_at;
+      if($user->email_verified_at){
+        return redirect()->back()->with(["message" => "該当会員はすでに認証されました。"]);
+      }
+      $user->email_verified_at = Carbon::now();
+      $user->updated_at = Carbon::now();
       $user->save();
-      echo "操作成功しました";
+        return redirect()->back()->with(["message" => "認証成功"]);
     }
 }

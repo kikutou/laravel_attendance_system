@@ -26,10 +26,8 @@ class CommandController extends Controller
       if(count($double_records) >= 2){
         $count++;
         for($j = 0; $j < count($double_records); $j++){
-          if(!in_array($double_records[$j]->id,$temp_arr)){
-            echo $double_records[$j]->id." ";
-           if($j == count($double_records)-1) echo "\n";
-           }
+          if(!in_array($double_records[$j]->id,$temp_arr))
+           echo $double_records[$j]->id.($j != count($double_records)-1 ? ",":"\n");
           $temp_arr[$i] = $double_records[$j]->id;
           $i++;
         }

@@ -186,19 +186,24 @@ class AttendanceRecordController extends Controller
 
   }
 
-
+    /**
+     * 会員の一週間の勤怠常置を表示する
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function get_all(Request $request)
-    {
-      $today = Carbon::now();
-      $attendance_records = AttendanceRecord::query()->where('user_id', Auth::id())
-        ->where('attendance_date', '<=' , Carbon::today())
-        ->where('attendance_date', '>', Carbon::today()->subWeek(1))
-        ->get();
-      return view('user_a_week',[
-        'attendance_records'=>$attendance_records,
-        'today' => $today
-      ]);
-    }
+  {
+    session(['admin_flg'=>1]);
+    $today = Carbon::now();
+    $attendance_records = AttendanceRecord::where('user_id', Auth::id())
+      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+      ->where('attendance_date', '>', Carbon::today()->subWeek(1)->format('Y-m-d'))
+      ->get();
+    return view('user_a_week',[
+      'attendance_records'=>$attendance_records,
+      'today' => $today
+    ]);
+  }
 
 
 }
