@@ -32,7 +32,36 @@
             @endforeach
 
             @if ($show_record)
-              <td id="cool">{{ $show_record->attendance_date->format('Y年n月j日') }}</td>
+              <td id="cool">{{ $show_record->attendance_date->format('Y年n月j日') }}<br>
+                <button id="cool" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#myModal">
+                	休み情報
+                </button></td>
+                
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                	<div class="modal-dialog">
+                		<div class="modal-content">
+                			<div class="modal-header">
+                				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                					&times;
+                				</button>
+                				<h4 class="modal-title" id="myModalLabel">
+                					模态框（Modal）标题
+                				</h4>
+                			</div>
+                			<div class="modal-body">
+                				在这里添加一些文本
+                			</div>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                				</button>
+                				<button type="button" class="btn btn-primary">
+                					提交更改
+                				</button>
+                			</div>
+                		</div><!-- /.modal-content -->
+                	</div><!-- /.modal -->
+                </div>
+
               <td id="cool">{{ $show_record->start_time }}</td>
               <td id="cool">{{ $show_record->end_time }}</td>
             @else
