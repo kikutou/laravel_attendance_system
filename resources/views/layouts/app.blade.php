@@ -66,6 +66,13 @@
                                     </form>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="">{{ __('出勤') }}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                    <a class="nav-link" href="">{{ __('休暇申込') }}</a>
+                            </li>
                         @endguest
                     </ul>
                 </div>

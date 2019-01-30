@@ -21,7 +21,6 @@ Route::get('/verified', 'Auth\VerificationController@emailverified')->name('veri
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('/auth/verify/{token}', 'HomeController@emailtoken');
 
 
 //出退勤管理　金
