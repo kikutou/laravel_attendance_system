@@ -12,8 +12,8 @@
 
     <title></title>
     <link rel="stylesheet" href="{{asset('/css/leavecheck.css')}}">
-    <script type="text/javascript" src="{{ URL::asset('js/leavecheck.js')}}"></script>
-    
+
+  {{--<script src="{{ asset('js/leavecheck.js') }}" defer></script>--}}
   </head>
 
   <body>
