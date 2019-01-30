@@ -199,13 +199,6 @@ class AttendanceRecordController extends Controller
       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
       ->where('attendance_date', '>', Carbon::today()->subWeek(1)->format('Y-m-d'))
       ->get();
-<<<<<<< HEAD
-      // ->toSql();
-      // dd(Carbon::today()->format('Y-m-d'));
-      // dd(Carbon::today()->subWeek(1)->format('Y-m-d'));
-      // dd($attendance_records->toArray());
-=======
->>>>>>> ce636e963f521b09c5188a3d65b9cafc3489cf78
     return view('user_a_week',[
       'attendance_records'=>$attendance_records,
       'today' => $today
