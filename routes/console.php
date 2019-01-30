@@ -19,5 +19,5 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('check:user_and_date',function(CommandController $drip){
-   $drip->check();
+    $drip->check();
 })->describe('Check user and date');
