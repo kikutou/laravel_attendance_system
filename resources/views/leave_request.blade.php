@@ -3,10 +3,11 @@
 @section('title','休暇申請')
 
 @section('content')
-<script>
- $(function(){
-   $('#start_day').datepicker();
- });
+
+<script type="text/javascript">
+$(function () {
+    $("#start_day").datepicker();
+});
 </script>
 <div class="row" style="margin-left:200px;margin-top:100px">
   <div class="col-md-12">
@@ -29,7 +30,7 @@
       <table class="table">
         <tr>
          <td><label for="start_day">欠勤日</label></td>
-         <td><input id="start_day" name="attendance_date" type="date" value="{{ old('attendance_date') }}"></td>
+         <td><input id="start_day" name="attendance_date" type="text" value="{{ old('attendance_date') }}"></td>
         </tr>
         <tr>
          <td><label for="start">欠勤開始時間</label></td>
