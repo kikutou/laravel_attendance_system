@@ -29,7 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $login_user = Auth::user();
         $user = User::where('id', $login_user->id)->first();
         if($user->email_verified_at == null){
@@ -38,6 +37,5 @@ class HomeController extends Controller
         }else{
             return view('home')->with('message', "ログインできました。");
         }
-
     }
 }

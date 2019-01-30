@@ -31,9 +31,14 @@ class User extends Authenticatable
     ];
 
     
-
     public function EmailToken()
     {
         return $this->hasOne('App\EmailToken');
+    }
+
+    public function informations(){
+
+        return $this->belongsToMany('App\Model\information','users_of_informations','information_id','user_id');
+
     }
 }
