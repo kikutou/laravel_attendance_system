@@ -1,39 +1,9 @@
 @extends("layouts.app")
 
 @section("content")
-  <style>
-    table {
-      margin-left:200px;
-      margin-right: 200px;
-      border-collapse: collapse;
-      border-spacing: 0;
-      width: 100%;
-      border: 2px solid #ddd;
-    }
-    th,td {
-      border: none;
-      text-align: center;
-      padding: 8px;
-      height:50px;
-    }
-    tr:nth-child(even){background-color: #f2f2f2}
-    h3{
-      text-align: center;
-      margin-top:100px;
-    }
-    #cool{
-      width: 100px;
-    }
-    #cools{
-      margin-top: 30px;
-    }
-    .top1{
-      padding-top: 20px;
-    }
-    .top{
-      margin-top: 20px;
-    }
-  </style>
+  <link href="{{ asset('/css/tao.css') }}" rel="stylesheet">
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <h3>一週間の勤怠表</h3>
     <div class="row">
       <div class="col-sm-8"></div>
@@ -62,18 +32,16 @@
             @endforeach
 
             @if ($show_record)
-              <td>{{ $show_record->attendance_date->format('Y年n月j日') }}</td>
-              <td>{{ $show_record->start_time }}</td>
-              <td>{{ $show_record->end_time }}</td>
+              <td id="cool">{{ $show_record->attendance_date->format('Y年n月j日') }}</td>
+              <td id="cool">{{ $show_record->start_time }}</td>
+              <td id="cool">{{ $show_record->end_time }}</td>
             @else
-              <td>{{ $this_date->format('Y年n月j日') }}</td>
-              <td>出勤していません。</td>
-              <td>出勤していません。</td>
+              <td id="cool">{{ $this_date->format('Y年n月j日') }}</td>
+              <td id="cool">出勤していません。</td>
+              <td id="cool">出勤していません。</td>
             @endif
-
           </tr>
         </table>
-
         @if($show_record && $show_record->leave_start_time)
         <table>
           <tr>

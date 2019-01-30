@@ -1,0 +1,35 @@
+
+  table {
+    margin-left:200px;
+    margin-right: 200px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 2px solid #ddd;
+  }
+  th,td {
+    border: none;
+    text-align: center;
+    padding: 8px;
+    height:50px;
+  }
+  tr:nth-child(even){background-color: #f2f2f2}
+  h3{
+    text-align: center;
+    margin-top:100px;
+  }
+  #cool{
+    width: 100px;
+  }
+  #cools{
+    margin-top: 30px;
+  }
+  .top1{
+    padding-top: 20px;
+  }
+  .top{
+    margin-top: 20px;
+  }
+  .tao{
+    margin-top:-5px;
+  }
