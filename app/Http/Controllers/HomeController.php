@@ -29,14 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $login_user = Auth::user();
-        $user = User::where('id', $login_user->id)->first();
-        $emailtoken = $user->emailtoken;
-        if(isset($emailtoken)&&$user->email_verified_at == null){
-            return redirect('/verified')->with('warning', "メールを承認されていませんので、ログインできません。");    
-        }else{
-            return view('home');
-        }    
+        return view('home');
     }
 
     public function emailtoken($token)
