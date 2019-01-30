@@ -20,7 +20,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 
-
 </head>
 <body>
     <div id="app">
@@ -43,25 +42,37 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('新規登録') }}</a>
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
 
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('ログアウト') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('begin_finish_view') }}">{{ __('勤怠管理') }}</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('get_leave_request') }}">{{ __('休暇申込') }}</a>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="btn btn-primary" href="{{ route('logout') }}">{{ __('ログアウト') }}</a>
+                                    <a class="nav-link" href="{{ route('get_leave_request') }}">{{ __('休暇申込') }}</a>
                             </li>
                         @endguest
                     </ul>
@@ -70,9 +81,20 @@
         </nav>
 
         <main class="py-4">
+
+            <style>
+                div.alert {
+                    text-align: center;
+                }
+            </style>
             @if(Session::has('message'))
-                <p class="container-fluid"> {{Session::get('message')}}</p>
+                <div class="alert alert-success">{{Session::get('message')}}</div>
             @endif
+
+            @if(Session::has('error'))
+                <div class="alert alert-danger">{{Session::get('error')}}</div>
+            @endif
+
             @yield('content')
         </main>
     </div>
