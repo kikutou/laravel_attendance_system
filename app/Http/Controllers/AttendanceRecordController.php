@@ -199,7 +199,7 @@ class AttendanceRecordController extends Controller
       // dd(Carbon::today()->format('Y-m-d'));
       // dd(Carbon::today()->subWeek(1)->format('Y-m-d'));
       // dd($attendance_records->toArray());
-    return view('user_ceshi',[
+    return view('user_a_week',[
       'attendance_records'=>$attendance_records,
       'today' => $today
     ]);
