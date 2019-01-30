@@ -46,13 +46,13 @@
 
       @if(!$rec || !$rec->start_time)
         @if(\Carbon\Carbon::now()->gt($time_lim))
-        <div class="row text-center">
-          <div class="col-sm-4">
-            <p>遅刻原因</p>
+        <div class="row">
+          <div class="col-sm-4"></div>
+          <div class="form-group col-sm-4">
+            <p style="text-align:center">遅刻原因</p>
+            <textarea id="late" name="reason" class="form-control" rows="2" style="width:100%"></textarea>
           </div>
-          <div class="col-sm-8">
-            <textarea type="text" name="reason"></textarea>
-          </div>
+          <div class="col-sm-4"></div>
         </div>
         @endif
 
@@ -63,13 +63,13 @@
       </div>
 
       @elseif($rec && $rec->start_time && !$rec->end_time)
-      <div class="row text-center">
-        <div class="col-sm-4">
-          <p>勤務報告</p>
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="form-group col-sm-4">
+          <p style="text-align:center">勤務報告</p>
+          <textarea id="late" name="report" class="form-control" rows="2" style="width:100%"></textarea>
         </div>
-        <div class="col-sm-8">
-          <textarea type="text" name="report"></textarea>
-        </div>
+        <div class="col-sm-4"></div>
       </div>
 
       <div class="row text-center">
