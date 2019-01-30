@@ -1,4 +1,8 @@
-@extends("layouts.app")
+<html>
+  <head>
+    <title>user_a_week</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 @section("content")
   <link href="{{ asset('/css/tao.css') }}" rel="stylesheet">
@@ -36,7 +40,7 @@
                 <button id="cool" class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#myModal">
                 	休み情報
                 </button></td>
-                
+
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 	<div class="modal-dialog">
                 		<div class="modal-content">
@@ -95,13 +99,48 @@
               @elseif(!$show_record || !$show_record->mtb_leave_check_status_id)
               出勤していません。
               @endif
-            </td>
-            <td id="cool">{{ $show_record->leave_applicate_time??"出勤していません。" }}</td>
-            <td id="cool">{{ $show_record->leave_check_time??"出勤していません。" }}</td>
-          </tr>
-        </table>
-        @endif
 
+          @if ($show_record)
+            <td>{{ $show_record->attendance_date->format('Y年n月j日') }}</td>
+            <td>{{ $show_record->start_time }}</td>
+            <td>{{ $show_record->end_time }}</td>
+          @else
+            <td>{{ $this_date->format('Y年n月j日') }}</td>
+            <td>出勤していません。</td>
+            <td>出勤していません。</td>
+          @endif
+
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <th>欠勤開始時間</th>
+          <th>欠勤終了時間</th>
+          <th>欠勤理由</th>
+          <th>欠勤承認状態</th>
+          <th>欠勤申請時間</th>
+          <th>承認時間</th>
+        </tr>
+        <tr>
+          <td id="cool">{{ $show_record->leave_start_time ??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_end_time ??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_reason ??"出勤していません。" }}</td>
+          <td id="cool">
+            @if ($show_record['mtb_leave_check_status_id'] == 1)
+            承認待ち
+            @elseif ($show_record['mtb_leave_check_status_id'] == 2)
+            承認済
+            @elseif ($show_record['mtb_leave_check_status_id'] == 3)
+            断り
+            @elseif(!$show_record['mtb_leave_check_status_id'])
+            出勤していません。
+            @endif
+          </td>
+          <td id="cool">{{ $show_record->leave_applicate_time??"出勤していません。" }}</td>
+          <td id="cool">{{ $show_record->leave_check_time??"出勤していません。" }}</td>
+        </tr>
+      </table>
       @endfor
     </div>
-@endsection
+  </body>
+</html>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
+use Carbon\Carbon;
 
 class LeavecheckController extends Controller
 {
@@ -21,8 +22,11 @@ class LeavecheckController extends Controller
 
         $status = $status ?? 'all';
         $attendancerecords = ($status == 'all')
-            ? AttendanceRecord::all()
-            : AttendanceRecord::where("mtb_leave_check_status_id", $statusArr[$status])->get();
+            ? AttendanceRecord::where("start_time",null)->orderBy("attendance_date")->get()
+            : AttendanceRecord::where("mtb_leave_check_status_id", $statusArr[$status])
+              ->where("start_time",null)
+              ->orderBy("attendance_date")
+              ->get();
 
         return view(
             "admin.leave_check",
@@ -41,8 +45,14 @@ class LeavecheckController extends Controller
             $leave = AttendanceRecord::where("id", $request->id)->first();
             if ($leave->mtb_leave_check_status_id == MtbLeaveCheckStatus::APPROVAL_PENDING){
                 $leave->mtb_leave_check_status_id = $Act[$request->act];
+                $leave->leave_check_time = Carbon::now();
+                $leave->updated_at = Carbon::now();
                 $leave->save();
-                echo $request->act == 'agree' ? '承認しました' : '断りました';
+
+                if($request->act == 'agree'){
+                  return redirect()->back()->with(["message" => '承認しました']);
+                }
+                 return redirect()->back()->with(["message" => "断りました"]);
             }
         }
     }
