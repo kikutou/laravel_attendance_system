@@ -3,25 +3,17 @@
 @section('title','休暇申請')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/jquery.timepicker.css') }}">
+<script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
 
 <script type="text/javascript">
-$(function () {
-    $("#start_day").datepicker();
+$( function () {
+  $( "#start_day" ).datepicker();
 });
 </script>
+
 <div class="row" style="margin-left:200px;margin-top:100px">
   <div class="col-md-12">
-
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-      <link rel="stylesheet" href="/resources/demos/style.css">
-      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      <script>
-          $( function() {
-              $( "#start_day" ).datepicker();
-          } );
-      </script>
-
     <form action="{{ route('post_leave_request') }}" method="post">
       @csrf
 
@@ -39,19 +31,43 @@ $(function () {
       </div>
       <table class="table">
         <tr>
-         <td><label for="start_day">欠勤日</label></td>
+         <td style="text-align:center"><label for="start_day">欠勤日</label></td>
          <td><input id="start_day" name="attendance_date" type="text" value="{{ old('attendance_date') }}"></td>
         </tr>
         <tr>
-         <td><label for="start">欠勤開始時間</label></td>
-         <td><input id="start" name="leave_start_time" type="text" value="{{ old('leave_start_time') }}">(例: 10:30)</td>
+         <td style="text-align:center"><label for="start_hour">欠勤開始時間</label></td>
+         <td><select name="start_hour">
+        		 @for($i = 8; $i <= 31; $i++)
+                @if($i < 24)
+                 <option>{{ $i < 10 ? "0".$i:$i }}</option>
+                @else <option>{{ "0".($i-24) }}</option>
+                @endif
+             @endfor
+        		</select> :
+            <select name="start_minute">
+             @for($i = 0; $i <= 45; $i+=15)
+              <option>{{ $i < 10 ? "0".$i:$i }}</option>
+             @endfor
+            </select></td>
         </tr>
         <tr>
-         <td><label for="end">欠勤終了時間</label></td>
-         <td><input id="end" name="leave_end_time" type="text" value="{{ old('leave_end_time') }}">(例: 20:30)</td>
+         <td style="text-align:center"><label for="end_hour">欠勤終了時間</label></td>
+         <td><select name="end_hour">
+        		 @for($i = 8; $i <= 31; $i++)
+                @if($i < 24)
+                 <option>{{ $i < 10 ? "0".$i:$i }}</option>
+                @else <option>{{ "0".($i-24) }}</option>
+                @endif
+             @endfor
+        		</select> :
+            <select name="end_minute">
+             @for($i = 0; $i <= 45; $i+=15)
+              <option>{{ $i < 10 ? "0".$i:$i }}</option>
+             @endfor
+            </select></td>
         </tr>
         <tr>
-         <td><label for="reason">申請理由</label></td>
+         <td style="text-align:center"><label for="reason">申請理由</label></td>
          <td><textarea id="reason" name="leave_reason" rows="5" cols="25">{{ old('leave_reason') }}</textarea></td>
         </tr>
         <tr>
