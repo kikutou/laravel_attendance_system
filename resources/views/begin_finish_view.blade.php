@@ -1,106 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<div class="row">
-  <div class="col-sm-3"></div>
-
-  <div class="col-sm-6">
-    <div class="row text-center">
-      <div class="col-sm">
-        <p id='time_now'>現在時間取得中</p>
-      </div>
-    </div>
-
-    <div class="row text-center">
-      <div class="col-sm">
-        <p>出勤標準時間　{{ $time_lim->format('H:i:s') }}</p>
-      </div>
-    </div>
-
-    @if($errors->any())
-    <div class="row text-center">
-      <div class="col-sm text-danger">
-          @foreach ($errors->all() as $error)
-          <p>{{ $error }}</p>
-          @endforeach
-      </div>
-    </div>
-    @endif
-
-    @if (Session::has('message'))
-    <div class="row text-center">
-      <div class="col-sm">
-        <p>{{ Session::get('message') }}</p>
-      </div>
-    </div>
-    @endif
-
-    <form action="{{ route('attendance_begin_finish') }}" method="post">
-      @csrf
-      <div>
-        <input type="hidden" name="attendance_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-      </div>
-
-      @if(!$rec || !$rec->start_time)
-        @if(\Carbon\Carbon::now()->gt($time_lim))
-        <div class="row">
-          <div class="col-sm-4"></div>
-          <div class="form-group col-sm-4">
-            <p style="text-align:center">遅刻原因</p>
-            <textarea id="late" name="reason" class="form-control" rows="2" style="width:100%"></textarea>
-          </div>
-          <div class="col-sm-4"></div>
-        </div>
-        @endif
-
-      <div class="row text-center">
-        <div class='col-sm'>
-          <input type="submit" name="begin" value="出勤">
-        </div>
-      </div>
-
-      @elseif($rec && $rec->start_time && !$rec->end_time)
-      <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="form-group col-sm-4">
-          <p style="text-align:center">勤務報告</p>
-          <textarea id="late" name="report" class="form-control" rows="2" style="width:100%"></textarea>
-        </div>
-        <div class="col-sm-4"></div>
-      </div>
-
-      <div class="row text-center">
-        <div class='col-sm'>
-          <input type="submit" name="begin" value="退勤">
-        </div>
-      </div>
-      @endif
-
-  </form>
-
-    @if($rec && $rec->start_time)
-    <div class="row text-center">
-      <div class="col-sm">
-        <p>出勤時間　{{ $rec->start_time }}</p>
-      </div>
-    </div>
-    @endif
-    @if ($rec && $rec->end_time)
-    <div class="row text-center">
-      <div class="col-sm">
-        <p>退勤時間　{{ $rec->end_time }}</p>
-      </div>
-    </div>
-    @endif
-  </div>
-
-  <div class="col-sm-3"></div>
-
-</div>
-
 <script>
 $(function(){
   setInterval(function(){
@@ -135,4 +35,57 @@ $(function(){
 });
 </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div class="container">
+    @if($errors->any())
+    <div class="row text-center">
+      <div class="col-sm text-danger">
+          @foreach ($errors->all() as $error)
+          <p>{{ $error }}</p>
+          @endforeach
+      </div>
+    </div>
+    @endif
+    @if (Session::has('message'))
+    <div class="row text-center">
+      <div class="col-sm">
+        <p>{{ Session::get('message') }}</p>
+      </div>
+    </div>
+    @endif
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">勤怠管理</div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" style="text-align:center"><span class="person-info-title">出勤標準時間</span>{{ $time_lim->format('H:i') }}</li>
+                        <li id='time_now' class="list-group-item" style="text-align:center">現在時間取得中</li>
+                         <form action="{{ route('attendance_begin_finish') }}" method="post">
+                            @csrf
+                            <div>
+                              <input type="hidden" name="attendance_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                            </div>
+
+                            @if(!$rec || !$rec->start_time)
+                              @if(\Carbon\Carbon::now()->gt($time_lim))
+                                <li class="list-group-item"><span class="person-info-title">遅刻原因</span>
+                                  <textarea id="late" name="reason" class="form-control" rows="2" style="width:100%"></textarea>
+                                </li>
+                              @endif
+                                <li class="list-group-item" style="text-align:center"><input type="submit" class="btn btn-primary" name="begin" value="出勤"></li>
+                            @elseif($rec && $rec->start_time && !$rec->end_time)
+                                <li class="list-group-item"><span class="person-info-title">勤務報告
+                                  <textarea id="late" name="report" class="form-control" rows="2" style="width:100%"></textarea>
+                                </li>
+                                <li class="list-group-item" style="text-align:center"><input type="submit" name="begin" class="btn btn-primary" value="退勤"></li>
+                            @endif
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
