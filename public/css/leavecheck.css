@@ -1,0 +1,24 @@
+div.current {
+  background: gray;
+}
+.margin{
+  margin-left: 270px;
+}
+body{
+  overflow: scroll;
+}
+.cool{
+  margin-left:260px;
+}
+
+#socool{
+  margin-top:10px;
+}
+
+#top{
+  margin-top: 20px;
+}
+
+.top1{
+  border: 5px solid gray;
+}

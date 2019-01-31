@@ -11,58 +11,15 @@
 
 
     <title></title>
-    <style>
-      div.current {
-        background: gray;
-      }
-      .margin{
-        margin-left: 270px;
-      }
-      body{
-        overflow: scroll;
-      }
-      .cool{
-        margin-left:260px;
-      }
+    <link rel="stylesheet" href="{{asset('/css/leavecheck.css')}}">
 
-      #socool{
-        margin-top:10px;
-      }
-
-      #top{
-        margin-top: 20px;
-      }
-
-      .top1{
-        border: 5px solid gray;
-      }
-    </style>
-    <script type="text/javascript">
-      function clear1()
-      {
-       if(confirm("承認をしますか？"))
-       {
-       return true;
-     }else {
-       return false;
-     }
-      }
-    </script>
-    <script type="text/javascript">
-      function clear2()
-      {
-       if(confirm("断りをしますか？"))
-       {
-       return true;
-     }else{
-       return false;
-     }
-      }
-    </script>
-
+  {{--<script src="{{ asset('js/leavecheck.js') }}" defer></script>--}}
   </head>
 
   <body>
+    @if(Session::has("message"))
+      <p>{{ Session::get("message") }}</p>
+    @endif
     <div id="content" class="container-fluid">
         <div class="col-sm text-center top36 bottom36">
           <p>休み請求一覧</p>
@@ -111,6 +68,21 @@
                       {{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}
                     </div>
                   </div>
+                    @if($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 2)
+                  <div id="socool" class="row top6">
+                    <div class="col-sm-6 text-center">承認時間</div>
+                    <div class="col-sm-6 text-center">
+                      {{ $attendancerecord->leave_check_time }}
+                    </div>
+                  </div>
+                  @elseif($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 3)
+                  <div id="socool" class="row top6">
+                    <div class="col-sm-6 text-center">断り時間</div>
+                    <div class="col-sm-6 text-center">
+                      {{ $attendancerecord->leave_check_time }}
+                    </div>
+                  </div>
+                  @endif
                   <div id="socool" class="row top6">
                     <div class="col-sm-6 text-center">休みの理由</div>
                     <div class="col-sm-6 text-center">{{ $attendancerecord->leave_reason}}</div>
@@ -160,7 +132,6 @@
                         </div>
                       </div>
                       @else
-                        操作不可
                       @endif
                     </div>
                   </div>

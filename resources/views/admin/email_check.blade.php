@@ -40,12 +40,24 @@
                       </div>
                       <div class="row top36">
                         <div class="col-sm text-center">
-                          <form action="{{ route('post_mail_check') }}" method="post">
-                            @csrf
-                            <input type="hidden" name="	email_verified" value="{{ $user->email_verified_at }}">
-                            <input type="hidden" name="id" value="{{ $user->id }}">
-                            <input onclick="return clear1()" type="submit" value="承認">
-                          </form>
+                          <div class="row">
+                            <div class="col-sm-6 text-right">
+                              <form action="{{ route('post_mail_check') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="yes" value="yes">
+                                <input type="hidden" name="id" value="{{ $user->id }}">
+                                <input onclick="return clear1()" type="submit" value="承認">
+                              </form>
+                            </div>
+                            <div class="col-sm-6 text-left">
+                              <form action="{{ route('post_mail_check') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="no" value="no">
+                                <input type="hidden" name="id" value="{{ $user->id }}">
+                                <input onclick="return clear1()" type="submit" value="削除">
+                              </form>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

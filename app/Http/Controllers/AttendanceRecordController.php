@@ -153,7 +153,7 @@ class AttendanceRecordController extends Controller
     //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->attendance_date);
     if($carbon->isPast()){
-      $one_message = "形式が間違っています!本日以降の日付をお選びください。";
+      $one_message = "形式が間違っています！本日以降の日付をお選びください。";
       return redirect()->back()->withInput()->with(['one_message' => $one_message]);
     }
 
@@ -166,23 +166,23 @@ class AttendanceRecordController extends Controller
 
     //欠勤申請データの書き込み。
     $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
-      ->where('attendance_date',$request->attendance_date)
+      ->where('attendance_date',new Carbon($request->attendance_date))
       ->first();
 
     if(!$one_attendance_record){
       $one_attendance_record = new AttendanceRecord;
       $one_attendance_record->user_id = $user->id;
-      $one_attendance_record->attendance_date = $request->attendance_date;
+      $one_attendance_record->attendance_date = new Carbon($request->attendance_date);
     }
 
-    $one_attendance_record->leave_start_time = $request->leave_start_time;
-    $one_attendance_record->leave_end_time = $request->leave_end_time;
+    $one_attendance_record->leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
+    $one_attendance_record->leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
     $one_attendance_record->leave_reason = $request->leave_reason;
     $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatus::APPROVAL_PENDING;
     $one_attendance_record->save();
 
-    $one_message = '欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。';
-    return redirect()->back()->with(['one_message' => $one_message]);
+    $one_message = "欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。";
+    return redirect(route('home'))->with(['one_message' => $one_message]);
 
   }
 
