@@ -9,6 +9,11 @@
     </style>
     @if(!Auth::user()->admin_flg)
     <div class="container">
+        @if(Session::has('one_message'))
+          <div style="width:500px;margin:0 auto">
+            <h5>{{ Session::get('one_message')}}</h5>
+          </div>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

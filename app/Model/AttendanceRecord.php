@@ -9,17 +9,19 @@ class AttendanceRecord extends Model
 {
     public static $validator_rules = [
        'attendance_date' => 'required',
-       'leave_start_time' => 'required|date_format:H:i',
-       'leave_end_time' => 'required|date_format:H:i',
+       'leave_start_hour' => 'required',
+       'leave_start_minute' => 'required',
+       'leave_end_hour' => 'required',
+       'leave_end_minute' => 'required',
        'leave_reason' => 'required'
     ];
 
     public static $validator_messages = [
        'attendance_date.required' => '欠勤日をお選びください!',
-       'leave_start_time.required' => '欠勤開始時間を入力してください!',
-       'leave_start_time.date_format' => '欠勤開始時間の形式が間違っています!',
-       'leave_end_time.required' => '欠勤終了時間を入力してください!',
-       'leave_end_time.date_format' => '欠勤終了時間の形式が間違っています!',
+       'leave_start_hour.required' => '欠勤開始時間(時)を選択してください!',
+       'leave_start_minute.required' => '欠勤開始時間(分)を選択してください!',
+       'leave_end_hour.required' => '欠勤終了時間(時)を選択してください!',
+       'leave_end_minute.required' => '欠勤終了時間(分)を選択してください!',
        'leave_reason.required' => '欠勤理由を入力してください!'
     ];
     protected $table = "attendance_records";
