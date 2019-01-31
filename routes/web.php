@@ -38,3 +38,5 @@ Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_chec
 //huang
 Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');
 Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request');
+Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice');
+Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice');
