@@ -45,7 +45,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 50px;
             }
 
             .links > a {
@@ -62,18 +62,24 @@
                 margin-bottom: 30px;
             }
         </style>
+
+
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">ダッシュボード</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">ログイン</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">新規登録</a>
                         @endif
                     @endauth
                 </div>
@@ -85,7 +91,17 @@
                 </div>
 
                 <div class="links">
-                    <a href = "{{route('home')}}">ホームページ</a>
+                    <style>
+                        #dashboard-button {
+                            height: 60px;
+                            color: white;
+                            padding-top: 20px;
+                        }
+
+                    </style>
+
+                    <a id="dashboard-button" class="btn btn-primary btn-lg" href="{{route('home')}}">ダッシュボード</a>
+
                 </div>
             </div>
         </div>
