@@ -7,17 +7,8 @@
  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
-<style>
- div.div_form{
-   width:500px;
-   margin:0 auto;
- }
- div.btn_btn{
-   width:300px;
-   margin:0 auto;
- }
-</style>
-<div class="div_form">
+
+<div class="container">
   <script>
       $(document).ready(function(){
           $("#start_day").datepicker();
@@ -37,75 +28,87 @@
         <h5 style="width:300px">{{ Session::get('one_message') }}</h5>
       </div>
     @endif
-    　<div class="form-group">
-         <label for="start_day" class="col-sm-4 control-label">欠勤日</label>
-         <div class="col-sm-8">
-           <input id="start_day" class="form-control" name="attendance_date" type="text" value="{{ old('attendance_date') }}">
+      <div class="card">
+         <div class="card-header">欠勤申込</div>
+         <div class="card-body">
+           <ul class="list-group">
+             <li class="list-group-item">
+               <span class="person-info-title">欠勤日</span>
+               <input id="start_day" class="form-control" name="attendance_date" type="text" value="{{ old('attendance_date') }}" placeholder="欠勤日を選択してください">
+             </li>
+             <li class="list-group-item">
+               <span class="person-info-title">欠勤開始時間</span>
+               <div class="form-inline">
+                 <select class="form-control" name="leave_start_hour" style="width:500px">
+                   <option value="">時を選択してください</option>
+                   @for($i = 8;$i <=31; $i++)
+                    @if($i < 24)
+                     <option value="{{ $i < 10 ? "0".$i : $i }}"
+                       @if(old('leave_start_hour') && old('leave_start_hour') == ($i < 10 ? "0".$i : $i) )
+                         selected
+                       @endif>{{ $i < 10 ? "0".$i : $i }}</option>
+                    @else
+                     <option value="{{ "0".($i-24)  }}"
+                       @if(old('leave_start_hour') && old('leave_start_hour') == "0".($i-24))
+                         selected
+                       @endif>{{ "0".($i-24) }}</option>
+                    @endif
+                   @endfor
+                 </select>
+                 <div style="width:20px"><p style="text-align:center">:</p></div>
+                 <select class="form-control" name="leave_start_minute" style="width:500px">
+                   <option value="">分を選択してください</option>
+                   @for($i = 0;$i <= 45; $i += 15)
+                     <option value="{{ $i ==0 ? "0".$i : $i }}"
+                       @if(old('leave_start_minute') && old('leave_start_minute') == ($i ==0 ? "0".$i : $i) )
+                         selected
+                       @endif>{{ $i ==0 ? "0".$i : $i }}</option>
+                   @endfor
+                 </select>
+               </li>
+               <li class="list-group-item">
+                 <span class="person-info-title">欠勤終了時間</span>
+                 <div class="form-inline">
+                   <select class="form-control" name="leave_end_hour" style="width:500px">
+                     <option value="">時を選択してください</option>
+                     @for($i = 8;$i <=31; $i++)
+                      @if($i < 24)
+                       <option value="{{ $i < 10 ? "0".$i : $i }}"
+                         @if(old('leave_end_hour') && old('leave_end_hour') == ($i < 10 ? "0".$i : $i) )
+                           selected
+                         @endif>{{ $i < 10 ? "0".$i : $i }}</option>
+                      @else
+                       <option value="{{ "0".($i-24)  }}"
+                         @if(old('leave_end_hour') && old('leave_end_hour') == "0".($i-24))
+                           selected
+                         @endif>{{ "0".($i-24) }}</option>
+                      @endif
+                     @endfor
+                   </select>
+                   <div style="width:20px"><p style="text-align:center">:</p></div>
+                   <select class="form-control" name="leave_end_minute" style="width:500px">
+                     <option value="">分を選択してください</option>
+                     @for($i = 0;$i <= 45; $i += 15)
+                       <option value="{{ $i ==0 ? "0".$i : $i }}"
+                         @if(old('leave_end_minute') && old('leave_end_minute') == ($i ==0 ? "0".$i : $i) )
+                           selected
+                         @endif>{{ $i ==0 ? "0".$i : $i }}</option>
+                     @endfor
+                   </select>
+               </div>
+             </li>
+             <li class="list-group-item">
+               <span class="person-info-title">申請理由</span>
+               <textarea class="form-control" name="leave_reason" rows="5" placeholder="申請理由を入力してください">{{ old('leave_reason') }}</textarea>
+             </li>
+             <li class="list-group-item" style="text-align:center">
+                 <input type="submit" class="btn btn-primary" value="申請">
+                 <input type="reset" class="btn btn-primary"value="リセット">
+             </li>
+           </ul>
          </div>
-      </div>
-      <div class="form-group" style="margin-top:20px">
-         <label for="start" class="col-sm-4 control-label">欠勤開始時間</label>
-         <div class="col-sm-8">
-           <div class="row">
-             <div class="col-sm-6">
-               <select id="start" class="form-control" name="leave_start_hour" type="text" value="{{ old('leave_start_hour') }}">
-                 @for($i = 8;$i <=31; $i++)
-                  @if($i < 24)
-                   <option value="{{ $i < 10 ? "0".$i : $i }}">{{ $i < 10 ? "0".$i : $i }}</option>
-                  @else
-                   <option value="{{ "0".($i-24)  }}">{{ "0".($i-24) }}</option>
-                  @endif
-                 @endfor
-               </select>
-             </div>
-             <div class="col-sm-6">
-               <select id="start" class="form-control" name="leave_start_minute" type="text" value="{{ old('leave_start_minute') }}">
-                 @for($i = 0;$i <= 45; $i += 15)
-                   <option value="{{ $i ==0 ? "0".$i : $i }}">{{ $i ==0 ? "0".$i : $i }}</option>
-                 @endfor
-               </select>
-            </div>
-         </div>
-      </div>
-      <div class="form-group" style="margin-top:20px">
-         <label for="start" class="col-sm-4 control-label">欠勤終了時間</label>
-         <div class="col-sm-8">
-           <div class="row">
-             <div class="col-sm-6">
-               <select id="end" class="form-control" name="leave_end_hour" type="text" value="{{ old('leave_end_hour') }}">
-                 @for($i = 8;$i <=31; $i++)
-                  @if($i < 24)
-                   <option value="{{ $i < 10 ? "0".$i : $i }}">{{ $i < 10 ? "0".$i : $i }}</option>
-                  @else
-                   <option value="{{ "0".($i-24) }}">{{ "0".($i-24) }}</option>
-                  @endif
-                 @endfor
-               </select>
-             </div>
-             <div class="col-sm-6">
-               <select id="end" class="form-control" name="leave_end_minute" type="text" value="{{ old('leave_end_minute') }}">
-                 @for($i = 0;$i <= 45; $i += 15)
-                   <option value="{{ $i ==0 ? "0".$i : $i }}">{{ $i ==0 ? "0".$i : $i }}</option>
-                 @endfor
-               </select>
-            </div>
-         </div>
-      </div>
-      <div class="form-group" style="margin-top:20px">
-         <label for="reason" class="col-sm-4 control-label">申請理由</label>
-         <div class="col-sm-8">
-           <textarea id="reason" class="form-control" name="leave_reason" rows="5" cols="25">{{ old('leave_reason') }}</textarea>
-         </div>
-      </div>
-      <div class="btn-group div_btn">
-         <div class="col-sm-6">
-           <input type="submit" class="btn btn-primary" value="申請">
-         </div>
-         <div class="col-sm-6">
-           <input type="reset" class="btn btn-primary"value="リセット">
-         </div>
-     </div>
-  </form>
-</div>
+       </div>
+    </form>
+  </div>
 
 @endsection
