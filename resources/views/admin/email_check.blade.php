@@ -5,12 +5,12 @@
 <div class="container">
   @if(Session::has('message'))
     <div style="width:500px;margin:0 auto">
-      <h5>{{ Session::get('message')}}</h5>
+      <h5 style="text-align:center">{{ Session::get('message')}}</h5>
     </div>
   @endif
   @if($users->count() == 0)
     <div style="width:500px;margin:0 auto">
-      <h5>すべての会員が認証済みです。</h5>
+      <h5 style="text-align:center">すべての会員が認証済みです。</h5>
     </div>
   @endif
   <div class="row justify-content-center">
