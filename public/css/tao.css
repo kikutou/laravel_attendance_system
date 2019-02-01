@@ -12,6 +12,7 @@
     text-align: center;
     padding: 8px;
     height:50px;
+    width:100px;
   }
   tr:nth-child(even){background-color: #f2f2f2}
   h3{
@@ -32,4 +33,7 @@
   }
   .tao{
     margin-top:-5px;
+  }
+  #tao{
+    margin-top: 25px;
   }
