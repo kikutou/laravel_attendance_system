@@ -13,7 +13,27 @@
     <title></title>
     <link rel="stylesheet" href="{{asset('/css/leavecheck.css')}}">
 
-  {{--<script src="{{ asset('js/leavecheck.js') }}" defer></script>--}}
+    <script type="text/javascript">
+      function clear1()
+      {
+       if(confirm("承認をしますか？"))
+       {
+       return true;
+     }else {
+       return false;
+     }
+      }
+      function clear2()
+      {
+       if(confirm("断りをしますか？"))
+       {
+       return true;
+     }else{
+       return false;
+     }
+      }
+    </script>
+
   </head>
 
   <body>
@@ -68,14 +88,14 @@
                       {{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}
                     </div>
                   </div>
-                    @if($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 2)
+                  @if($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 2)
                   <div id="socool" class="row top6">
                     <div class="col-sm-6 text-center">承認時間</div>
                     <div class="col-sm-6 text-center">
                       {{ $attendancerecord->leave_check_time }}
                     </div>
                   </div>
-                  @elseif($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 3)
+                   @elseif($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 3)
                   <div id="socool" class="row top6">
                     <div class="col-sm-6 text-center">断り時間</div>
                     <div class="col-sm-6 text-center">
