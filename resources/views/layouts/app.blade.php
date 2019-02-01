@@ -65,7 +65,7 @@
                             @if(Auth::user()->admin_flg == 0)
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    welcome&nbsp{{ Auth::user()->name }}&nbspさん <span class="caret"></span>
+                                    {{ Auth::user()->name }}&nbspさん <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -93,7 +93,7 @@
                             @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                     welcome&nbspadmin&nbspさん <span class="caret"></span>
+                                    admin&nbspさん <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

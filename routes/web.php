@@ -43,7 +43,7 @@ Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail")-
 Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check")->middleware('admin');
 
 //huang
-Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');
-Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request');
-Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice');
-Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice');
+Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request')->middleware('auth');
+Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request')->middleware('auth');
+Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice')->middleware('auth')->middleware('admin');
+Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');
