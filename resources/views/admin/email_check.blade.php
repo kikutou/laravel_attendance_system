@@ -30,6 +30,11 @@
                         <input type="hidden" name="yes" value="yes">
                         <input type="hidden" name="id" value="{{ $user->id }}">
                         <input onclick="return clear1()" type="submit" class="btn btn-primary" value="承認">
+                      </form>
+                      <form action="{{ route('post_mail_check') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="no" value="no">
+                        <input type="hidden" name="id" value="{{ $user->id }}">
                         <input style="margin-left:50px" onclick="return clear1()" type="submit" class="btn btn-primary" value="削除">
                       </form>
                     </div>

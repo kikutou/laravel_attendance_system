@@ -23,13 +23,13 @@ class EmailcheckController extends Controller
       if($user->email_verified_at){
         return redirect()->back()->with(["message" => "該当会員はすでに認証されました。"]);
       };
-      if($request->yes && $user->email_verified_at == null){
+      if($request->yes == 'yes' && $user->email_verified_at == null){
         $user->email_verified_at = Carbon::now();
         $user->updated_at = Carbon::now();
         $user->save();
         return redirect()->back()->with(["message" => "認証成功"]);
-      }elseif($request->no && $user->email_verified_at == null){
-        $user = User::find($request->id);
+      }
+      if($request->no == 'no' && $user->email_verified_at == null){
         $user->delete();
         return redirect()->back()->with(["message" => "削除成功"]);
       }
