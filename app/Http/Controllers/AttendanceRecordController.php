@@ -193,7 +193,6 @@ class AttendanceRecordController extends Controller
      */
     public function get_all(Request $request)
   {
-    session(['admin_flg'=>1]);
     $today = Carbon::now();
     $attendance_records = AttendanceRecord::where('user_id', Auth::id())
       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
@@ -202,6 +201,22 @@ class AttendanceRecordController extends Controller
     return view('user_a_week',[
       'attendance_records'=>$attendance_records,
       'today' => $today
+    ]);
+  }
+
+
+
+    public function user_find(Request $request)
+  {
+    $user = User::all();
+    if($request->isMethod('post')){
+      $user = AttendanceRecord::query()->where('user_id', $request->user_id);
+      $attendance_date = AttendanceRecord::where('attendance_date',$attendance_date);
+    }
+
+    return view('admin.user_find',[
+      'users'=>$user,
+      // 'attendance_date'=>$attendance_date
     ]);
   }
 

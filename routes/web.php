@@ -33,6 +33,8 @@ Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name(
 Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish');
 //tao
 Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all');
+Route::get('user_find','AttendanceRecordController@user_find')->name('get_user_find')->middleware('admin');
+Route::post('user_find','AttendanceRecordController@user_find')->name('post_user_find')->middleware('admin');
 //liang
 //缺勤请求一栏
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->middleware('admin');
@@ -44,3 +46,5 @@ Route::get('adminchart', "HomeController@showchart")->name("get_adminchart")->mi
 //huang
 Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');
 Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request');
+Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice');
+Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice');

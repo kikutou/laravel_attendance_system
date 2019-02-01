@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Model\User;
 use App\Model\AttendanceRecord;
-use App\Users_of_information;
-use App\Information;
+use App\Model\Users_of_information;
+use App\Model\Information;
 
 class HomeController extends Controller
 {
