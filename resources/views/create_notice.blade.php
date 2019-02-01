@@ -8,27 +8,57 @@
     $('#show_time').datepicker();
   })
 </script>
+<script>
+
+//すべてのcheckboxを選択。
+$(function(){
+$("#all_users").click(function(){
+    $('input:checkbox').not(this).prop('checked', this.checked);
+  });
+})
+</script>
 <div class="container">
+    <div style="width:300px;margin:0 auto">
+      @if($errors->any())
+        @foreach($errors->all() as $error)
+          <h5>{{ $error }}</h5>
+        @endforeach
+      @endif
+    </div>
+    <div style="width:300px;margin:0 auto">
+      @if(Session::has('success_message'))
+        <h5 style="text-align:center">{{ Session::get('success_message') }}</h5>
+      @endif
+      @if(Session::has('error_message'))
+        <h5 style="text-align:center">{{ Session::get('error_message') }}</h5>
+      @endif
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">お知らせの新規登録</div>
                 <div class="card-body">
                     <ul class="list-group">
-                      <form action="" method="post">
+                      <form action="{{ route('post_create_notice') }}" method="post">
+                        @csrf
                         <li class="list-group-item"><span class="person-info-title">お知らせ日時</span>
-                          <input id='show_time' class="form-control" name="show_time" type="text" value="{{ old('show_time') }}" placeholder="お知らせ日時を選択してください">
+                          <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" placeholder="お知らせ日時を選択してください">
                         </li>
                         <li class="list-group-item"><span class="person-info-title">タイトル</span>
                           <input class="form-control" name="title" type="text" value="{{ old('title') }}" placeholder="タイトルを入力してください">
                         </li>
                         <li class="list-group-item"><span class="person-info-title">内容</span>
-                          <textarea class="form-control" name="content"placeholder="内容を入力してください">{{ old('content') }}</textarea>
+                          <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
                         <li class="list-group-item"><span class="person-info-title">送信先</span>
-                          <div class="checkbox-inline form-control">
-                            <input type="checkbox" name="user_id" value="{{ old('user_id') }}">
-                            <input type="checkbox" name="user_id" value="{{ old('user_id') }}">
+                          <div class="checkbox-inline form-control"style="height:auto">
+                            @foreach($users as $user)
+                              <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                               @if(old('user_ids') && in_array($user->id,old('user_ids')))
+                                checked
+                               @endif>{{ $user->name }}
+                            @endforeach
+                              <br><input id="all_users" type="checkbox" name="all_users">すべて
                           </div>
                         </li>
                         <li class="list-group-item" style="text-align:center">

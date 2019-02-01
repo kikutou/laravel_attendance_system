@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Model\User;
 use App\EmailToken;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Users_of_information;
+use App\Model\Users_of_information;
 use App\Information;
 
 
@@ -34,7 +34,7 @@ class HomeController extends Controller
         $user = User::where('id', $login_user->id)->first();
         if($user->email_verified_at == null){
             return redirect('/verified')->with('warning', "管理員に
-                承認されていませんので、ログインできません。");    
+                承認されていませんので、ログインできません。");
         }else{
             return view('home')->with('message', "ログインできました。");
         }
@@ -52,10 +52,10 @@ class HomeController extends Controller
             foreach ($users_of_infors as  $users_of_infor) {
                 $infors[] = Information::where('id',$users_of_infor->information_id)
                 ->where('show_date','<=',$today)
-                ->first();      
+                ->first();
             }
         }
-    
+
         //$infors按show_date倒序
         $oderby_infors = array();
         while(count($infors) > 0) {
@@ -74,7 +74,7 @@ class HomeController extends Controller
 
         return view('info',[
             "oderby_infors" => $oderby_infors
-        ]); 
+        ]);
     }
 
 
