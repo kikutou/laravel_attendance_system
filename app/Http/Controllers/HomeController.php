@@ -45,17 +45,22 @@ class HomeController extends Controller
         // dd(Carbon::now()->subMonth(1)->format('m-d'));
       //  dd($att['0']['start_time']);
       //本月迟到次数
-      $late = AttendanceRecord::where('reason')
+      $late = AttendanceRecord::whereNotNull('reason')
         ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
         ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
         ->get()
         ->count();
       //本月请假次数
-      $leave = AttendanceRecord::where('leave_reason')
+      $leave = AttendanceRecord::whereNotNull('leave_reason')
         ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
         ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
         ->get()
         ->count();
+
+        // ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+        // ->get()
+        // ->count();
+        // dd($leave);
 
       if($user->email_verified_at == null){
           return redirect('/verified')->with('warning', "管理員に
@@ -63,6 +68,20 @@ class HomeController extends Controller
       }else{
           return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att])->with('message', "ログインできました。");
       }
+    }
+
+
+    public function showchart(Request $request)
+    {
+      $user = User::all();
+
+      $att = AttendanceRecord::whereNotNull('reason')
+      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+      ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+      ->selectRaw('count(reason) as top,user_id')
+      ->groupBy('user_id')
+      ->get();
+        return view('admin.chart', ['atts' => $att, 'users' => $user]);
     }
     public function info()
     {

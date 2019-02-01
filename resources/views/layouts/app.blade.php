@@ -115,6 +115,9 @@
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_user_mail') }}">{{ __('休暇認証') }}</a>
                             </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_adminchart') }}">{{ __('遅刻照会') }}</a>
+                            </li>
                             @endif
                         @endguest
                     </ul>
