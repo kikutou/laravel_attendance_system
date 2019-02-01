@@ -1,5 +1,4 @@
-@extends('layouts.layout')
-
+@extends('layouts.app')
 
 @section('content')
 <script>
