@@ -22,6 +22,11 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
+//infomation_index jiang
+Route::get('/info', 'HomeController@info')->name('get_info');
+Route::get('/info/{id}', 'HomeController@readinfo')->name('get_readinfo');
+
+
 
 //出退勤管理　金
 Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('begin_finish_view');
