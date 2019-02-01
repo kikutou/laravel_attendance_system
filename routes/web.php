@@ -41,6 +41,7 @@ Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->mi
 Route::post('check',"LeavecheckController@check")->name("post_check")->middleware('admin');
 Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail")->middleware('admin');
 Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check")->middleware('admin');
+Route::get('adminchart', "HomeController@showchart")->name("get_adminchart")->middleware('admin');
 
 //huang
 Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request')->middleware('auth');
