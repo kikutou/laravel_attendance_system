@@ -9,20 +9,15 @@
     </style>
     @if(!Auth::user()->admin_flg)
     <div class="container">
-        @if(Session::has('one_message'))
-          <div style="width:500px;margin:0 auto">
-            <h5>{{ Session::get('one_message')}}</h5>
-          </div>
-        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">名前:{{ Auth::user()->name }}</div>
                     <div class="card-body">
                       <ul>
-                        <li>日付:{{ $today->format('Y年m月d日')}}</li>
-                        <li>今月の遅刻回数:{{$late}}</li>
-                        <li>今月の欠勤回数:{{$leave}}</li>
+                        <li class="list-group-item">日付&nbsp:&nbsp{{ $today->format('Y年m月d日')}}</li>
+                        <li class="list-group-item">今月の遅刻回数&nbsp:&nbsp{{$late}}</li>
+                        <li class="list-group-item">今月の欠勤回数&nbsp:&nbsp{{$leave}}</li>
                       </ul>
                     </div>
                 </div>
@@ -42,7 +37,7 @@
                                type: 'column'
                             };
                             var title = {
-                               text: '{{ Auth::user()->name }}今月の出勤時間の棒状チャート図'
+                               text: '{{ Auth::user()->name }} 今月の出勤時間の棒状チャート図'
                             };
                             var subtitle = {
                                text: '勤怠管理システム'

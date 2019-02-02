@@ -118,6 +118,9 @@
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_adminchart') }}">{{ __('遅刻照会') }}</a>
                             </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_create_notice') }}">{{ __('通知関連') }}</a>
+                            </li>
                             @endif
                         @endguest
                     </ul>
@@ -137,6 +140,14 @@
 
             @if(Session::has('error'))
                 <div class="alert alert-danger">{{Session::get('error')}}</div>
+            @endif
+
+            @if($errors->any())
+              <div class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                 <p>{{ $error }}</p>
+                @endforeach
+              </div>
             @endif
 
             @yield('content')

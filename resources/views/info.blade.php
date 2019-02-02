@@ -14,28 +14,30 @@
                         <tr>
                             <th>公開日付</th>
                             <th>タイトル</th>
-                            <th>コメント</th>
+                            <th>詳細</th>
                             <th>閲覧状態</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($orderby_infors as $one_pivot)
+                          @php $carbon = new \Carbon\Carbon($one_pivot->information->show_date) @endphp
+                            @continue($carbon->isFuture())
                         <tr>
                             <td>{{$one_pivot->information->show_date}}</td>
                             <td>{{$one_pivot->information->title}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary"data-toggle="modal" data-target="#myModal_{{$one_pivot->id}}">コメント
+                                <button type="button" class="btn btn-primary"data-toggle="modal" data-target="#myModal_{{$one_pivot->id}}">詳細
                                 </button>
                                 <div class="modal fade" id="myModal_{{$one_pivot->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 id="myModalLabel">コメント</h4>
+                                                <h5 id="myModalLabel">{{ $one_pivot->information->title }}</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                {{$one_pivot->information->comment}}
+                                                <li class="list-group-item">{{ $one_pivot->information->comment }}</li>
                                             </div>
                                         </div>
                                     </div>

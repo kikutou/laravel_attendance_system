@@ -12,13 +12,6 @@
   </script>
   <form action="{{ route('post_leave_request') }}" method="post">
     @csrf
-    <div style="margin-left:20px">
-      @if($errors->any())
-       @foreach($errors->all() as $error)
-        <h5>{{ $error }}</h5>
-       @endforeach
-      @endif
-    </div>
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
@@ -47,9 +40,8 @@
                          @endif>{{ "0".($i-24) }}</option>
                       @endif
                      @endfor
-                   </select>
-                   &nbsp:&nbsp</p></div>
-                   <select class="form-control" name="leave_start_minute" style="width:310px">
+                   </select>&nbsp:&nbsp
+                   <select class="form-control" name="leave_start_minute" style="width:325px">
                      <option value="">分を選択してください</option>
                      @for($i = 0;$i <= 45; $i += 15)
                        <option value="{{ $i ==0 ? "0".$i : $i }}"
@@ -77,9 +69,8 @@
                            @endif>{{ "0".($i-24) }}</option>
                         @endif
                        @endfor
-                     </select>
-                     <div style="width:25px"><p style="text-align:center">:</p></div>
-                     <select class="form-control" name="leave_end_minute" style="width:310px">
+                     </select>&nbsp:&nbsp
+                     <select class="form-control" name="leave_end_minute" style="width:325px">
                        <option value="">分を選択してください</option>
                        @for($i = 0;$i <= 45; $i += 15)
                          <option value="{{ $i ==0 ? "0".$i : $i }}"

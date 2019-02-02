@@ -57,4 +57,36 @@ class NoticeController extends Controller
     $success_message = '登録完了しました！';
     return redirect()->back()->with(['message' => $success_message]);
   }
+
+  /**
+   *
+   *お知らせ一覧の表示。
+   *
+   */
+  public function show_all_info(Request $request)
+  {
+    $all_infos = Information::all();
+    return view('admin.all_info',['all_infos' => $all_infos]);
+  }
+
+  /**
+   *
+   *お知らせの内容更新。
+   *
+   */
+  public function update_info(Request $request)
+  {
+    $one_info = Information::where('id',$request->info_id)->first();
+    $one_info->comment = $request->old_content;
+    if($request->new_content){
+      unset($request->old_content);
+      $one_info->comment = $request->new_content;
+    }
+    $one_info->save();
+
+    $success_message = '更新しました。';
+    return redirect()->back()->with(['message' => $success_message]);
+
+  }
+
 }

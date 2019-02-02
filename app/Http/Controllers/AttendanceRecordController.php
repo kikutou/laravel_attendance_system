@@ -153,15 +153,15 @@ class AttendanceRecordController extends Controller
     //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->attendance_date);
     if($carbon->isPast()){
-      $one_message = "形式が間違っています！本日以降の日付をお選びください。";
-      return redirect()->back()->withInput()->with(['one_message' => $one_message]);
+      $one_message = "本日以降の日付をお選びください。";
+      return redirect()->back()->withInput()->with(['error' => $one_message]);
     }
 
     //出勤時間外での申請制御。
     $user = Auth::user();
     if(!AttendanceRecord::check_leave_time($user, $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
       $one_message = "出勤時間外の時間で申請してください!";
-      return redirect()->back()->with(['one_message' => $one_message]);
+      return redirect()->back()->with(['error' => $one_message]);
     }
 
     //欠勤申請データの書き込み。
@@ -182,7 +182,7 @@ class AttendanceRecordController extends Controller
     $one_attendance_record->save();
 
     $one_message = "欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。";
-    return redirect(route('home'))->with(['one_message' => $one_message]);
+    return redirect(route('home'))->with(['message' => $one_message]);
 
   }
 

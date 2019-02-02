@@ -48,3 +48,5 @@ Route::get('create_leave_request','AttendanceRecordController@create_leave_reque
 Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request')->middleware('auth');
 Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice')->middleware('auth')->middleware('admin');
 Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');
+Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->middleware('auth')->middleware('admin');
+Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
