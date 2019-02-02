@@ -57,40 +57,40 @@ class LeavecheckController extends Controller
         }
     }
   }
-  //之前的写法
-    // if($request->isMethod("POST"))
-    // {
-    //   if($request->yes){
-    //   $leave = AttendanceRecord::where("mtb_leave_check_status_id", $request->mtb_leave_check_status_id)->first();
-    //   if($leave->mtb_leave_check_status_id == MtbLeaveCheckStatuse::APPROVAL_PENDING){
-    //     $leave->mtb_leave_check_status_id = MtbLeaveCheckStatuse::APPROVAL;
-    //     $leave->save();
-    //     echo "承認しました";
-    //     }
-    //   }elseif($request->no){
-    //   $leave = AttendanceRecord::where("mtb_leave_check_status_id", $request->mtb_leave_check_status_id)->first();
-    //   if($leave->mtb_leave_check_status_id == MtbLeaveCheckStatuse::APPROVAL_PENDING){
-    //     $leave->mtb_leave_check_status_id = MtbLeaveCheckStatuse::REFUSE;
-    //     $leave->save();
-    //     echo "断りました";
-    //     }
-    //   }
-    // }
-    // $attendancerecords = null;
-    // $current_page = "all";
-    // if(!$status) {
-    //   $attendancerecords = AttendanceRecord::whereIn("mtb_leave_check_status_id", [MtbLeaveCheckStatuse::APPROVAL_PENDING,MtbLeaveCheckStatuse::APPROVAL, MtbLeaveCheckStatuse::REFUSE]);
-    // } elseif($status == "approval_pending") {
-    //   $attendancerecords = AttendanceRecord::where("mtb_leave_check_status_id", MtbLeaveCheckStatuse::APPROVAL_PENDING);
-    //   $current_page = "approval_pending";
-    // } elseif($status == "approval") {
-    //   $attendancerecords = AttendanceRecord::where("mtb_leave_check_status_id", MtbLeaveCheckStatuse::APPROVAL);
-    //   $current_page = "approval";
-    // } elseif($status == "refuse") {
-    //   $attendancerecords = AttendanceRecord::where("mtb_leave_check_status_id", MtbLeaveCheckStatuse::REFUSE);
-    //   $current_page = "refuse";
-    // }
-    //   $attendancerecords = $attendancerecords->get();
-    //
-    // return view("admin.leave_check", ["current_page" => $current_page,"attendancerecords" => $attendancerecords, "status" => $status]);
+  // 之前的写法
+  //   if($request->isMethod("POST"))
+  //   {
+  //     if($request->yes){
+  //     $leave = AttendanceRecord::where("mtb_leave_check_status_id", $request->mtb_leave_check_status_id)->first();
+  //     if($leave->mtb_leave_check_status_id == MtbLeaveCheckStatuse::APPROVAL_PENDING){
+  //       $leave->mtb_leave_check_status_id = MtbLeaveCheckStatuse::APPROVAL;
+  //       $leave->save();
+  //       echo "承認しました";
+  //       }
+  //     }elseif($request->no){
+  //     $leave = AttendanceRecord::where("mtb_leave_check_status_id", $request->mtb_leave_check_status_id)->first();
+  //     if($leave->mtb_leave_check_status_id == MtbLeaveCheckStatuse::APPROVAL_PENDING){
+  //       $leave->mtb_leave_check_status_id = MtbLeaveCheckStatuse::REFUSE;
+  //       $leave->save();
+  //       echo "断りました";
+  //       }
+  //     }
+  //   }
+//     $attendancerecords = null;
+//     $current_page = "all";
+//     if(!$status) {
+//       $attendancerecords = AttendanceRecord::whereIn("mtb_leave_check_status_id", [MtbLeaveCheckStatuse::APPROVAL_PENDING,MtbLeaveCheckStatuse::APPROVAL, MtbLeaveCheckStatuse::REFUSE]);
+//     } elseif($status == "approval_pending") {
+//       $attendancerecords = AttendanceRecord::where("mtb_leave_check_status_id", MtbLeaveCheckStatuse::APPROVAL_PENDING);
+//       $current_page = "approval_pending";
+//     } elseif($status == "approval") {
+//       $attendancerecords = AttendanceRecord::where("mtb_leave_check_status_id", MtbLeaveCheckStatuse::APPROVAL);
+//       $current_page = "approval";
+//     } elseif($status == "refuse") {
+//       $attendancerecords = AttendanceRecord::where("mtb_leave_check_status_id", MtbLeaveCheckStatuse::REFUSE);
+//       $current_page = "refuse";
+//     }
+//       $attendancerecords = $attendancerecords->get();
+//
+//     return view("admin.leave_check", ["current_page" => $current_page,"attendancerecords" => $attendancerecords, "status" => $status]);
 }

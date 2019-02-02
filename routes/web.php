@@ -33,13 +33,18 @@ Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name(
 Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish');
 //tao
 Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all');
+Route::get('user_find','AttendanceRecordController@user_find')->name('get_user_find')->middleware('admin');
+Route::post('user_find','AttendanceRecordController@user_find')->name('post_user_find')->middleware('admin');
 //liang
 //缺勤请求一栏
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->middleware('admin');
 Route::post('check',"LeavecheckController@check")->name("post_check")->middleware('admin');
 Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail")->middleware('admin');
 Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check")->middleware('admin');
+Route::get('adminchart', "HomeController@showchart")->name("get_adminchart")->middleware('admin');
 
 //huang
-Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request');
-Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request');
+Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request')->middleware('auth');
+Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request')->middleware('auth');
+Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice')->middleware('auth')->middleware('admin');
+Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');

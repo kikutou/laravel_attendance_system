@@ -3,10 +3,6 @@
 @section('title','休暇申請')
 
 @section('content')
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
- <script src="//code.jquery.com/jquery-1.9.1.js"></script>
- <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
- <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
 
 <div class="container">
   <script>
@@ -23,11 +19,6 @@
        @endforeach
       @endif
     </div>
-    @if(Session::has('one_message'))
-      <div style="margin-left:20px">
-        <h5 style="width:300px">{{ Session::get('one_message') }}</h5>
-      </div>
-    @endif
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
@@ -57,7 +48,7 @@
                       @endif
                      @endfor
                    </select>
-                   <div style="width:25px"><p style="text-align:center">:</p></div>
+                   &nbsp:&nbsp</p></div>
                    <select class="form-control" name="leave_start_minute" style="width:310px">
                      <option value="">分を選択してください</option>
                      @for($i = 0;$i <= 45; $i += 15)
