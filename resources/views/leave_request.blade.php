@@ -73,7 +73,7 @@
                    <div class="form-inline">
                      <select class="form-control" name="leave_end_hour" style="width:310px">
                        <option value="">時を選択してください</option>
-                       @for($i = 8;$i <=31; $i++)
+                       @for($i = 8;$i <= 31; $i++)
                         @if($i < 24)
                          <option value="{{ $i < 10 ? "0".$i : $i }}"
                            @if(old('leave_end_hour') && old('leave_end_hour') == ($i < 10 ? "0".$i : $i) )
@@ -94,7 +94,7 @@
                          <option value="{{ $i ==0 ? "0".$i : $i }}"
                            @if(old('leave_end_minute') && old('leave_end_minute') == ($i ==0 ? "0".$i : $i) )
                              selected
-                           @endif>{{ $i ==0 ? "0".$i : $i }}</option>
+                           @endif>{{ $i == 0 ? "0".$i : $i }}</option>
                        @endfor
                      </select>
                  </div>

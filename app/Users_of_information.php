@@ -18,4 +18,3 @@ class Users_of_information extends Model
         return $this->belongsTo('App\information','information_id');
     }
 }
-	
