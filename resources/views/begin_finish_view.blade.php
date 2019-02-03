@@ -30,12 +30,10 @@ $(function(){
       s = '0' + s;
     }
 
-    $('#time_now').text(y + '年' + m + '月' + d + '日 (' + wNames[w] + ')' + '　' + h + ':'　+ min + ':'　+ s);
+    $('#time_now').text(y + '年' + m + '月' + d + '日 (' + wNames[w] + ')' + ' ' + h + ':'　+ min + ':'　+ s);
   }, 1000);
 });
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <div class="container">
     @if($errors->any())
@@ -53,7 +51,7 @@ $(function(){
                 <div class="card-header">勤怠管理</div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item" style="text-align:center"><span class="person-info-title">出勤標準時間</span>{{ $time_lim->format('H:i') }}</li>
+                        <li class="list-group-item" style="text-align:center"><span class="person-info-title">出勤標準時間&nbsp</span>{{ $time_lim->format('H:i') }}</li>
                         <li id='time_now' class="list-group-item" style="text-align:center">現在時間取得中</li>
                          <form action="{{ route('attendance_begin_finish') }}" method="post">
                             @csrf

@@ -95,7 +95,7 @@ class HomeController extends Controller
     $today = Carbon::now()->format('Y-m-d');
     $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
 
-    return view('info',[
+    return view('user_info',[
         "orderby_infors" => $users_of_infors
     ]);
   }
