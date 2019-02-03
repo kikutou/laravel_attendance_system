@@ -13,7 +13,7 @@
     width: 100%
  }
  .inline_first{
-    width:80%;
+    width:60%;
  }
  .inline_second{
     width:20%;
@@ -29,13 +29,14 @@
                    <table class="table">
                      <tr style="text-align:center">
                        <td class="list-group-item inline inline_first">タイトル</td>
+                       <td class="list-group-item inline inline_second">公開日時</td>
                        <td class="list-group-item inline inline_second">作成日時</td>
                      </tr>
                      @foreach($all_infos as $one_info)
                       <tr style="text-align:center">
                         <td class="list-group-item inline inline_first" style="height:70px">
                           <!-- ここからモーダル -->
-                          <button type="button" class="btn btn-link active" data-toggle="modal" data-target="#myModal{{ $one_info->id }}">
+                          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal{{ $one_info->id }}">
                             {{ $one_info->title }}
                           </button>
                           <div div class="modal fade" id="myModal{{ $one_info->id }}">
@@ -54,9 +55,14 @@
                                   </div>
                                   <div class="modal-body">
                                     <input type="hidden" name="info_id" value="{{ $one_info->id }}">
-                                    <input type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">
+                                    @php $carbon = new \Carbon\Carbon($one_info->show_date); @endphp
+                                    @if(!$carbon->isPast())
+                                      <input type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">
+                                    @endif
                                   </form>
-                                  <button type="button" id="amend{{ $one_info->id }}" class="btn btn-primary" style="float:right;margin-top:15px">修正</button>
+                                    @if(!$carbon->isPast())
+                                      <button type="button" id="amend{{ $one_info->id }}" class="btn btn-primary" style="float:right;margin-top:15px">修正</button>
+                                    @endif
                                   <script>
                                    $(function(){
                                      $('#amend{{ $one_info->id }}').click(function(){
@@ -110,7 +116,8 @@
                           <!-- ここまで -->
                         </td>
                         <!-- ここまで -->
-                      <td class="list-group-item inline inline_second">{{$one_info->created_at}}</td>
+                      <td class="list-group-item inline inline_second" style="height:70px">{{ $one_info->show_date }}</td>
+                      <td class="list-group-item inline inline_second">{{ $one_info->created_at }}</td>
                      </tr>
                      @endforeach
                      <tr>
