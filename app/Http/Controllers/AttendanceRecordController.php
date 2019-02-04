@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
 use Validator;
+use Response;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -191,7 +192,7 @@ class AttendanceRecordController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function get_all(Request $request)
+  public function get_all(Request $request)
   {
     $today = Carbon::now();
     $attendance_records = AttendanceRecord::where('user_id', Auth::id())
@@ -206,7 +207,7 @@ class AttendanceRecordController extends Controller
 
 
 
-    public function user_find(Request $request)
+  public function user_find(Request $request)
   {
     $user = User::all();
     if($request->isMethod('post')){
@@ -219,6 +220,25 @@ class AttendanceRecordController extends Controller
       // 'attendance_date'=>$attendance_date
     ]);
   }
+
+    public function create_csv()
+    {
+      $recs = AttendanceRecord::where('user_id', '=', Auth::id())->where('attendance_date', '>=', Carbon::today()->firstOfMonth()->subMonth())->where('attendance_date', '<=', Carbon::today()->subMonth()->endOfMonth())->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+      $csvHeader = ['日付', '出勤時間', '退勤時間', '欠勤開始時間', '欠勤終了時間'];
+      array_unshift($recs, $csvHeader);
+      $stream = fopen('php://temp', 'r+b');
+      foreach ($recs as $rec) {
+        fputcsv($stream, $rec);
+      }
+      rewind($stream);
+      $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+      $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+      $headers = array(
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="users.csv"',
+      );
+      return Response::make($csv, 200, $headers);
+    }
 
 
 }
