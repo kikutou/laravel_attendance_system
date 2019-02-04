@@ -209,16 +209,47 @@ class AttendanceRecordController extends Controller
     public function user_find(Request $request)
   {
     $user = User::all();
-    if($request->isMethod('post')){
-      $user = AttendanceRecord::query()->where('user_id', $request->user_id);
-      $attendance_date = AttendanceRecord::where('attendance_date',$attendance_date);
-    }
-
+    $attendance_records = null;
     return view('admin.user_find',[
-      'users'=>$user,
-      // 'attendance_date'=>$attendance_date
+      'attendance_records' => $attendance_records,
+      'users'=>$user
     ]);
   }
-
-
-}
+    public function user_find1(Request $request)
+    //if($request->isMethod('post'))
+    {
+      if($request->isMethod("POST")){
+        $validator_rules = [
+          // "user_id" => "required",
+          "start" => "required",
+          "end" => "required",
+        ];
+        $validator_messages = [
+          // "user_id.required" => "名前を選択してください。",
+          "start.required" => "日付を選択してください。",
+          "end.required" => "日付を選択してください",
+        ];
+        $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+        if($validator->fails()){
+          return redirect(route("get_user_find"))->withInput()->withErrors($validator);
+        }
+        $user = User::all();
+        $attendance_records = null;
+        $stime = new Carbon($request->start);
+        $starttime = $stime->subDay(1);
+        $end = new Carbon($request->end);
+        $diff = $end->diffInDays(new Carbon($request->start));
+        $attendance_records = AttendanceRecord::where('user_id', $request->user_id)
+          ->where('attendance_date', ">=", $request->start)
+          ->where('attendance_date', "<=", $request->end)
+          ->get();
+        return view('admin.user_find',[
+          'attendance_records' => $attendance_records,
+          'users'=>$user,
+          'diff' =>$diff,
+          'starttime' =>$starttime,
+          'endtime' =>$end
+        ]);
+      }
+    }
+  }
