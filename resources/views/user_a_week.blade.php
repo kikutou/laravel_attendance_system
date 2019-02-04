@@ -50,7 +50,7 @@
                           <div style="text-align:center">
                             <div class="card-header" style="text-align:left">1. 欠勤開始時間:&nbsp;{{ $show_record->leave_start_time ??"出勤していません。" }}</div>
                             <div class="card-header" style="text-align:left">2. 欠勤終了時間:&nbsp;{{ $show_record->leave_end_time ??"出勤していません。" }}</div>
-                            <div class="card-header" style="text-align:left">3. 欠勤理由:&nbsp;{!! nl2br(e($show_record->leave_reason ??"出勤していません。")) !!}</div>
+                            <div class="card-header" style="text-align:left">3. 欠勤理由:<br>&nbsp;{!! nl2br(e($show_record->leave_reason ??"出勤していません。")) !!}</div>
                             <div class="card-header" style="text-align:left">4. 欠勤承認状態:&nbsp;@if ($show_record && $show_record->mtb_leave_check_status_id == 1)
                             承認待ち
                             @elseif ($show_record && $show_record->mtb_leave_check_status_id == 2)

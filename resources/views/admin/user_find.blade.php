@@ -16,21 +16,21 @@
     @endif
   </div>
   <div class="col-sm text-center top36 bottom36">
-    <form action="{{ route('post_user_find') }}" method="post">
+    <form action="{{ route('get_user_find') }}" method="get">
       @csrf
       名前
         <select id="user_id" name="user_id" id="tao">
           <option>名前を選択してくださいます。</option>
           @foreach($users as $user)
-            <option value="{{ old('user_id') }}"
-                @if(old("user_id") && old("user_id") == $user->id)
+            <option value="{{ $user->id }}"
+                @if(Request::query('user_id') && Request::query('user_id') == $user->id)
                   selected
                 @endif
               >{{ $user->name }}</option>
           @endforeach
         </select><br>
-      (小)日付<input type="date" id="tao" name="start" value="{{ old('start') }}"><br>
-      (大)日付<input type="date" id="tao" name="end" value="{{ old('end') }}"><br>
+      (小)日付<input type="date" id="tao" name="start" value="{{ Request::query('start') }}"><br>
+      (大)日付<input type="date" id="tao" name="end" value="{{ Request::query('end') }}"><br>
       <input type="submit" id="tao" value="検索">
     </form>
   </div>
@@ -74,41 +74,27 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                      </button>
-                      <h4 class="modal-title" id="myModalLabel">
+
+                      <h4 class="modal-title abb" id="myModalLabel">
                         休み情報
                       </h4>
                     </div>
                     <div class="modal-body">
-                      <div style="margin-right:100px">
-                        <div class="row">
-                          <ul>
-                            <li style="text-align:left">欠勤開始時間</li>
-                            <li style="text-align:left">欠勤終了時間</li>
-                            <li style="text-align:left">欠勤理由</li>
-                            <li style="text-align:left">欠勤承認状態</li>
-                            <li style="text-align:left">欠勤申請時間</li>
-                            <li style="text-align:left">承認時間</li>
-                          </ul>
-
-                          <ul>
-                            <li style="text-align:left">{{ $show_record->leave_start_time ??"出勤していません。" }}</li>
-                            <li style="text-align:left">{{ $show_record->leave_end_time ??"出勤していません。" }}</li>
-                            <li style="text-align:left">{{ $show_record->leave_reason ??"出勤していません。" }}</li>
-                            <li style="text-align:left">@if ($show_record && $show_record->mtb_leave_check_status_id == 1)
-                            承認待ち
-                            @elseif ($show_record && $show_record->mtb_leave_check_status_id == 2)
-                            承認済
-                            @elseif ($show_record && $show_record->mtb_leave_check_status_id == 3)
-                            断り
-                            @elseif(!$show_record || !$show_record->mtb_leave_check_status_id)
-                            出勤していません。
-                            @endif</li>
-                            <li style="text-align:left">{{ $show_record->leave_applicate_time??"出勤していません。" }}</li>
-                            <li style="text-align:left">{{ $show_record->leave_check_time??"出勤していません。" }}</li>
-                          </ul>
+                      <div style="text-align:center">
+                        <div class="card-header" style="text-align:left">1. 欠勤開始時間:&nbsp;{{ $show_record->leave_start_time ??"出勤していません。" }}</div>
+                        <div class="card-header" style="text-align:left">2. 欠勤終了時間:&nbsp;{{ $show_record->leave_end_time ??"出勤していません。" }}</div>
+                        <div class="card-header" style="text-align:left">3. 欠勤理由:<br>&nbsp;{!! nl2br(e($show_record->leave_reason ??"出勤していません。")) !!}</div>
+                        <div class="card-header" style="text-align:left">4. 欠勤承認状態:&nbsp;@if ($show_record && $show_record->mtb_leave_check_status_id == 1)
+                        承認待ち
+                        @elseif ($show_record && $show_record->mtb_leave_check_status_id == 2)
+                        承認済
+                        @elseif ($show_record && $show_record->mtb_leave_check_status_id == 3)
+                        断り
+                        @elseif(!$show_record || !$show_record->mtb_leave_check_status_id)
+                        出勤していません。
+                        @endif</div>
+                        <div class="card-header" style="text-align:left">5. 欠勤申請時間:&nbsp;{{ $show_record->leave_applicate_time??"出勤していません。" }}</div>
+                        <div class="card-header" style="text-align:left">6. 承認時間:&nbsp;{{ $show_record->leave_check_time??"出勤していません。" }}</div>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -124,7 +110,7 @@
           <td>{{ $show_record->start_time }}</td>
           <td>{{ $show_record->end_time }}</td>
         @else
-          <td>{{ $this_date }}</td>
+          <td>{{ $this_date->format('Y年n月j日') }}</td>
           <td>出勤していません。</td>
           <td>出勤していません。</td>
         @endif
