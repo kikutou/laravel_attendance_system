@@ -121,6 +121,9 @@
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_create_notice') }}">{{ __('通知関連') }}</a>
                             </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_user_find') }}">{{ __('勤怠検索') }}</a>
+                            </li>
                             @endif
                         @endguest
                     </ul>
