@@ -72,6 +72,12 @@ $(function(){
                                 </li>
                                 <li class="list-group-item" style="text-align:center"><input type="submit" name="begin" class="btn btn-primary" value="退勤"></li>
                             @endif
+                            @if ($rec && $rec->start_time)
+                            <li id='time_start' class="list-group-item" style="text-align:center">今日の出勤時間&nbsp{{ $rec->start_time }}</li>
+                            @endif
+                            @if ($rec && $rec->end_time)
+                            <li id='time_end' class="list-group-item" style="text-align:center">今日の退勤時間&nbsp{{ $rec->end_time }}</li>
+                            @endif
                         </form>
                     </ul>
                 </div>

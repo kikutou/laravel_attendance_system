@@ -41,41 +41,27 @@
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                          </button>
-                          <h4 class="modal-title" id="myModalLabel">
+
+                          <h4 class="modal-title abb" id="myModalLabel">
                             休み情報
                           </h4>
                         </div>
                         <div class="modal-body">
-                          <div style="margin-right:100px">
-                            <div class="row">
-                              <ul>
-                                <li style="text-align:left">欠勤開始時間</li>
-                                <li style="text-align:left">欠勤終了時間</li>
-                                <li style="text-align:left">欠勤理由</li>
-                                <li style="text-align:left">欠勤承認状態</li>
-                                <li style="text-align:left">欠勤申請時間</li>
-                                <li style="text-align:left">承認時間</li>
-                              </ul>
-
-                              <ul>
-                                <li style="text-align:left">{{ $show_record->leave_start_time ??"出勤していません。" }}</li>
-                                <li style="text-align:left">{{ $show_record->leave_end_time ??"出勤していません。" }}</li>
-                                <li style="text-align:left">{{ $show_record->leave_reason ??"出勤していません。" }}</li>
-                                <li style="text-align:left">@if ($show_record && $show_record->mtb_leave_check_status_id == 1)
-                                承認待ち
-                                @elseif ($show_record && $show_record->mtb_leave_check_status_id == 2)
-                                承認済
-                                @elseif ($show_record && $show_record->mtb_leave_check_status_id == 3)
-                                断り
-                                @elseif(!$show_record || !$show_record->mtb_leave_check_status_id)
-                                出勤していません。
-                                @endif</li>
-                                <li style="text-align:left">{{ $show_record->leave_applicate_time??"出勤していません。" }}</li>
-                                <li style="text-align:left">{{ $show_record->leave_check_time??"出勤していません。" }}</li>
-                              </ul>
+                          <div style="text-align:center">
+                            <div class="card-header" style="text-align:left">1. 欠勤開始時間:&nbsp;{{ $show_record->leave_start_time ??"出勤していません。" }}</div>
+                            <div class="card-header" style="text-align:left">2. 欠勤終了時間:&nbsp;{{ $show_record->leave_end_time ??"出勤していません。" }}</div>
+                            <div class="card-header" style="text-align:left">3. 欠勤理由:&nbsp;{!! nl2br(e($show_record->leave_reason ??"出勤していません。")) !!}</div>
+                            <div class="card-header" style="text-align:left">4. 欠勤承認状態:&nbsp;@if ($show_record && $show_record->mtb_leave_check_status_id == 1)
+                            承認待ち
+                            @elseif ($show_record && $show_record->mtb_leave_check_status_id == 2)
+                            承認済
+                            @elseif ($show_record && $show_record->mtb_leave_check_status_id == 3)
+                            断り
+                            @elseif(!$show_record || !$show_record->mtb_leave_check_status_id)
+                            出勤していません。
+                            @endif</div>
+                            <div class="card-header" style="text-align:left">5. 欠勤申請時間:&nbsp;{{ $show_record->leave_applicate_time??"出勤していません。" }}</div>
+                            <div class="card-header" style="text-align:left">6. 承認時間:&nbsp;{{ $show_record->leave_check_time??"出勤していません。" }}</div>
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -99,5 +85,10 @@
           </tr>
         </table>
       @endfor
+    </div>
+    <div class="row">
+      <div class="col-sm text-center">
+        <a href="{{ route('get_create_csv') }}">先月の勤怠状況を確認しましたか？</a>
+      </div>
     </div>
 @endsection
