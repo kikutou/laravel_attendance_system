@@ -14,7 +14,7 @@ class DropEmailTokensForeignKeyTable extends Migration
     public function up()
     {
         Schema::table("email_tokens", function (Blueprint $table) {
-            $table->dropIndex("email_tokens_user_id_foreign");
+            $table->dropForeign("email_tokens_user_id_foreign");
             $table->dropColumn("user_id");
         });
     }

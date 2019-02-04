@@ -11,4 +11,5 @@ class User extends Model
   {
     return $this->hasMany("App\Model\AttendanceRecord", "user_id");
   }
+
 }

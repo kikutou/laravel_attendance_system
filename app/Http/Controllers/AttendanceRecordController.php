@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
 use Validator;
+use Response;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -153,15 +154,15 @@ class AttendanceRecordController extends Controller
     //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->attendance_date);
     if($carbon->isPast()){
-      $one_message = "形式が間違っています！本日以降の日付をお選びください。";
-      return redirect()->back()->withInput()->with(['one_message' => $one_message]);
+      $one_message = "本日以降の日付をお選びください。";
+      return redirect()->back()->withInput()->with(['error' => $one_message]);
     }
 
     //出勤時間外での申請制御。
     $user = Auth::user();
     if(!AttendanceRecord::check_leave_time($user, $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
       $one_message = "出勤時間外の時間で申請してください!";
-      return redirect()->back()->with(['one_message' => $one_message]);
+      return redirect()->back()->with(['error' => $one_message]);
     }
 
     //欠勤申請データの書き込み。
@@ -182,7 +183,7 @@ class AttendanceRecordController extends Controller
     $one_attendance_record->save();
 
     $one_message = "欠勤の申請を送信しました。承認を得るまでしばらくお待ち下さい。";
-    return redirect(route('home'))->with(['one_message' => $one_message]);
+    return redirect(route('home'))->with(['message' => $one_message]);
 
   }
 
@@ -191,7 +192,7 @@ class AttendanceRecordController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function get_all(Request $request)
+  public function get_all(Request $request)
   {
     $today = Carbon::now();
     $attendance_records = AttendanceRecord::where('user_id', Auth::id())
@@ -206,7 +207,7 @@ class AttendanceRecordController extends Controller
 
 
 
-    public function user_find(Request $request)
+  public function user_find(Request $request)
   {
     $user = User::all();
     $attendance_records = null;
@@ -252,4 +253,47 @@ class AttendanceRecordController extends Controller
         ]);
       }
     }
+
+
+public function create_csv()
+{
+  $recs_r = AttendanceRecord::where('user_id', '=', Auth::id())->where('attendance_date', '>=', Carbon::today()->firstOfMonth()->subMonth())->where('attendance_date', '<=', Carbon::today()->subMonth()->endOfMonth())->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+
+  $recs = [];
+  $time_count = null;
+  foreach ($recs_r as $rec_r) {
+    $rec_r['attendance_date'] = date('Y-m-d', strtotime($rec_r['attendance_date']));
+    $recs[] = $rec_r;
+
+    $time_start = new Carbon($rec_r['start_time']);
+    $time_end = new Carbon($rec_r['end_time']);
+    $time_oneday = $time_end->diffInMinutes($time_start);
+    $time_count = $time_count + $time_oneday;
   }
+
+  $time_count_hour = floor($time_count / 60);
+  $time_count_min = $time_count % 60;
+
+  $csvHeader = ['日付', '出勤時間', '退勤時間', '欠勤開始時間', '欠勤終了時間'];
+  array_unshift($recs, $csvHeader);
+
+  $csvOne = [];
+  array_push($recs, $csvOne);
+
+  $csvFooter = ['本月の出勤総時間', $time_count_hour . '時間' . $time_count_min . '分', ' ', 'サイン', ' '];
+  array_push($recs, $csvFooter);
+
+  $stream = fopen('php://temp', 'r+b');
+  foreach ($recs as $rec) {
+    fputcsv($stream, $rec);
+  }
+  rewind($stream);
+  $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+  $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+  $headers = array(
+    'Content-Type' => 'text/csv',
+    'Content-Disposition' => 'attachment; filename="attendancerec.csv"',
+  );
+  return Response::make($csv, 200, $headers);
+}
+}

@@ -65,7 +65,7 @@
                             @if(Auth::user()->admin_flg == 0)
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    welcome&nbsp{{ Auth::user()->name }}&nbspさん <span class="caret"></span>
+                                    {{ Auth::user()->name }}&nbspさん <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -93,7 +93,7 @@
                             @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                     welcome&nbspadmin&nbspさん <span class="caret"></span>
+                                    admin&nbspさん <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -109,11 +109,17 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('get_check') }}">{{ __('会員認証') }}</a>
+                                <a class="nav-link" href="{{ route('get_user_mail') }}">{{ __('会員認証') }}</a>
                             </li>
 
                             <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('get_user_mail') }}">{{ __('休暇認証') }}</a>
+                                    <a class="nav-link" href="{{ route('get_check') }}">{{ __('休暇認証') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_adminchart') }}">{{ __('遅刻照会') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_create_notice') }}">{{ __('通知関連') }}</a>
                             </li>
                             @endif
                         @endguest
@@ -134,6 +140,14 @@
 
             @if(Session::has('error'))
                 <div class="alert alert-danger">{{Session::get('error')}}</div>
+            @endif
+
+            @if($errors->any())
+              <div class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                 <p>{{ $error }}</p>
+                @endforeach
+              </div>
             @endif
 
             @yield('content')

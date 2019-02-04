@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class Users_of_information extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\Model\User','user_id');
     }
 
     public function information()
     {
-        return $this->belongsTo('App\information','information_id');
+        return $this->belongsTo('App\Model\Information','information_id');
     }
 }

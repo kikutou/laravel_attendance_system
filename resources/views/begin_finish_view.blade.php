@@ -1,5 +1,4 @@
-@extends('layouts.layout')
-
+@extends('layouts.app')
 
 @section('content')
 <script>
@@ -31,12 +30,10 @@ $(function(){
       s = '0' + s;
     }
 
-    $('#time_now').text(y + '年' + m + '月' + d + '日 (' + wNames[w] + ')' + '　' + h + ':'　+ min + ':'　+ s);
+    $('#time_now').text(y + '年' + m + '月' + d + '日 (' + wNames[w] + ')' + ' ' + h + ':'　+ min + ':'　+ s);
   }, 1000);
 });
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <div class="container">
     @if($errors->any())
@@ -48,20 +45,13 @@ $(function(){
       </div>
     </div>
     @endif
-    @if (Session::has('message'))
-    <div class="row text-center">
-      <div class="col-sm">
-        <p>{{ Session::get('message') }}</p>
-      </div>
-    </div>
-    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">勤怠管理</div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item" style="text-align:center"><span class="person-info-title">出勤標準時間</span>{{ $time_lim->format('H:i') }}</li>
+                        <li class="list-group-item" style="text-align:center"><span class="person-info-title">出勤標準時間&nbsp</span>{{ $time_lim->format('H:i') }}</li>
                         <li id='time_now' class="list-group-item" style="text-align:center">現在時間取得中</li>
                          <form action="{{ route('attendance_begin_finish') }}" method="post">
                             @csrf
@@ -81,6 +71,12 @@ $(function(){
                                   <textarea id="late" name="report" class="form-control" rows="2" style="width:100%"></textarea>
                                 </li>
                                 <li class="list-group-item" style="text-align:center"><input type="submit" name="begin" class="btn btn-primary" value="退勤"></li>
+                            @endif
+                            @if ($rec && $rec->start_time)
+                            <li id='time_start' class="list-group-item" style="text-align:center">今日の出勤時間&nbsp{{ $rec->start_time }}</li>
+                            @endif
+                            @if ($rec && $rec->end_time)
+                            <li id='time_end' class="list-group-item" style="text-align:center">今日の退勤時間&nbsp{{ $rec->end_time }}</li>
                             @endif
                         </form>
                     </ul>

@@ -3,10 +3,6 @@
 @section('title','休暇申請')
 
 @section('content')
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
- <script src="//code.jquery.com/jquery-1.9.1.js"></script>
- <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
- <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
 
 <div class="container">
   <script>
@@ -16,18 +12,6 @@
   </script>
   <form action="{{ route('post_leave_request') }}" method="post">
     @csrf
-    <div style="margin-left:20px">
-      @if($errors->any())
-       @foreach($errors->all() as $error)
-        <h5>{{ $error }}</h5>
-       @endforeach
-      @endif
-    </div>
-    @if(Session::has('one_message'))
-      <div style="margin-left:20px">
-        <h5 style="width:300px">{{ Session::get('one_message') }}</h5>
-      </div>
-    @endif
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
@@ -56,9 +40,8 @@
                          @endif>{{ "0".($i-24) }}</option>
                       @endif
                      @endfor
-                   </select>
-                   <div style="width:25px"><p style="text-align:center">:</p></div>
-                   <select class="form-control" name="leave_start_minute" style="width:310px">
+                   </select>&nbsp:&nbsp
+                   <select class="form-control" name="leave_start_minute" style="width:325px">
                      <option value="">分を選択してください</option>
                      @for($i = 0;$i <= 45; $i += 15)
                        <option value="{{ $i ==0 ? "0".$i : $i }}"
@@ -73,7 +56,7 @@
                    <div class="form-inline">
                      <select class="form-control" name="leave_end_hour" style="width:310px">
                        <option value="">時を選択してください</option>
-                       @for($i = 8;$i <=31; $i++)
+                       @for($i = 8;$i <= 31; $i++)
                         @if($i < 24)
                          <option value="{{ $i < 10 ? "0".$i : $i }}"
                            @if(old('leave_end_hour') && old('leave_end_hour') == ($i < 10 ? "0".$i : $i) )
@@ -86,15 +69,14 @@
                            @endif>{{ "0".($i-24) }}</option>
                         @endif
                        @endfor
-                     </select>
-                     <div style="width:25px"><p style="text-align:center">:</p></div>
-                     <select class="form-control" name="leave_end_minute" style="width:310px">
+                     </select>&nbsp:&nbsp
+                     <select class="form-control" name="leave_end_minute" style="width:325px">
                        <option value="">分を選択してください</option>
                        @for($i = 0;$i <= 45; $i += 15)
                          <option value="{{ $i ==0 ? "0".$i : $i }}"
                            @if(old('leave_end_minute') && old('leave_end_minute') == ($i ==0 ? "0".$i : $i) )
                              selected
-                           @endif>{{ $i ==0 ? "0".$i : $i }}</option>
+                           @endif>{{ $i == 0 ? "0".$i : $i }}</option>
                        @endfor
                      </select>
                  </div>
