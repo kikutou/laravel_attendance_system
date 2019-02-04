@@ -51,7 +51,7 @@
                                     <button id="subClose{{ $one_info->id }}" type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                                   </div>
                                   <div class="modal-body" style="height:auto">
-                                    <input id="old_content{{ $one_info->id }}" type="hidden" name="old_content" value="{{ $one_info->comment }}"></input>
+                                    <input id="old_content{{ $one_info->id }}" type="hidden" name="old_content" value="{{ nl2br($one_info->comment) }}"></input>
                                     <p id="content{{ $one_info->id }}"></p>
                                   </div>
                                   <div class="modal-body">
