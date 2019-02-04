@@ -22,7 +22,7 @@
                            type: 'column'
                         };
                         var title = {
-                           text: '従業員今月の出勤時間の棒状チャート図'
+                           text: '従業員今月の遅刻回数の棒状チャート図'
                         };
                         var subtitle = {
                            text: '勤怠管理システム'

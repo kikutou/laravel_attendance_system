@@ -10,7 +10,6 @@ class Information extends Model
 
     public static $validator_rules = [
 
-      'show_date' => 'required',
       'title' =>'required',
       'comment' => 'required',
       'user_ids' => 'required'
@@ -18,7 +17,6 @@ class Information extends Model
 
     public static $validator_messages = [
 
-      'show_date.required' => 'お知らせ日時を選択してください。',
       'title.required' => 'タイトルを入力してください。',
       'comment.required' => 'お知らせ内容を選択してください。',
       'user_ids.required' => '送信先を選択してください。'

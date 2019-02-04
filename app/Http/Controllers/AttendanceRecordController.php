@@ -237,47 +237,70 @@ class AttendanceRecordController extends Controller
     ]);
   }
 
+    public function create_csv()
+    {
+      $recs_r = AttendanceRecord::where('user_id', '=', Auth::id())->where('attendance_date', '>=', Carbon::today()->firstOfMonth())->where('attendance_date', '<=', Carbon::today()->endOfMonth())->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+      $recs = [];
+      $rec_n = [];
+      $time_count = null;
 
+      for ($i = 0; $i < Carbon::today()->daysInMonth; $i++) {
+        $thisday = Carbon::today()->firstOfMonth()->addDays($i);
 
-  public function create_csv()
-  {
-    $recs_r = AttendanceRecord::where('user_id', '=', Auth::id())->where('attendance_date', '>=', Carbon::today()->firstOfMonth()->subMonth())->where('attendance_date', '<=', Carbon::today()->subMonth()->endOfMonth())->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+        foreach ($recs_r as $rec_r) {
+          if ($rec_r['attendance_date'] == $thisday) {
+            $rec_n = $rec_r;
+            break;
+          }
+        }
 
-    $recs = [];
-    $time_count = null;
-    foreach ($recs_r as $rec_r) {
-      $rec_r['attendance_date'] = date('Y-m-d', strtotime($rec_r['attendance_date']));
-      $recs[] = $rec_r;
+        if ($rec_n) {
+          $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
+          if ($rec_n['end_time']) {
+            $time_start = new Carbon($rec_n['start_time']);
+            $time_end = new Carbon($rec_n['end_time']);
+            $time_oneday = $time_end->diffInMinutes($time_start);
+            $time_count = $time_count + $time_oneday;
+          }
 
-      $time_start = new Carbon($rec_r['start_time']);
-      $time_end = new Carbon($rec_r['end_time']);
-      $time_oneday = $time_end->diffInMinutes($time_start);
-      $time_count = $time_count + $time_oneday;
+          if ($rec_n['leave_end_time']) {
+            $rec_n['leave_start_time'] = '休み' . $rec_n['leave_start_time'] . '-' . $rec_n['leave_end_time'];
+            $rec_n['leave_end_time'] = null;
+          }
+
+          $recs[] = $rec_n;
+        }
+
+        else {
+          $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
+          $recs[] = $rec_n;
+        }
+
+        $rec_n = [];
+      }
+
+      $csvHeader = ['日付', '出勤時間', '退勤時間'];
+      array_unshift($recs, $csvHeader);
+
+      $time_count_hour = floor($time_count / 60);
+      $time_count_min = $time_count % 60;
+
+      $csvFooter = ['本月の総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
+      array_push($recs, $csvFooter);
+
+      $stream = fopen('php://temp', 'r+b');
+      foreach ($recs as $rec) {
+        fputcsv($stream, $rec);
+      }
+      rewind($stream);
+      $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+      $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+      $filename = date('YmdHis') . '.' . 'csv';
+      $headers = array(
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => "attachment; filename=$filename",
+      );
+      return Response::make($csv, 200, $headers);
     }
 
-    $time_count_hour = floor($time_count / 60);
-    $time_count_min = $time_count % 60;
-
-    $csvHeader = ['日付', '出勤時間', '退勤時間', '欠勤開始時間', '欠勤終了時間'];
-    array_unshift($recs, $csvHeader);
-
-    $csvOne = [];
-    array_push($recs, $csvOne);
-
-    $csvFooter = ['本月の出勤総時間', $time_count_hour . '時間' . $time_count_min . '分', ' ', 'サイン', ' '];
-    array_push($recs, $csvFooter);
-
-    $stream = fopen('php://temp', 'r+b');
-    foreach ($recs as $rec) {
-      fputcsv($stream, $rec);
-    }
-    rewind($stream);
-    $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
-    $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
-    $headers = array(
-      'Content-Type' => 'text/csv',
-      'Content-Disposition' => 'attachment; filename="attendancerec.csv"',
-    );
-    return Response::make($csv, 200, $headers);
-  }
-  }
+}

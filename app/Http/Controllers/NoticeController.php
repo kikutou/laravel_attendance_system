@@ -19,7 +19,7 @@ class NoticeController extends Controller
   public function create_notice(Request $request)
   {
     $users = User::all();
-    return view('create_notice',['users' => $users]);
+    return view('admin.create_notice',['users' => $users]);
   }
 
   /**
@@ -34,14 +34,15 @@ class NoticeController extends Controller
       return redirect()->back()->withInput()->withErrors($validator);
     }
 
+    //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->show_date);
-    if($carbon->isPast()){
+    if($carbon->lt(Carbon::today())){
       $error_message = '本日以降の日付で選択してください！';
       return redirect()->back()->withInput()->with(['error' => $error_message]);
     }
 
     $one_info = new Information;
-    $one_info->show_date = new Carbon($request->show_date);
+    $one_info->show_date = (!$request->show_date) ? Carbon::today() : new Carbon($request->show_date);
     $one_info->title = $request->title;
     $one_info->comment = $request->comment;
 
@@ -55,7 +56,7 @@ class NoticeController extends Controller
     }
 
     $success_message = '登録完了しました！';
-    return redirect()->back()->with(['message' => $success_message]);
+    return redirect(route('get_all_info'))->with(['message' => $success_message]);
   }
 
   /**
@@ -86,8 +87,6 @@ class NoticeController extends Controller
     $one_info->save();
 
     $success_message = '更新しました。';
-    return redirect()->back()->with(['message' => $success_message]);
-
+    return redirect(route('get_all_info'))->with(['message' => $success_message]);
   }
-
 }
