@@ -40,11 +40,10 @@ $("#all_users").click(function(){
                         <li class="list-group-item"><span class="person-info-title">送信先</span>
                           <div class="checkbox-inline form-control"style="height:auto">
                             @foreach($users as $user)
-                              @continue($user->admin_flg)
-                                <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                                 @if(old('user_ids') && in_array($user->id,old('user_ids')))
-                                  checked
-                                 @endif>&nbsp{{ $user->name }}
+                              <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                               @if(old('user_ids') && in_array($user->id,old('user_ids')))
+                                checked
+                               @endif><span>&nbsp{{ $user->name }}@if($user->admin_flg)（管理員）@endif</span>
                             @endforeach
                               <br><input id="all_users" type="checkbox" name="all_users">&nbspすべて
                           </div>
