@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<script src="{{ asset('/js/nl2br.js') }}"></script>
 <style>
  .list-group-item:hover{
     z-index: auto;
@@ -46,27 +47,29 @@
                                     @csrf
                                   <div class="modal-header">
                                     <input type="hidden" name="old_title" value="{{ $one_info->title }}">
-                                    <h5 id="title{{ $one_info->id }}" class="modal-title">{{ $one_info->title }}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                    <h4 id="title{{ $one_info->id }}" class="modal-title">{{ $one_info->title }}</h4>
+                                    <button id="subClose{{ $one_info->id }}" type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                                   </div>
                                   <div class="modal-body" style="height:auto">
-                                    <input type="hidden" name="old_content" value="{{ $one_info->comment }}"></input>
-                                    <p id="content{{ $one_info->id }}" style="text-align:left">{{ $one_info->comment }}</p>
+                                    <input id="old_content{{ $one_info->id }}" type="hidden" name="old_content" value="{{ $one_info->comment }}"></input>
+                                    <p id="content{{ $one_info->id }}"></p>
                                   </div>
                                   <div class="modal-body">
                                     <input type="hidden" name="info_id" value="{{ $one_info->id }}">
-                                    @php $carbon = new \Carbon\Carbon($one_info->show_date); @endphp
-                                    @if(!$carbon->isPast())
-                                      <input type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">
-                                    @endif
+                                    <span id="update{{ $one_info->id }}"></span>
                                   </form>
-                                    @if(!$carbon->isPast())
+                                  @php $carbon = new \Carbon\Carbon($one_info->show_date); @endphp
+                                    @if(!$carbon->lt(\Carbon\Carbon::today()))
                                       <button type="button" id="amend{{ $one_info->id }}" class="btn btn-primary" style="float:right;margin-top:15px">修正</button>
                                     @endif
                                   <script>
+                                  $(function(){
+                                    $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
+                                  })
                                    $(function(){
                                      $('#amend{{ $one_info->id }}').click(function(){
-                                       $('#title{{ $one_info->id }}').html('<textarea id="title{{ $one_info->id }}" name="new_title" class="form-control" rows="1">' + $('#title{{ $one_info->id }}').text() +'</textarea>');
+                                       $('#update{{ $one_info->id }}').html('<input id="update{{ $one_info->id }}" type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">');
+                                       $('#title{{ $one_info->id }}').html('<textarea id="title{{ $one_info->id }}" name="new_title" class="form-control" rows="1">' + $('#title{{ $one_info->id }}').text() + '</textarea>');
                                        $('#content{{ $one_info->id }}').html('<textarea id="content{{ $one_info->id }}" name="new_content" class="form-control">' + $('#content{{ $one_info->id }}').text() +'</textarea>');
                                      });
                                    })
@@ -82,9 +85,10 @@
                                   <button id="close{{ $one_info->id }}" type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
                                   <script>
                                    $(function(){
-                                     $('#close{{ $one_info->id }}').click(function(){
+                                     $('#subClose{{ $one_info->id }},#close{{ $one_info->id }}').click(function(){
+                                       $('#update{{ $one_info->id }}').html('<span id="update{{ $one_info->id }}"></span>');
                                        $('#title{{ $one_info->id }}').html('<h4 id="title{{ $one_info->id }}" class="modal-title">' + $('#title{{ $one_info->id }}').text() + '</h4>');
-                                       $('#content{{ $one_info->id }}').html('<span id="content{{ $one_info->id }}" style="float:left">' + $('#content{{ $one_info->id }}').text() +'</span>');
+                                       $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
                                      });
                                    })
                                  </script>

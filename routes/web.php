@@ -36,7 +36,9 @@ Route::get('/user_attendance_rec', 'AttendanceRecordController@create_csv')->nam
 //tao
 Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all');
 Route::get('user_find','AttendanceRecordController@user_find')->name('get_user_find')->middleware('admin');
-Route::post('user_find','AttendanceRecordController@user_find')->name('post_user_find')->middleware('admin');
+Route::post('find_a_week','AttendanceRecordController@user_find1')->name('post_user_find')->middleware('admin');
+
+
 //liang
 //缺勤请求一栏
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->middleware('admin');

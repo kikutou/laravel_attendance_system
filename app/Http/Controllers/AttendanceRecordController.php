@@ -210,16 +210,49 @@ class AttendanceRecordController extends Controller
   public function user_find(Request $request)
   {
     $user = User::all();
-    if($request->isMethod('post')){
-      $user = AttendanceRecord::query()->where('user_id', $request->user_id);
-      $attendance_date = AttendanceRecord::where('attendance_date',$attendance_date);
-    }
-
+    $attendance_records = null;
     return view('admin.user_find',[
-      'users'=>$user,
-      // 'attendance_date'=>$attendance_date
+      'attendance_records' => $attendance_records,
+      'users'=>$user
     ]);
   }
+    public function user_find1(Request $request)
+    //if($request->isMethod('post'))
+    {
+      if($request->isMethod("POST")){
+        $validator_rules = [
+          // "user_id" => "required",
+          "start" => "required",
+          "end" => "required",
+        ];
+        $validator_messages = [
+          // "user_id.required" => "名前を選択してください。",
+          "start.required" => "日付を選択してください。",
+          "end.required" => "日付を選択してください",
+        ];
+        $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+        if($validator->fails()){
+          return redirect(route("get_user_find"))->withInput()->withErrors($validator);
+        }
+        $user = User::all();
+        $attendance_records = null;
+        $stime = new Carbon($request->start);
+        $starttime = $stime->subDay(1);
+        $end = new Carbon($request->end);
+        $diff = $end->diffInDays(new Carbon($request->start));
+        $attendance_records = AttendanceRecord::where('user_id', $request->user_id)
+          ->where('attendance_date', ">=", $request->start)
+          ->where('attendance_date', "<=", $request->end)
+          ->get();
+        return view('admin.user_find',[
+          'attendance_records' => $attendance_records,
+          'users'=>$user,
+          'diff' =>$diff,
+          'starttime' =>$starttime,
+          'endtime' =>$end
+        ]);
+      }
+    }
 
     public function create_csv()
     {
@@ -264,16 +297,13 @@ class AttendanceRecordController extends Controller
         $rec_n = [];
       }
 
-      $time_count_hour = floor($time_count / 60);
-      $time_count_min = $time_count % 60;
-
       $csvHeader = ['日付', '出勤時間', '退勤時間'];
       array_unshift($recs, $csvHeader);
 
-      $csvOne = [];
-      array_push($recs, $csvOne);
+      $time_count_hour = floor($time_count / 60);
+      $time_count_min = $time_count % 60;
 
-      $csvFooter = ['本月の出勤総時間', $time_count_hour . '時間' . $time_count_min . '分', ' ', 'サイン', ' '];
+      $csvFooter = ['本月の総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
       array_push($recs, $csvFooter);
 
       $stream = fopen('php://temp', 'r+b');
