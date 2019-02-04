@@ -44,7 +44,7 @@ class NoticeController extends Controller
     $one_info = new Information;
     $one_info->show_date = (!$request->show_date) ? Carbon::today() : new Carbon($request->show_date);
     $one_info->title = $request->title;
-    $one_info->comment = nl2br($request->comment);
+    $one_info->comment = $request->comment;
 
     if($one_info->save()){
       foreach($request->user_ids as $user_id){
@@ -79,10 +79,10 @@ class NoticeController extends Controller
   {
     $one_info = Information::where('id',$request->info_id)->first();
     $one_info->title = $request->old_title;
-    $one_info->comment = nl2br($request->old_content);
+    $one_info->comment = $request->old_content;
     if($request->new_title && $request->new_content){
       $one_info->title = $request->new_title;
-      $one_info->comment = nl2br($request->new_content);
+      $one_info->comment = $request->new_content;
     }
     $one_info->save();
 
