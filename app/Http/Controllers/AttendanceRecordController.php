@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Model\Master\MtbLeaveCheckStatus;
 use App\Model\User;
 use Validator;
+use Response;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -191,7 +192,7 @@ class AttendanceRecordController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function get_all(Request $request)
+  public function get_all(Request $request)
   {
     $today = Carbon::now();
     $attendance_records = AttendanceRecord::where('user_id', Auth::id())
@@ -206,19 +207,93 @@ class AttendanceRecordController extends Controller
 
 
 
-    public function user_find(Request $request)
+  public function user_find(Request $request)
   {
     $user = User::all();
-    if($request->isMethod('post')){
-      $user = AttendanceRecord::query()->where('user_id', $request->user_id);
-      $attendance_date = AttendanceRecord::where('attendance_date',$attendance_date);
-    }
-
+    $attendance_records = null;
     return view('admin.user_find',[
-      'users'=>$user,
-      // 'attendance_date'=>$attendance_date
+      'attendance_records' => $attendance_records,
+      'users'=>$user
     ]);
   }
+    public function user_find1(Request $request)
+    //if($request->isMethod('post'))
+    {
+      if($request->isMethod("POST")){
+        $validator_rules = [
+          // "user_id" => "required",
+          "start" => "required",
+          "end" => "required",
+        ];
+        $validator_messages = [
+          // "user_id.required" => "名前を選択してください。",
+          "start.required" => "日付を選択してください。",
+          "end.required" => "日付を選択してください",
+        ];
+        $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+        if($validator->fails()){
+          return redirect(route("get_user_find"))->withInput()->withErrors($validator);
+        }
+        $user = User::all();
+        $attendance_records = null;
+        $stime = new Carbon($request->start);
+        $starttime = $stime->subDay(1);
+        $end = new Carbon($request->end);
+        $diff = $end->diffInDays(new Carbon($request->start));
+        $attendance_records = AttendanceRecord::where('user_id', $request->user_id)
+          ->where('attendance_date', ">=", $request->start)
+          ->where('attendance_date', "<=", $request->end)
+          ->get();
+        return view('admin.user_find',[
+          'attendance_records' => $attendance_records,
+          'users'=>$user,
+          'diff' =>$diff,
+          'starttime' =>$starttime,
+          'endtime' =>$end
+        ]);
+      }
+    }
 
 
+public function create_csv()
+{
+  $recs_r = AttendanceRecord::where('user_id', '=', Auth::id())->where('attendance_date', '>=', Carbon::today()->firstOfMonth()->subMonth())->where('attendance_date', '<=', Carbon::today()->subMonth()->endOfMonth())->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+
+  $recs = [];
+  $time_count = null;
+  foreach ($recs_r as $rec_r) {
+    $rec_r['attendance_date'] = date('Y-m-d', strtotime($rec_r['attendance_date']));
+    $recs[] = $rec_r;
+
+    $time_start = new Carbon($rec_r['start_time']);
+    $time_end = new Carbon($rec_r['end_time']);
+    $time_oneday = $time_end->diffInMinutes($time_start);
+    $time_count = $time_count + $time_oneday;
+  }
+
+  $time_count_hour = floor($time_count / 60);
+  $time_count_min = $time_count % 60;
+
+  $csvHeader = ['日付', '出勤時間', '退勤時間', '欠勤開始時間', '欠勤終了時間'];
+  array_unshift($recs, $csvHeader);
+
+  $csvOne = [];
+  array_push($recs, $csvOne);
+
+  $csvFooter = ['本月の出勤総時間', $time_count_hour . '時間' . $time_count_min . '分', ' ', 'サイン', ' '];
+  array_push($recs, $csvFooter);
+
+  $stream = fopen('php://temp', 'r+b');
+  foreach ($recs as $rec) {
+    fputcsv($stream, $rec);
+  }
+  rewind($stream);
+  $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+  $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+  $headers = array(
+    'Content-Type' => 'text/csv',
+    'Content-Disposition' => 'attachment; filename="attendancerec.csv"',
+  );
+  return Response::make($csv, 200, $headers);
+}
 }
