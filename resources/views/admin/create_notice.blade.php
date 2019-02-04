@@ -9,11 +9,39 @@
   })
 </script>
 <script>
-
 //すべてのcheckboxを選択。
 $(function(){
-$("#all_users").click(function(){
-    $('input:checkbox').not(this).prop('checked', this.checked);
+  $('#all_users').click(function() {
+      if(this.checked) {
+          $(':checkbox').each(function() {
+              this.checked = true;
+          });
+      } else {
+          $(':checkbox').each(function() {
+              this.checked = false;
+          });
+      }
+  });
+})
+$(function(){
+  $(':checkbox').click(function(){
+    if(this.checked == false){
+      $('#all_users').prop('checked',false);
+    }
+  });
+})
+$(function(){
+  $(':checkbox').not('#all_users').click(function(){
+    var count =  0;
+    var len = $(':checkbox').length-1;
+    $(':checkbox').not('#all_users').each(function(){
+      if(this.checked){
+        count++;
+      }
+      if(count == len){
+        $('#all_users').prop('checked',true);
+      }
+    });
   });
 })
 </script>
@@ -38,7 +66,7 @@ $("#all_users").click(function(){
                           <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
                         <li class="list-group-item"><span class="person-info-title">送信先</span>
-                          <div class="checkbox-inline form-control"style="height:auto">
+                          <div id="checkboxlist" class="checkbox-inline form-control"style="height:auto">
                             @foreach($users as $user)
                               <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
                                @if(old('user_ids') && in_array($user->id,old('user_ids')))
