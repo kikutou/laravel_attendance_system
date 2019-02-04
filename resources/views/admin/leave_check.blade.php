@@ -35,28 +35,28 @@
     <div class="col-sm text-center top36 bottom36">
 
       <div class="media row top36 bottom36">
-        <div class="col-sm-2"></div>
+        <div class="col-sm-3"></div>
 
-        <div class="card col-sm-8">
+        <div class="card top2 col-sm-6">
           <div class="card-header row cool">
             <!-- 三元运算 -->
-            <div class="col-sm-2 {{ ($current_page=='all') ? 'current' : '' }}">
+            <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
               <a href="/check">すべて</a>
             </div>
-            <div class="col-sm-2 {{ ($current_page=='approval_pending') ? 'current' : '' }}">
+            <div class="col-sm-3 {{ ($current_page=='approval_pending') ? 'current' : '' }}">
               <a href="/check/approval_pending">未承認</a>
             </div>
-            <div class="col-sm-2 {{ ($current_page=='approval') ? 'current' : '' }}">
+            <div class="col-sm-3 {{ ($current_page=='approval') ? 'current' : '' }}">
               <a href="/check/approval">承認済み</a>
             </div>
-            <div class="col-sm-2 {{ ($current_page=='refuse') ? 'current' : '' }}">
+            <div class="col-sm-3 {{ ($current_page=='refuse') ? 'current' : '' }}">
               <a href="/check/refuse">断り</a>
             </div>
           </div>
 
           <div class="card-body">
             @foreach($attendancerecords as $attendancerecord)
-            <ul class="list-group" id="socool">
+            <ul class="list-group top1" id="socool">
               <li class="list-group-item"><span class="person-info-title">従業員&nbsp:</span>&nbsp{{ $attendancerecord->users->name }}</li>
               <li class="list-group-item"><span class="person-info-title">欠勤開始時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}</li>
               <li class="list-group-item"><span class="person-info-title">欠勤終わり時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}</li>
@@ -104,7 +104,7 @@
             @endforeach
           </div>
         </div>
-      <div class="col-sm-2"></div>
+      <div class="col-sm-3"></div>
     </div>
    </div>
   </body>

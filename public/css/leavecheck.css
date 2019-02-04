@@ -1,5 +1,5 @@
 div.current {
-  background: gray;
+  background: blue;
 }
 .margin{
   margin-left: 270px;
@@ -8,12 +8,15 @@ body{
   overflow: scroll;
 }
 .cool{
-  padding-left: 260px;
+ text-align: center;
 }
 
 #socool{
   margin-bottom: 20px;
 }
-.top1{
-  border: 5px solid gray;
+/* .top1{
+  border: 0.7px solid gray;
 }
+.top2{
+  border:1px solid black;
+} */
