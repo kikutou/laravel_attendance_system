@@ -18,25 +18,12 @@ $("#all_users").click(function(){
 })
 </script>
 <div class="container">
-    <div style="width:300px;margin:0 auto">
-      @if($errors->any())
-        @foreach($errors->all() as $error)
-          <h5>{{ $error }}</h5>
-        @endforeach
-      @endif
-    </div>
-    <div style="width:300px;margin:0 auto">
-      @if(Session::has('success_message'))
-        <h5 style="text-align:center">{{ Session::get('success_message') }}</h5>
-      @endif
-      @if(Session::has('error_message'))
-        <h5 style="text-align:center">{{ Session::get('error_message') }}</h5>
-      @endif
-    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">お知らせの新規登録</div>
+                <div class="card-header">
+                  <span>お知らせの新規登録</span>
+                  <span style="float:right"><a href="{{ route('get_all_info') }}" style="text-decoration:none">お知らせ一覧</a></span></div>
                 <div class="card-body">
                     <ul class="list-group">
                       <form action="{{ route('post_create_notice') }}" method="post">
@@ -53,17 +40,18 @@ $("#all_users").click(function(){
                         <li class="list-group-item"><span class="person-info-title">送信先</span>
                           <div class="checkbox-inline form-control"style="height:auto">
                             @foreach($users as $user)
-                              <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                               @if(old('user_ids') && in_array($user->id,old('user_ids')))
-                                checked
-                               @endif>{{ $user->name }}
+                              @continue($user->admin_flg)
+                                <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                                 @if(old('user_ids') && in_array($user->id,old('user_ids')))
+                                  checked
+                                 @endif>&nbsp{{ $user->name }}
                             @endforeach
-                              <br><input id="all_users" type="checkbox" name="all_users">すべて
+                              <br><input id="all_users" type="checkbox" name="all_users">&nbspすべて
                           </div>
                         </li>
                         <li class="list-group-item" style="text-align:center">
                           <input type="submit" class="btn btn-primary" value="作成">
-                          <input type="reset" class="btn btn-primary" value="リセット">
+                          <input style="margin-left:50px" type="reset" class="btn btn-primary" value="リセット">
                         </li>
                       </form>
                     </ul>

@@ -31,14 +31,13 @@ class NoticeController extends Controller
   {
     $validator = Validator::make($request->all(),Information::$validator_rules,Information::$validator_messages);
     if($validator->fails()){
-
       return redirect()->back()->withInput()->withErrors($validator);
     }
 
     $carbon = new Carbon($request->show_date);
     if($carbon->isPast()){
       $error_message = '本日以降の日付で選択してください！';
-      return redirect()->back()->withInput()->with(['error_message' => $error_message]);
+      return redirect()->back()->withInput()->with(['error' => $error_message]);
     }
 
     $one_info = new Information;
@@ -56,6 +55,39 @@ class NoticeController extends Controller
     }
 
     $success_message = '登録完了しました！';
-    return redirect()->back()->with(['success_message' => $success_message]);
+    return redirect()->back()->with(['message' => $success_message]);
   }
+
+  /**
+   *
+   *お知らせ一覧の表示。
+   *
+   */
+  public function show_all_info(Request $request)
+  {
+    $all_infos = Information::all();
+    return view('admin.all_info',['all_infos' => $all_infos]);
+  }
+
+  /**
+   *
+   *お知らせの内容更新。
+   *
+   */
+  public function update_info(Request $request)
+  {
+    $one_info = Information::where('id',$request->info_id)->first();
+    $one_info->title = $request->old_title;
+    $one_info->comment = $request->old_content;
+    if($request->new_title && $request->new_content){
+      $one_info->title = $request->new_title;
+      $one_info->comment = $request->new_content;
+    }
+    $one_info->save();
+
+    $success_message = '更新しました。';
+    return redirect()->back()->with(['message' => $success_message]);
+
+  }
+
 }
