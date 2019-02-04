@@ -47,7 +47,7 @@ class HomeController extends Controller
     //本月迟到次数
     $late = AttendanceRecord::whereNotNull('reason')
       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
-      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+      ->where('attendance_date', '<=' , Carbon::now()->lastOfMonth()->format('Y-m-d'))
       ->get()
       ->count();
     //本月请假次数
