@@ -8,17 +8,12 @@ body{
   overflow: scroll;
 }
 .cool{
-  margin-left:260px;
+  padding-left: 260px;
 }
 
 #socool{
-  margin-top:10px;
+  margin-bottom: 20px;
 }
-
-#top{
-  margin-top: 20px;
-}
-
 .top1{
   border: 5px solid gray;
 }

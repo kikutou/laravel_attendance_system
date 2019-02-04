@@ -56,6 +56,7 @@
                                    return this.value+':00';
                                }
                              }
+
                             };
                             var tooltip = {
                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
