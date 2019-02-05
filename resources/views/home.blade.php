@@ -42,37 +42,36 @@
                             var subtitle = {
                                text: '勤怠管理システム'
                             };
-                            // var xAxis = {
-                            //   type:'category',
-                            //   title: {
-                            //      text: '日付(最近の一か月)'
-                            //   },
-                            //   labels:{
-                            //     rotation:-30
-                            //   }
-                            // };
                             var xAxis = {
+                              type:'category',
                               title: {
                                  text: '日付(最近の一か月)'
                               },
                               labels:{
                                 rotation:-30
-                              },
-                              categories: [
-                                '{{ \Carbon\Carbon::now()->subMonth(1)->format('m-d') }}',
-                                @for ($i = 1; $i <= 28; $i++)
-                                  @foreach ($atts as $val)
-                                    @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
-                                      '{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}',
-                                    @else
-                                      '{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}',
-                                    @endif
-                                  @endforeach
-                                @endfor
-                                '{{ \Carbon\Carbon::now()->format('m-d') }}',
-                              ],
-                              crosshair: true
-                           };
+                              }
+                            };
+                           //  var xAxis = {
+                           //
+                           //    title: {
+                           //       text: '日付(最近の一か月)'
+                           //    },
+                           //    labels:{
+                           //      rotation:-30
+                           //    },
+                           //    categories: [
+                           //      @for ($i = 1; $i <= 30; $i++)
+                           //       @foreach ($atts as $val)
+                           //         @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
+                           //           ['date("m-d", strtotime($val->attendance_date'],
+                           //         @else
+                           //           ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}'],
+                           //         @endif
+                           //       @endforeach
+                           //     @endfor
+                           //    ],
+                           //    crosshair: true
+                           // };
                             var yAxis = {
                                min: 0,
                                max: 20,
@@ -87,10 +86,12 @@
 
                             };
                             var tooltip = {
-                               headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                               pointFormat: '<tr><td style="padding:0"><b>{point.y}</b></td></tr>',
-                               shared: true,
-                               useHTML: true
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                   '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                                footerFormat: '</table>',
+                                shared:false,
+                                useHTML: true
                             };
                             var plotOptions = {
                                column: {
@@ -103,6 +104,7 @@
                             };
 
                             var series= [{
+                              name: '{{ Auth::user()->name }}',
                                      data: [
                                        @for ($i = 1; $i <= 30; $i++)
                                         @foreach ($atts as $val)
