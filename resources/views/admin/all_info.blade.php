@@ -73,7 +73,7 @@
                                       @if(!$carbon->lt(\Carbon\Carbon::today()))
                                         <button type="button" id="amend{{ $one_info->id }}" class="btn btn-primary" style="float:right;margin-top:15px">修正</button>
                                       @endif
-                                    <script>
+                                  <script>
                                     $(function(){
                                       $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
                                     })
@@ -84,25 +84,26 @@
                                          $('#content{{ $one_info->id }}').html('<textarea id="content{{ $one_info->id }}" name="new_content" class="form-control">' + $('#content{{ $one_info->id }}').text() +'</textarea>');
                                        });
                                      })
-                                    </script>
+                                  </script>
                                   </div>
                                   <div class="modal-footer">
                                     <div class="div-left">既読人数&nbsp:
-                                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#innerModal{{ $one_info->id }}">
+                                        <!-- インナーモーダルの表示リンク -->
+                                        <a href="#innerModal{{ $one_info->id }}" data-toggle="modal" data-target="#innerModal{{ $one_info->id }}">
                                           @php $read_users = $one_info->users_of_informations()->whereNotNull('read_at')->get(); @endphp
                                             {{ count($read_users) }}
-                                        </button>人
+                                        </a>人
                                     </div>
                                     <button id="close{{ $one_info->id }}" type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
                                     <script>
-                                     $(function(){
-                                       $('#subClose{{ $one_info->id }},#close{{ $one_info->id }}').click(function(){
-                                         $('#update{{ $one_info->id }}').html('<span id="update{{ $one_info->id }}"></span>');
-                                         $('#title{{ $one_info->id }}').html('<h4 id="title{{ $one_info->id }}" class="modal-title">' + $('#title{{ $one_info->id }}').text() + '</h4>');
-                                         $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
-                                       });
-                                     })
-                                   </script>
+                                      $(function(){
+                                        $('#subClose{{ $one_info->id }},#close{{ $one_info->id }}').click(function(){
+                                          $('#update{{ $one_info->id }}').html('<span id="update{{ $one_info->id }}"></span>');
+                                          $('#title{{ $one_info->id }}').html('<h4 id="title{{ $one_info->id }}" class="modal-title">' + $('#title{{ $one_info->id }}').text() + '</h4>');
+                                          $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
+                                        });
+                                      })
+                                    </script>
                                   </div>
                                 </div>
                               </div>

@@ -39,18 +39,17 @@
 
         <div class="card top2 col-sm-6">
           <div class="card-header row cool">
-            <!-- 三元运算 -->
             <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
-              <a href="/check">すべて</a>
+              <a href="/check" style="color:{{ ($current_page=='all') ? 'white' : '' }}">すべて</a>
             </div>
             <div class="col-sm-3 {{ ($current_page=='approval_pending') ? 'current' : '' }}">
-              <a href="/check/approval_pending">未承認</a>
+              <a href="/check/approval_pending" style="color:{{ ($current_page=='approval_pending') ? 'white' : '' }}">未承認</a>
             </div>
             <div class="col-sm-3 {{ ($current_page=='approval') ? 'current' : '' }}">
-              <a href="/check/approval">承認済み</a>
+              <a href="/check/approval" style="color:{{ ($current_page=='approval') ? 'white' : '' }}">承認済み</a>
             </div>
             <div class="col-sm-3 {{ ($current_page=='refuse') ? 'current' : '' }}">
-              <a href="/check/refuse">断り</a>
+              <a href="/check/refuse" style="color:{{ ($current_page=='refuse') ? 'white' : '' }}">断り</a>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 div.current {
-  background: blue;
+  background-color: #428bca;
+  border-color: #357ebd;
 }
 .margin{
   margin-left: 270px;
