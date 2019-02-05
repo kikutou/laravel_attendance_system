@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Model\AttendanceRecord;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -32,5 +34,38 @@ class User extends Authenticatable
     public function users_of_informations()
     {
         return $this->hasMany('App\Model\Users_of_information','user_id');
+    }
+
+    public function get_recent_attendance_records($days = 7) {
+
+        $result = [];
+
+        for($i = ($days - 1); $i >= 0; $i--) {
+            $one_day = today()->subDay($i);
+
+            $attendance_record = AttendanceRecord::query()->where("attendance_date", $one_day)->where("user_id", $this->id)->first();
+            if(!$attendance_record) {
+                $result[$one_day->format("Y年m月d日")] = array(
+                    "status" => "no attendance"
+                );
+            } else {
+                $result[$one_day->format("Y年m月d日")] = array(
+                    "status" => "attendance",
+                    "leave_status" => ($attendance_record->leave_start_time ? true : false),
+                    "start_time" => $attendance_record->start_time,
+                    "end_time" => $attendance_record->end_time,
+                    "leave_start_time" => $attendance_record->leave_start_time,
+                    "leave_end_time" => $attendance_record->leave_end_time,
+                    "leave_reason" => $attendance_record->leave_reason,
+                    "mtb_leave_check_status" => $attendance_record->mtb_leave_check_status ? $attendance_record->mtb_leave_check_status->value : "",
+                    "leave_applicate_time" => $attendance_record->leave_applicate_time,
+                    "leave_check_time" => $attendance_record->leave_check_time
+                );
+            }
+
+        }
+
+        return $result;
+
     }
 }
