@@ -34,7 +34,7 @@ class AttendanceRecord extends Model
 
     public function mtb_leave_check_status()
     {
-      return $this->belongsTo("App\Model\MtbLeaveCheckStatus", "mtb_leave_check_status_id");
+      return $this->belongsTo("App\Model\Master\MtbLeaveCheckStatus", "mtb_leave_check_status_id");
     }
 
     public static function check_leave_time($user, $attendance_date, $leave_start_at, $leave_end_at)

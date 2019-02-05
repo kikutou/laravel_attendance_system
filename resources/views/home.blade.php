@@ -42,15 +42,43 @@
                             var subtitle = {
                                text: '勤怠管理システム'
                             };
+                            // var xAxis = {
+                            //   type:'category',
+                            //   title: {
+                            //      text: '日付(最近の一か月)'
+                            //   },
+                            //   labels:{
+                            //     rotation:-30
+                            //   }
+                            // };
                             var xAxis = {
-                              type:'category',
+                              title: {
+                                 text: '日付(最近の一か月)'
+                              },
                               labels:{
                                 rotation:-30
-                              }
-                            };
+                              },
+                              categories: [
+                                '{{ \Carbon\Carbon::now()->subMonth(1)->format('m-d') }}',
+                                @for ($i = 1; $i <= 28; $i++)
+                                  @foreach ($atts as $val)
+                                    @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
+                                      '{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}',
+                                    @else
+                                      '{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}',
+                                    @endif
+                                  @endforeach
+                                @endfor
+                                '{{ \Carbon\Carbon::now()->format('m-d') }}',
+                              ],
+                              crosshair: true
+                           };
                             var yAxis = {
                                min: 0,
                                max: 20,
+                               title: {
+                                  text: '時間(0:00-20:00)'
+                               },
                                labels: {
                                  formatter:function(){
                                    return this.value+':00';
