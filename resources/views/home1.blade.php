@@ -42,36 +42,37 @@
                             var subtitle = {
                                text: '勤怠管理システム'
                             };
+                            // var xAxis = {
+                            //   type:'category',
+                            //   title: {
+                            //      text: '日付(最近の一か月)'
+                            //   },
+                            //   labels:{
+                            //     rotation:-30
+                            //   }
+                            // };
                             var xAxis = {
-                              type:'category',
                               title: {
                                  text: '日付(最近の一か月)'
                               },
                               labels:{
                                 rotation:-30
-                              }
-                            };
-                           //  var xAxis = {
-                           //
-                           //    title: {
-                           //       text: '日付(最近の一か月)'
-                           //    },
-                           //    labels:{
-                           //      rotation:-30
-                           //    },
-                           //    categories: [
-                           //      @for ($i = 1; $i <= 30; $i++)
-                           //       @foreach ($atts as $val)
-                           //         @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
-                           //           ['date("m-d", strtotime($val->attendance_date'],
-                           //         @else
-                           //           ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}'],
-                           //         @endif
-                           //       @endforeach
-                           //     @endfor
-                           //    ],
-                           //    crosshair: true
-                           // };
+                              },
+                              categories: [
+                                '{{ \Carbon\Carbon::now()->subMonth(1)->format('m-d') }}',
+                                @for ($i = 1; $i <= 28; $i++)
+                                  @foreach ($atts as $val)
+                                    @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
+                                      '{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}',
+                                    @else
+                                      '{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}',
+                                    @endif
+                                  @endforeach
+                                @endfor
+                                '{{ \Carbon\Carbon::now()->format('m-d') }}',
+                              ],
+                              crosshair: true
+                           };
                             var yAxis = {
                                min: 0,
                                max: 20,
@@ -87,7 +88,7 @@
                             };
                             var tooltip = {
                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                               pointFormat: '<tr><td style="padding:0"><b>{point.y}時</b></td></tr>',
+                               pointFormat: '<tr><td style="padding:0"><b>{point.y}</b></td></tr>',
                                shared: false,
                                useHTML: true
                             };
@@ -102,7 +103,6 @@
                             };
 
                             var series= [{
-                              name: '出勤時間',
                                      data: [
                                        @for ($i = 1; $i <= 30; $i++)
                                         @foreach ($atts as $val)
@@ -116,36 +116,14 @@
                                               $start_time = 0;
                                             }
                                             @endphp
-                                            ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}', {{ $start_time }}],
+                                            [ {{ $start_time }}],
                                           @else
-                                            ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}', 0],
+                                            [ 0],
                                           @endif
                                         @endforeach
                                       @endfor
                                      ]
-                                   }, {
-                              name: '退勤時間',
-                              data: [
-                                @for ($i = 1; $i <= 30; $i++)
-                                 @foreach ($atts as $val)
-                                   @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
-                                     @php
-                                     if (!empty($val->end_time)) {
-                                       // 10:00:00
-                                       $start_time_pos = strpos($val->end_time, ":");
-                                       $end_time = substr($val->end_time, 0, $start_time_pos);
-                                     } else {
-                                       $end_time = 0;
-                                     }
-                                     @endphp
-                                     ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}', {{ $end_time }}],
-                                   @else
-                                     ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}', 0],
-                                   @endif
-                                 @endforeach
-                               @endfor
-                              ]
-                               }];
+                                 }];
                             var json = {};
                             json.chart = chart;
                             json.title = title;
