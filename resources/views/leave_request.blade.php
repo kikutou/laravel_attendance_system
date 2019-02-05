@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','休暇申請')
+@section('title','休暇申込')
 
 @section('content')
 

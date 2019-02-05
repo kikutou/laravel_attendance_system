@@ -1,5 +1,5 @@
 @extends("layouts.app")
-
+@section('title','休暇認証')
 @section("content")
     <link rel="stylesheet" href="{{asset('/css/leavecheck.css')}}">
 
@@ -39,16 +39,16 @@
 
         <div class="card top2 col-sm-6">
           <div class="card-header row cool">
-            <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='all') ? 'bg-info' : '' }}">
               <a href="/check" style="color:{{ ($current_page=='all') ? 'white' : '' }}">すべて</a>
             </div>
-            <div class="col-sm-3 {{ ($current_page=='approval_pending') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='approval_pending') ? 'bg-info' : '' }}">
               <a href="/check/approval_pending" style="color:{{ ($current_page=='approval_pending') ? 'white' : '' }}">未承認</a>
             </div>
-            <div class="col-sm-3 {{ ($current_page=='approval') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='approval') ? 'bg-info' : '' }}">
               <a href="/check/approval" style="color:{{ ($current_page=='approval') ? 'white' : '' }}">承認済み</a>
             </div>
-            <div class="col-sm-3 {{ ($current_page=='refuse') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='refuse') ? 'bg-info' : '' }}">
               <a href="/check/refuse" style="color:{{ ($current_page=='refuse') ? 'white' : '' }}">断り</a>
             </div>
           </div>

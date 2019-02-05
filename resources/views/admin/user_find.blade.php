@@ -1,5 +1,5 @@
 @extends("layouts.app")
-
+@section('title','勤怠検索')
 @section("content")
   <link href="{{ asset('/css/tao.css') }}" rel="stylesheet">
   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
