@@ -28,6 +28,9 @@
                            text: '勤怠管理システム'
                         };
                         var xAxis = {
+                          title: {
+                             text: '名前'
+                          },
                           categories: [
                             @foreach($users as $user)
                               '{{ $user->name }}',
@@ -38,6 +41,9 @@
                         var yAxis = {
                            min: 0,
                            max: 30,
+                           title: {
+                              text: '回数(1-30回)'
+                           },
                            labels: {
                              formatter:function(){
                                return this.value+':次';

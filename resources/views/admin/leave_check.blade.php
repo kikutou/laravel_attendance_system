@@ -100,7 +100,7 @@
               </li>
               @else
               @endif
-             </ul>
+            </ul>
             @endforeach
           </div>
         </div>
