@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<script src="{{ asset('/js/nl2br.js') }}"></script>
 <style>
  .list-group-item:hover{
     z-index: auto;
