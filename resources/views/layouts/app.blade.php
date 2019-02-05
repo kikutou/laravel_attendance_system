@@ -62,7 +62,7 @@
                               </li>
                             @endif
                         @else
-                            @if(Auth::user()->admin_flg == 0)
+                            @if(!Auth::user()->admin_flg)
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}&nbspさん <span class="caret"></span>
@@ -89,6 +89,9 @@
                             </li>
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_user_all') }}">{{ __('出勤状態') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('get_info') }}">{{ __('お知らせ') }}</a>
                             </li>
                             @else
                             <li class="nav-item dropdown">
@@ -119,7 +122,7 @@
                                     <a class="nav-link" href="{{ route('get_adminchart') }}">{{ __('遅刻照会') }}</a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('get_create_notice') }}">{{ __('通知関連') }}</a>
+                                    <a class="nav-link" href="{{ route('get_all_info') }}">{{ __('通知関連') }}</a>
                             </li>
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_user_find') }}">{{ __('勤怠検索') }}</a>
