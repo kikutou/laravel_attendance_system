@@ -1,14 +1,14 @@
 @extends('layouts.app')
-
+@section("title","認証ページ")
 @section('content')
 <div class="container">
-      
+
     @if (session('warning'))
         <div class="alert alert-warning">
             {{ session('warning') }}
         </div>
     @endif
-    
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

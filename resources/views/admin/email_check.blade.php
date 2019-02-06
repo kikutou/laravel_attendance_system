@@ -1,5 +1,5 @@
 @extends("layouts.app")
-
+@section("title","会員認証")
 @section("content")
 
 <div class="container">

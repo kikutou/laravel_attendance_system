@@ -1,6 +1,5 @@
 @extends('layouts.app')
-
-@section('title','CreateNotice')
+@section("title","通知関連")
 
 @section('content')
 <script>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section("title","勤怠管理")
 @section('content')
 <script>
 $(function(){
