@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use Carbon\Carbon;
 use App\Model\Master\MtbLeaveCheckStatus;
-use App\Model\User;
+use App\User;
 use Validator;
 use Response;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class AttendanceRecordController extends Controller
     $user_id = Auth::id();
     $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
     $time_lim = new Carbon(env('START_TIME', '09:00'));
-    return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim]);
+    return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim, 'attendance_date' => Carbon::now()->format('Y-m-d')]);
   }
 
   public function attendance_begin_finish(Request $request) {
@@ -116,17 +116,10 @@ class AttendanceRecordController extends Controller
           $message = '操作成功。今日はお疲れ様でした。';
           return redirect()->back()->with(['message' => $message]);
         }
-
-        $message = '操作を完了できませんでした。管理者に連絡してください。';
-        return redirect()->back()->with(['message' => $message]);
       }
-
-      $message = '操作を完了できませんでした。管理者に連絡してください。';
-      return redirect()->back()->with(['message' => $message]);
     }
-
-    $message = '操作を完了できませんでした。管理者に連絡してください。';
-    return redirect()->back()->with(['message' => $message]);
+    $error = '操作を完了できませんでした。管理者に連絡してください。';
+    return redirect()->back()->with(['error' => $error]);
   }
 
   /**
@@ -215,18 +208,19 @@ class AttendanceRecordController extends Controller
     $starttime = $stime->subDay(1);
     $end = new Carbon($request->end);
     $diff = $end->diffInDays(new Carbon($request->start));
-    // $attendance_records = AttendanceRecord::where('user_id', $request->user_id)
-    //   ->where('attendance_date', ">=", $request->start)
-    //   ->where('attendance_date', "<=", $request->end)
-    //   ->get();
+
     $attendance_records = null;
     $user_name = null;
     if($request->user_id && $request->start){
-      $attendance_records = AttendanceRecord::where('user_id',$request->user_id)
-                          ->where('attendance_date', ">=", $request->start)
-                          ->where('attendance_date', "<=", $request->end ?? Carbon::today())
-                          ->get();
+      $user_name = User::find($request->user_id)->name;
+      $attendance_records = AttendanceRecord::query()
+        ->where('user_id', $request->user_id)
+        ->where('attendance_date', ">=", New Carbon($request->start))
+        ->where('attendance_date', "<=",  New Carbon($request->end) ?? Carbon::today())
+        ->get();
+
     }
+
     return view('admin.user_find',[
       'attendance_records' => $attendance_records,
       'users'=>$user,

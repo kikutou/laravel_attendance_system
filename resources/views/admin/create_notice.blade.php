@@ -62,6 +62,7 @@ $(function(){
                         <li class="list-group-item"><span class="person-info-title">送信先</span>
                           <div id="checkboxlist" class="checkbox-inline form-control"style="height:auto">
                             @foreach($users as $user)
+                              @continue(!$user->email_verified_at)
                               <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
                                @if(old('user_ids') && in_array($user->id,old('user_ids')))
                                 checked

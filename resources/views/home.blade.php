@@ -6,8 +6,21 @@
         main div.container {
             margin-bottom: 20px;
         }
+        .td{
+          display: table-cell;
+          border: 1px solid #e0e0e0;
+          vertical-align:middle;
+          text-align: center;
+        }
     </style>
     @if(!Auth::user()->admin_flg)
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    @include("sub_view.info_card", ["infos" => Auth::user()->get_all_unread_infos()])
+                </div>
+            </div>
+        </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -51,27 +64,6 @@
                                 rotation:-30
                               }
                             };
-                           //  var xAxis = {
-                           //
-                           //    title: {
-                           //       text: '日付(最近の一か月)'
-                           //    },
-                           //    labels:{
-                           //      rotation:-30
-                           //    },
-                           //    categories: [
-                           //      @for ($i = 1; $i <= 30; $i++)
-                           //       @foreach ($atts as $val)
-                           //         @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
-                           //           ['date("m-d", strtotime($val->attendance_date'],
-                           //         @else
-                           //           ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}'],
-                           //         @endif
-                           //       @endforeach
-                           //     @endfor
-                           //    ],
-                           //    crosshair: true
-                           // };
                             var yAxis = {
                                min: 0,
                                max: 20,

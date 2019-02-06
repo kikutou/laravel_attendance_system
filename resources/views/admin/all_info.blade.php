@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title','通知関連')
+
 @section('content')
 <style>
  .list-group-item:hover{
@@ -42,6 +43,7 @@
                          <th class="inline_first td">タイトル</th>
                          <th class="inline_second td">公開日時</th>
                          <th class="td">作成日時</th>
+                         <th class="td">送信先</th>
                        </tr>
                      </thead>
                      <tbody>
@@ -58,34 +60,19 @@
                                     <form action="{{ route('post_updated_info') }}" method="post">
                                       @csrf
                                     <div class="modal-header">
-                                      <input type="hidden" name="old_title" value="{{ $one_info->title }}">
-                                      <h4 id="title{{ $one_info->id }}" class="modal-title">{{ $one_info->title }}</h4>
+                                      <h4 class="modal-title">{{ $one_info->title }}</h4>
                                       <button id="subClose{{ $one_info->id }}" type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
                                     </div>
                                     <div class="modal-body" style="height:auto">
-                                      <input id="old_content{{ $one_info->id }}" type="hidden" name="old_content" value="{{ nl2br($one_info->comment) }}"></input>
-                                      <p id="content{{ $one_info->id }}"></p>
+                                      <div style="float:left">{{ $one_info->comment }}</div>
                                     </div>
                                     <div class="modal-body">
                                       <input type="hidden" name="info_id" value="{{ $one_info->id }}">
-                                      <span id="update{{ $one_info->id }}"></span>
+
                                     </form>
-                                    @php $carbon = new \Carbon\Carbon($one_info->show_date); @endphp
-                                      @if(!$carbon->lt(\Carbon\Carbon::today()))
-                                        <button type="button" id="amend{{ $one_info->id }}" class="btn btn-primary" style="float:right;margin-top:15px">修正</button>
+                                      @if(!$one_info->show_date->lt(\Carbon\Carbon::today()))
+                                        <button type="button" id="amend{{ $one_info->id }}" class="btn btn-primary" style="float:right;margin-top:15px" data-toggle="modal" data-target="#subModal{{ $one_info->id }}">修正</button>
                                       @endif
-                                  <script>
-                                    $(function(){
-                                      $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
-                                    })
-                                     $(function(){
-                                       $('#amend{{ $one_info->id }}').click(function(){
-                                         $('#update{{ $one_info->id }}').html('<input id="update{{ $one_info->id }}" type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">');
-                                         $('#title{{ $one_info->id }}').html('<textarea id="title{{ $one_info->id }}" name="new_title" class="form-control" rows="1">' + $('#title{{ $one_info->id }}').text() + '</textarea>');
-                                         $('#content{{ $one_info->id }}').html('<textarea id="content{{ $one_info->id }}" name="new_content" class="form-control">' + $('#content{{ $one_info->id }}').text() +'</textarea>');
-                                       });
-                                     })
-                                  </script>
                                   </div>
                                   <div class="modal-footer">
                                     <div class="div-left">既読人数&nbsp:
@@ -95,16 +82,7 @@
                                             {{ count($read_users) }}
                                         </a>人
                                     </div>
-                                    <button id="close{{ $one_info->id }}" type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                    <script>
-                                      $(function(){
-                                        $('#subClose{{ $one_info->id }},#close{{ $one_info->id }}').click(function(){
-                                          $('#update{{ $one_info->id }}').html('<span id="update{{ $one_info->id }}"></span>');
-                                          $('#title{{ $one_info->id }}').html('<h4 id="title{{ $one_info->id }}" class="modal-title">' + $('#title{{ $one_info->id }}').text() + '</h4>');
-                                          $('#content{{ $one_info->id }}').html('<p id="content{{ $one_info->id }}" style="text-align:left">' + $('#old_content{{ $one_info->id }}').val() + '</p>');
-                                        });
-                                      })
-                                    </script>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
                                   </div>
                                 </div>
                               </div>
@@ -131,10 +109,48 @@
                               </div>
                             </div>
                             <!-- ここまで -->
+                            <!-- サブモーダル -->
+                            <div div class="modal fade" id="subModal{{ $one_info->id }}">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form action="{{ route('post_updated_info') }}" method="post">
+                                      @csrf
+                                    <div class="modal-header">
+                                      <input id="subTitle{{ $one_info->id }}" type="text" name="title" value="{{ $one_info->title }}">
+                                      <button id="subClose{{ $one_info->id }}" type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                    </div>
+                                    <div class="modal-body" style="height:auto">
+                                      <textarea id="content{{ $one_info->id }}" name="content" class="form-control">{!! nl2br(e($one_info->comment)) !!}</textarea>
+                                    </div>
+                                    <div class="modal-body">
+                                      <input id="update{{ $one_info->id }}" type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">
+                                    </form>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- ここまで -->
                           </td>
                           <!-- ここまで -->
                         <td class="td">{{ $one_info->show_date }}</td>
                         <td class="td">{{ $one_info->created_at }}</td>
+                        <td class="td">
+                          @php
+                            $users_sent = App\Model\Users_of_information::query()->where("information_id", $one_info->id)->get();
+                          @endphp
+                          @foreach($users_sent as $user_sent)
+                            {{ $user_sent->user->name }}
+                            @if($user_sent->read)
+                            既読
+                            @endif
+                            @if(!$user_sent->read)
+                            未読
+                            @endif
+                          @endforeach
+                        </td>
                        </tr>
                        @endforeach
                      </tbody>

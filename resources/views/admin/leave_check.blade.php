@@ -1,5 +1,5 @@
 @extends("layouts.app")
-@section('title','休暇認証')
+@section("title","休暇認証")
 @section("content")
     <link rel="stylesheet" href="{{asset('/css/leavecheck.css')}}">
 

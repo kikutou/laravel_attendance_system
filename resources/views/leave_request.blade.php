@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('title','休暇申込')
 
 @section('content')
@@ -20,7 +19,7 @@
              <ul class="list-group">
                <li class="list-group-item">
                  <span class="person-info-title">欠勤日</span>
-                 <input id="start_day" class="form-control" name="attendance_date" type="text" value="{{ old('attendance_date') }}" placeholder="欠勤日を選択してください">
+                 <input id="start_day" class="form-control" name="attendance_date" autocomplete="off" type="text" value="{{ old('attendance_date') }}" placeholder="欠勤日を選択してください">
                </li>
                <li class="list-group-item">
                  <span class="person-info-title">欠勤開始時間</span>

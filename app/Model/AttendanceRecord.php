@@ -29,7 +29,7 @@ class AttendanceRecord extends Model
 
     public function users()
       {
-        return $this->belongsTo("App\Model\User", "user_id");
+        return $this->belongsTo("App\User", "user_id");
       }
 
     public function mtb_leave_check_status()

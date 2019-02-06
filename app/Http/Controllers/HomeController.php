@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\EmailToken;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Model\User;
+use App\User;
 use App\Model\AttendanceRecord;
 use App\Model\Users_of_information;
 use App\Model\Information;
@@ -38,13 +38,6 @@ class HomeController extends Controller
       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
       ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
       ->get();
-      // dd(Carbon::now()->subMonth(1)->addDays(1)->format('Y-m-d'));
-      // dd($att->toArray());
-      // dd(Carbon::now()->subMonth(1)->subDays(1)->format('Y-m-d'));
-      // dd($att->toArray());
-      // dd(Carbon::today()->format('m-d'));
-      // dd(Carbon::now()->subMonth(1)->format('m-d'));
-    //  dd($att['0']['start_time']);
     //本月迟到次数
     $late = AttendanceRecord::whereNotNull('reason')
       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
@@ -58,16 +51,12 @@ class HomeController extends Controller
       ->get()
       ->count();
 
-      // ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-      // ->get()
-      // ->count();
-      // dd($leave);
-
     if($user->email_verified_at == null){
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");
     }else{
-        return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att, 'onemomthago' => $onemomthago])->with('message', "ログインできました。");
+        $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
+        return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att, 'onemomthago' => $onemomthago,'orderby_infors' => $users_of_infors])->with('message', "ログインできました。");
     }
   }
 
@@ -94,10 +83,10 @@ class HomeController extends Controller
   {
     $login_user = Auth::user();
     $today = Carbon::now()->format('Y-m-d');
-    $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
+    $users_of_infors = $login_user->get_all_infos();
 
     return view('user_info',[
-        "orderby_infors" => $users_of_infors
+        "infos" => $users_of_infors
     ]);
   }
 
@@ -112,6 +101,6 @@ class HomeController extends Controller
     $read_infor = Users_of_information::find($id);
     $read_infor->read_at = Carbon::now();
     $read_infor->save();
-    return redirect(route('get_info'));
+    return redirect(route('home'));
   }
 }

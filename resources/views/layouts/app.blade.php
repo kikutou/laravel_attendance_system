@@ -37,7 +37,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     勤怠管理システム
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -111,12 +111,24 @@
                                     </form>
                                 </div>
                             </li>
+                            @php
+                            $num_unverified = App\User::query()->where('email_verified_at', null)->get()->count();
+                            $num_leave_unverified = App\Model\AttendanceRecord::query()->where('mtb_leave_check_status_id', '1')->get()->count();
+                            @endphp
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('get_user_mail') }}">{{ __('会員認証') }}</a>
+                                <a class="nav-link" href="{{ route('get_user_mail') }}">{{ __('会員認証') }}
+                                  @if($num_unverified > 0)
+                                    ({{ $num_unverified }})
+                                  @endif
+                                </a>
                             </li>
 
                             <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('get_check') }}">{{ __('休暇認証') }}</a>
+                                <a class="nav-link" href="{{ route('get_check') }}">{{ __('休暇認証') }}
+                                @if($num_leave_unverified > 0)
+                                  ({{ $num_leave_unverified }})
+                                @endif
+                                </a>
                             </li>
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_adminchart') }}">{{ __('遅刻照会') }}</a>
@@ -140,18 +152,19 @@
                     text-align: center;
                 }
             </style>
-            @if(Session::has('message'))
-                <div class="alert alert-success">{{Session::get('message')}}</div>
-            @endif
+              <div class="{{ Session::get('message') || isset($users) && $users->count() == 0 ? 'alert alert-success' : '' }}">
+                <div>{{ Session::get('message') ?? "" }}</div>
+                <div>{{ isset($users) && $users->count() == 0 ? "すべての会員が認証済みです。" : "" }}</div>
+              </div>
 
             @if(Session::has('error'))
-                <div class="alert alert-danger">{{Session::get('error')}}</div>
+              <div class="alert alert-danger">{{Session::get('error')}}</div>
             @endif
 
             @if($errors->any())
               <div class="alert alert-danger">
                 @foreach($errors->all() as $error)
-                 <p>{{ $error }}</p>
+                 <div>{{ $error }}</div>
                 @endforeach
               </div>
             @endif
