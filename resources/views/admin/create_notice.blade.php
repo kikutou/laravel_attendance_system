@@ -24,18 +24,13 @@ $(function(){
   });
 })
 $(function(){
-  $(':checkbox').click(function(){
-    if(this.checked == false){
-      $('#all_users').prop('checked',false);
-    }
-  });
-})
-$(function(){
   $(':checkbox').not('#all_users').click(function(){
     var count =  0;
     var len = $(':checkbox').length-1;
     $(':checkbox').not('#all_users').each(function(){
-      if(this.checked){
+      if(!this.checked){
+        $('#all_users').prop('checked',false);
+      } else {
         count++;
       }
       if(count == len){
@@ -51,7 +46,8 @@ $(function(){
             <div class="card">
                 <div class="card-header">
                   <span>お知らせの新規登録</span>
-                  <span style="float:right"><a href="{{ route('get_all_info') }}" style="text-decoration:none">お知らせ一覧</a></span></div>
+                  <span style="float:right"><a href="{{ route('get_all_info') }}">お知らせ一覧へ</a></span>
+                </div>
                 <div class="card-body">
                     <ul class="list-group">
                       <form action="{{ route('post_create_notice') }}" method="post">

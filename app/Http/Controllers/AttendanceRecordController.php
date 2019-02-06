@@ -179,6 +179,7 @@ class AttendanceRecordController extends Controller
     $one_attendance_record->leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
     $one_attendance_record->leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
     $one_attendance_record->leave_reason = $request->leave_reason;
+    $one_attendance_record->leave_applicate_time = Carbon::now();
     $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatus::APPROVAL_PENDING;
     $one_attendance_record->save();
 
