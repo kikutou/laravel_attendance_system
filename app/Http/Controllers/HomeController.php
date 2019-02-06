@@ -55,7 +55,8 @@ class HomeController extends Controller
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");
     }else{
-        return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att, 'onemomthago' => $onemomthago])->with('message', "ログインできました。");
+        $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
+        return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att, 'onemomthago' => $onemomthago,'orderby_infors' => $users_of_infors])->with('message', "ログインできました。");
     }
   }
 
@@ -100,6 +101,6 @@ class HomeController extends Controller
     $read_infor = Users_of_information::find($id);
     $read_infor->read_at = Carbon::now();
     $read_infor->save();
-    return redirect(route('get_info'));
+    return redirect(route('home'));
   }
 }
