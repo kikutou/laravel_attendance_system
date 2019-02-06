@@ -152,7 +152,7 @@
                     text-align: center;
                 }
             </style>
-              <div class="alert alert-success">
+              <div class="{{ Session::get('message') || isset($users) && $users->count() == 0 ? 'alert alert-success' : '' }}">
                 <div>{{ Session::get('message') ?? "" }}</div>
                 <div>{{ isset($users) && $users->count() == 0 ? "すべての会員が認証済みです。" : "" }}</div>
               </div>

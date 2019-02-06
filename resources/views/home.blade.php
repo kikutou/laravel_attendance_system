@@ -6,6 +6,12 @@
         main div.container {
             margin-bottom: 20px;
         }
+        .td{
+          display: table-cell;
+          border: 1px solid #e0e0e0;
+          vertical-align:middle;
+          text-align: center;
+        }
     </style>
     @if(!Auth::user()->admin_flg)
         <div class="container">
@@ -15,8 +21,6 @@
                 </div>
             </div>
         </div>
-
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">

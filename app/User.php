@@ -87,8 +87,6 @@ class User extends Authenticatable
             }
         }
 
-
-
         usort($result, function($a, $b) {
             if ($a->shwo_date == $b->show_date) {
 
