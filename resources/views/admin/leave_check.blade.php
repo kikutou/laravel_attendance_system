@@ -24,9 +24,6 @@
       }
     </script>
   <body>
-    @if(Session::has("message"))
-      <p>{{ Session::get("message") }}</p>
-    @endif
     <div id="content" class="container-fluid">
       <div class="col-sm text-center top36 bottom36">
         <p>休み請求一覧</p>
