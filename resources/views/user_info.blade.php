@@ -12,6 +12,12 @@
   width: 25%;
   height:60px;
 }
+.td{
+  display: table-cell;
+  border: 1px solid #e0e0e0;
+  vertical-align:middle;
+  text-align: center;
+}
 </style>
 <div class="container">
     <div class="row justify-content-center">
@@ -21,18 +27,18 @@
             <div class="card-body">
                 <table class="table">
                     <tr>
-                        <td class="list-group-item inline inline_split">公開日付</td>
-                        <td class="list-group-item inline inline_split">タイトル</td>
-                        <td class="list-group-item inline inline_split">詳細</td>
-                        <td class="list-group-item inline inline_split">閲覧状態</td>
+                        <td class="td">公開日付</td>
+                        <td class="td">タイトル</td>
+                        <td class="td">詳細</td>
+                        <td class="td">閲覧状態</td>
                     </tr>
                     @foreach($orderby_infors as $one_pivot)
                       @php $carbon = new \Carbon\Carbon($one_pivot->information->show_date) @endphp
                         @continue($carbon->isFuture())
                       <tr>
-                          <td class="list-group-item inline inline_split">{{$one_pivot->information->show_date}}</td>
-                          <td class="list-group-item inline inline_split">{{$one_pivot->information->title}}</td>
-                          <td class="list-group-item inline inline_split">
+                          <td class="td">{{$one_pivot->information->show_date}}</td>
+                          <td class="td">{{$one_pivot->information->title}}</td>
+                          <td class="td">
                               <button type="button" class="btn btn-primary"data-toggle="modal" data-target="#myModal_{{$one_pivot->id}}">詳細
                               </button>
                               <div class="modal fade" id="myModal_{{$one_pivot->id}}">
@@ -44,15 +50,15 @@
                                               </button>
                                           </div>
                                           <div class="modal-body">
-                                              <span style="float:left">{{ $one_pivot->information->comment }}<span></li>
+                                              <span style="float:left">{!! nl2br(e($one_pivot->information->comment)) !!}<span>
                                           </div>
                                       </div>
                                   </div>
                               </div>
                               @if(!$one_pivot->read_at)
-                                  <td class="list-group-item inline inline_split"><a href="{{route('get_readinfo', ['id'=>$one_pivot->id])}}"><button type="button" class="btn btn-primary">未読</button></a></td>
+                                  <td class="td"><a href="{{route('get_readinfo', ['id'=>$one_pivot->id])}}"><button type="button" class="btn btn-primary">未読</button></a></td>
                               @else
-                                  <td class="list-group-item inline inline_split"><p>既読</p></td>
+                                  <td class="td"><p>既読</p></td>
                               @endif
                      </tr>
                    @endforeach
