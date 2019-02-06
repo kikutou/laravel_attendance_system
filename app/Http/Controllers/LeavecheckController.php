@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\AttendanceRecord;
 use App\Model\Master\MtbLeaveCheckStatus;
-use App\Model\User;
+use App\User;
 use Carbon\Carbon;
 
 class LeavecheckController extends Controller
