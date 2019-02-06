@@ -47,7 +47,7 @@ $(function(){
                        <form action="{{ route('attendance_begin_finish') }}" method="post">
                           @csrf
                           <div>
-                            <input type="hidden" name="attendance_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                            <input type="hidden" name="attendance_date" value="{{ $attendance_date }}">
                           </div>
 
                           @if(!$rec || !$rec->start_time)
