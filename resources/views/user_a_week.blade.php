@@ -1,9 +1,7 @@
 @extends("layouts.app")
-
+@section("title","出勤状態")
 @section("content")
   <link href="{{ asset('/css/tao.css') }}" rel="stylesheet">
-  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <h3>一週間の勤怠表</h3>
     <div class="row">
       <div class="col-sm-8"></div>

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section("title","通知関連")
 @section('content')
 <style>
  .list-group-item:hover{
