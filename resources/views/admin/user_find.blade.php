@@ -117,6 +117,7 @@
   <div class="col-sm-8"></div>
   <div class="col-sm-4 top1">名前:{{ $user_name }}</div>
 </div>
+
 <div id="cools"class="row">
   @for ($i=$diff; $i>=0; $i--)
     @php
