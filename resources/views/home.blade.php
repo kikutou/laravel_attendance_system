@@ -104,7 +104,7 @@
                             };
 
                             var series= [{
-                              name: '{{ Auth::user()->name }}',
+                              name: '出勤時間',
                                      data: [
                                        @for ($i = 1; $i <= 30; $i++)
                                         @foreach ($atts as $val)
