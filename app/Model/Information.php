@@ -50,4 +50,17 @@ class Information extends Model
         }
         return false;
     }
+    public function get_read_users()
+    {
+       return $this->users_of_informations()->whereNotNull('read_at')->get();
+    }
+
+    public function get_unread_users()
+    {
+       return $this->users_of_informations()->whereNull('read_at')->get();
+    }
+    public function get_users()
+    {
+       return $this->users_of_informations()->get();
+    }
 }

@@ -51,7 +51,7 @@ $(function(){
                       <form action="{{ route('post_create_notice') }}" method="post">
                         @csrf
                         <li class="list-group-item"><span class="person-info-title">お知らせ日時</span>
-                          <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" placeholder="お知らせ日時を選択してください">
+                          <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" autocomplete="off" placeholder="お知らせ日時を選択してください">
                         </li>
                         <li class="list-group-item"><span class="person-info-title">タイトル</span>
                           <input class="form-control" name="title" type="text" value="{{ old('title') }}" placeholder="タイトルを入力してください">

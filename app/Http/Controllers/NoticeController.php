@@ -78,12 +78,8 @@ class NoticeController extends Controller
   public function update_info(Request $request)
   {
     $one_info = Information::where('id',$request->info_id)->first();
-    $one_info->title = $request->old_title;
-    $one_info->comment = $request->old_content;
-    if($request->new_title && $request->new_content){
-      $one_info->title = $request->new_title;
-      $one_info->comment = $request->new_content;
-    }
+    $one_info->title = $request->title;
+    $one_info->comment = $request->content;
     $one_info->save();
 
     $success_message = '更新しました。';
