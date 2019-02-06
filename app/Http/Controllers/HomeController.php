@@ -101,6 +101,6 @@ class HomeController extends Controller
     $read_infor = Users_of_information::find($id);
     $read_infor->read_at = Carbon::now();
     $read_infor->save();
-    return redirect(route('get_info'));
+    return redirect(route('home'));
   }
 }

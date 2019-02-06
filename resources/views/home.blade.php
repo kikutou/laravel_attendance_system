@@ -14,76 +14,13 @@
         }
     </style>
     @if(!Auth::user()->admin_flg)
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    @include("sub_view.info_card", ["infos" => Auth::user()->get_all_unread_infos()])
-                </div>
-            </div>
-        </div>
-
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">お知らせ</div>
-                    <div class="card-body">
-                      <table class="table">
-                          <tr>
-                              <td class="td">公開日付</td>
-                              <td class="td">タイトル</td>
-                          </tr>
-                          @foreach($orderby_infors as $one_pivot)
-                            @php $carbon = new \Carbon\Carbon($one_pivot->information->show_date) @endphp
-                              @continue($carbon->isFuture() || $one_pivot->information->read_at)
-                            <tr>
-                                <td class="td">{{$one_pivot->information->show_date}}</td>
-                                <td class="td">
-                                  <a href="#myModal_{{$one_pivot->id}}" data-toggle="modal" data-target="#myModal_{{$one_pivot->id}}">
-                                  {{$one_pivot->information->title}}</a>
-                                  <div class="modal fade" id="myModal_{{$one_pivot->id}}">
-                                      <div class="modal-dialog">
-                                          <div class="modal-content">
-                                              <div class="modal-header">
-                                                  <h5 id="myModalLabel">{{ $one_pivot->information->title }}</h5>
-                                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
-                                                  </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                  <span style="float:left">{!! nl2br(e($one_pivot->information->comment)) !!}<span>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" data-dismiss="modal">閉じる</button>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                </td>
-                           </tr>
-                         @endforeach
-                      </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">名前:{{ Auth::user()->name }}</div>
-                    <div class="card-body">
-                      <ul>
-                        <li class="list-group-item">日付&nbsp:&nbsp{{ $today->format('Y年m月d日')}}</li>
-                        <li class="list-group-item">今月の遅刻回数&nbsp:&nbsp{{$late}}</li>
-                        <li class="list-group-item">今月の欠勤回数&nbsp:&nbsp{{$leave}}</li>
-                      </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-md-8">
+                  @include("sub_view.info_card", ["infos" => Auth::user()->get_all_unread_infos()])
+              </div>
+          </div>
+      </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">

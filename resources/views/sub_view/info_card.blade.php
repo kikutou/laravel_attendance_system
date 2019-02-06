@@ -48,7 +48,7 @@
 
                     </td>
                     @if(!$info->is_read(Auth::user()))
-                        <td class="td"><a href="{{route('get_readinfo', ['id'=>$info->get_pivot_id(Auth::user())])}}"><button type="button" class="btn btn-primary">未読</button></a></td>
+                        <td class="td"><a href="{{route('home', ['id'=>$info->get_pivot_id(Auth::user())])}}"><button type="button" class="btn btn-primary">未読</button></a></td>
                     @else
                         <td class="td"><p>既読</p></td>
                     @endif
