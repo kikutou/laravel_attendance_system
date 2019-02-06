@@ -44,7 +44,7 @@
                           <label for="start" class="col-md-4 col-form-label text-md-right">何日から</label>
 
                           <div class="col-md-6">
-                              <input type="text" id="start" name="start" class="form-control" value="{{ Request::query('start') }}">
+                              <input type="text" id="start" name="start" class="form-control" autocomplete="off" value="{{ Request::query('start') }}">
                           </div>
                       </div>
 
@@ -52,7 +52,7 @@
                           <label for="end" class="col-md-4 col-form-label text-md-right">何日まで</label>
 
                           <div class="col-md-6">
-                              <input type="text" id="end" name="end" class="form-control" value="{{ Request::query('end') }}">
+                              <input type="text" id="end" name="end" class="form-control" autocomplete="off" value="{{ Request::query('end') }}">
                           </div>
                       </div>
 
