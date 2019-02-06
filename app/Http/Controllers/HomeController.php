@@ -31,6 +31,7 @@ class HomeController extends Controller
   public function index(Request $request)
   {
     $today = Carbon::now();
+    $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
     $login_user = Auth::user();
     $user = User::where('id', $login_user->id)->first();
     $att = AttendanceRecord::where('user_id',$user->id)
@@ -66,7 +67,7 @@ class HomeController extends Controller
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");
     }else{
-        return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att])->with('message', "ログインできました。");
+        return view('home', ['today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att, 'onemomthago' => $onemomthago])->with('message', "ログインできました。");
     }
   }
 

@@ -51,6 +51,10 @@ class LoginController extends Controller
 
             if(Auth::attempt(['email' => $email, 'password' => $password]))
             {
+                if(!Auth::user()->email_verified_at) {
+                    Auth::logout();
+                    return redirect(route('login'))->with("message", "管理員より認証されていません。");
+                }
                 return redirect(route('home'))->with("message", "ログインしました!");
             }else{
                 return redirect(route('login'))->with("message", "まだ登録していませんので、新規登録してください!");
