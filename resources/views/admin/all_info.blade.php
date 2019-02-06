@@ -46,7 +46,7 @@
                      </thead>
                      <tbody>
                        @foreach($all_infos as $one_info)
-                        <tr style="text-align:center">
+                        <tr>
                           <td class="td">
                             <!-- メインモーダル -->
                             <a href="#myModal{{ $one_info->id }}" data-toggle="modal" data-target="#myModal{{ $one_info->id }}">

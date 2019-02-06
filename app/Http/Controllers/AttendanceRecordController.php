@@ -219,19 +219,18 @@ class AttendanceRecordController extends Controller
     //   ->where('attendance_date', ">=", $request->start)
     //   ->where('attendance_date', "<=", $request->end)
     //   ->get();
-    $attendance_records = AttendanceRecord::all();
-    if($request->start) {
-      $attendance_records->where('attendance_date', ">=", $request->start);
-    }
-    if($request->end) {
-      $attendance_records->where('attendance_date', "<=", $request->end);
-    }
-    if($request->user_id){
-      $attendance_records->where('attendance_date', $request->user_id);
+    $attendance_records = null;
+    $user_name = null;
+    if($request->user_id && $request->start){
+      $attendance_records = AttendanceRecord::where('user_id',$request->user_id)
+                          ->where('attendance_date', ">=", $request->start)
+                          ->where('attendance_date', "<=", $request->end ?? Carbon::today())
+                          ->get();
     }
     return view('admin.user_find',[
       'attendance_records' => $attendance_records,
       'users'=>$user,
+      'user_name' => $user_name,
       'diff' =>$diff,
       'starttime' =>$starttime,
       'endtime' =>$end

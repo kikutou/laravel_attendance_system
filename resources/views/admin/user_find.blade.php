@@ -1,9 +1,17 @@
 @extends("layouts.app")
 @section('title','勤怠検索')
 @section("content")
+<style>
+ .center{
+   text-align: center;
+ }
+</style>
+<script>
+ $(function(){
+   $('#tao0,#tao1').datepicker();
+   })
+</script>
   <link href="{{ asset('/css/tao.css') }}" rel="stylesheet">
-  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <div class="col-sm text-center top36 bottom36">
     <p></p>
@@ -15,7 +23,47 @@
       @endforeach
     @endif
   </div>
-  <div class="col-sm text-center top36 bottom36">
+
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-md-8">
+              <div class="card width:300px">
+                  <div class="card-header">勤怠検索</div>
+                  <div class="card-body">
+                    <form action="{{ route('get_user_find') }}" method="get">
+                      @csrf
+                      <li class="list-group-item center">
+                        <span class="person-info-title">名前&nbsp</span>
+                        <select id="user_id" name="user_id" id="tao">
+                          <option value="">名前を選択してくださいます。</option>
+                          @foreach($users as $user)
+                            <option value="{{ $user->id }}"
+                                @if(Request::query('user_id') && Request::query('user_id') == $user->id)
+                                  selected
+                                @endif
+                              >{{ $user->name }}</option>
+                          @endforeach
+                        </select>
+                      </li>
+                      <li class="list-group-item center">
+                        <span class="person-info-title">何日から<span>
+                        <input type="text" id="tao0" name="start">
+                      </li>
+                      <li class="list-group-item center">
+                        <span class="person-info-title">何日まで</span>
+                        <input type="text" id="tao1" name="end">
+                      </li>
+                      <li class="list-group-item center">
+                        <input type="submit" id="tao" class="btn btn-primary" value="検索">
+                      </li>
+                    </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- <div class="col-sm text-center top36 bottom36">
     <form action="{{ route('get_user_find') }}" method="get">
       @csrf
       名前
@@ -33,12 +81,12 @@
       (大)日付<input type="date" id="tao" name="end" value="{{ Request::query('end') }}"><br>
       <input type="submit" id="tao" value="検索">
     </form>
-  </div>
+  </div> -->
 @if($attendance_records)
 <h3>勤怠表</h3>
 <div class="row">
   <div class="col-sm-8"></div>
-  <div class="col-sm-4 top1">名前:{{ Auth::user()->name }}</div>
+  <div class="col-sm-4 top1">名前:{{ $user_name }}</div>
 </div>
 <div id="cools"class="row">
   @for ($i=$diff; $i>=0; $i--)
