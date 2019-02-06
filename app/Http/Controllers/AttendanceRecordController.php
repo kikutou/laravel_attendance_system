@@ -221,11 +221,11 @@ class AttendanceRecordController extends Controller
     //   ->get();
     $attendance_records = null;
     $user_name = null;
-    if($request->user_id && $request->start && $request->end){
+    if($request->user_id && $request->start){
       $user_name = User::find($request->user_id)->name;
       $attendance_records = AttendanceRecord::where('user_id', $request->user_id)
         ->where('attendance_date', ">=", $request->start)
-        ->where('attendance_date', "<=", $request->end)
+        ->where('attendance_date', "<=", $request->end ?? Carbon::today())
         ->get();
     }
 
