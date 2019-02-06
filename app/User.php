@@ -61,6 +61,7 @@ class User extends Authenticatable
                     "leave_status" => ($attendance_record->leave_start_time ? true : false),
                     "start_time" => $attendance_record->start_time,
                     "end_time" => $attendance_record->end_time,
+                    "reason" => $attendance_record->reason,
                     "leave_start_time" => $attendance_record->leave_start_time,
                     "leave_end_time" => $attendance_record->leave_end_time,
                     "leave_reason" => $attendance_record->leave_reason,
