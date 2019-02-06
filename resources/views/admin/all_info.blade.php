@@ -42,6 +42,7 @@
                          <th class="inline_first td">タイトル</th>
                          <th class="inline_second td">公開日時</th>
                          <th class="td">作成日時</th>
+                         <th class="td">送信先</th>
                        </tr>
                      </thead>
                      <tbody>
@@ -135,6 +136,20 @@
                           <!-- ここまで -->
                         <td class="td">{{ $one_info->show_date }}</td>
                         <td class="td">{{ $one_info->created_at }}</td>
+                        <td class="td">
+                          @php
+                            $users_sent = App\Model\Users_of_information::query()->where("information_id", $one_info->id)->get();
+                          @endphp
+                          @foreach($users_sent as $user_sent)
+                            {{ $user_sent->user->name }}
+                            @if($user_sent->read)
+                            既読
+                            @endif
+                            @if(!$user_sent->read)
+                            未読
+                            @endif
+                          @endforeach
+                        </td>
                        </tr>
                        @endforeach
                      </tbody>
