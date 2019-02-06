@@ -50,6 +50,7 @@ class HomeController extends Controller
       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
       ->get()
       ->count();
+
     if($user->email_verified_at == null){
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");
