@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\EmailToken;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Model\User;
+use App\User;
 use App\Model\AttendanceRecord;
 use App\Model\Users_of_information;
 use App\Model\Information;
@@ -82,10 +82,10 @@ class HomeController extends Controller
   {
     $login_user = Auth::user();
     $today = Carbon::now()->format('Y-m-d');
-    $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
+    $users_of_infors = $login_user->get_all_infos();
 
     return view('user_info',[
-        "orderby_infors" => $users_of_infors
+        "infos" => $users_of_infors
     ]);
   }
 

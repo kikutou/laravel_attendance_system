@@ -8,6 +8,15 @@
         }
     </style>
     @if(!Auth::user()->admin_flg)
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    @include("sub_view.info_card", ["infos" => Auth::user()->get_all_unread_infos()])
+                </div>
+            </div>
+        </div>
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
