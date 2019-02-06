@@ -1,4 +1,4 @@
-@extends('layouts.app')
+aa@extends('layouts.app')
 @section("title","お知らせ")
 @section('content')
 
