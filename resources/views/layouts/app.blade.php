@@ -112,7 +112,7 @@
                                 </div>
                             </li>
                             @php
-                            $num_unverified = App\Model\User::query()->where('email_verified_at', null)->get()->count();
+                            $num_unverified = App\User::query()->where('email_verified_at', null)->get()->count();
                             $num_leave_unverified = App\Model\AttendanceRecord::query()->where('mtb_leave_check_status_id', '1')->get()->count();
                             @endphp
                             <li class="nav-item">
