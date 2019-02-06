@@ -15,30 +15,45 @@
       @endforeach
     @endif
   </div>
-  <div class="col-sm text-center top36 bottom36">
-    <form action="{{ route('get_user_find') }}" method="get">
-      @csrf
-      名前
-        <select id="user_id" name="user_id" id="tao">
-          <option>名前を選択してくださいます。</option>
-          @foreach($users as $user)
-            <option value="{{ $user->id }}"
-                @if(Request::query('user_id') && Request::query('user_id') == $user->id)
-                  selected
-                @endif
-              >{{ $user->name }}</option>
-          @endforeach
-        </select><br>
-      (小)日付<input type="date" id="tao" name="start" value="{{ Request::query('start') }}"><br>
-      (大)日付<input type="date" id="tao" name="end" value="{{ Request::query('end') }}"><br>
-      <input type="submit" id="tao" value="検索">
-    </form>
-  </div>
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-md-8">
+              <div class="card">
+                  <div class="card-header text-center">
+                    <span>勤怠検索</span></div>
+                      <div class="card-body">
+                        <ul class="list-group">
+                          <div class="text-center">
+                            <form action="{{ route('get_user_find') }}" method="get">
+                              @csrf
+                              名前
+                                <select name="user_id" id="tao">
+                                  <option value="">名前を選択してくださいます。</option>
+                                  @foreach($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        @if(Request::query('user_id') && Request::query('user_id') == $user->id)
+                                          selected
+                                        @endif
+                                      >{{ $user->name }}</option>
+                                  @endforeach
+                                </select><br>
+                              (小)日付<input type="date" id="tao" name="start" value="{{ Request::query('start') }}"><br>
+                              (大)日付<input type="date" id="tao" name="end" value="{{ Request::query('end') }}"><br>
+                              <input type="submit" id="tao" value="検索">
+                            </form>
+                          </div>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
 @if($attendance_records)
 <h3>勤怠表</h3>
 <div class="row">
   <div class="col-sm-8"></div>
-  <div class="col-sm-4 top1">名前:{{ Auth::user()->name }}</div>
+  <div class="col-sm-4 top1">名前:{{ $user_name }}</div>
 </div>
 <div id="cools"class="row">
   @for ($i=$diff; $i>=0; $i--)
