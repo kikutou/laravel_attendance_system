@@ -89,7 +89,7 @@ class User extends Authenticatable
         }
 
         usort($result, function($a, $b) {
-            if ($a->shwo_date == $b->show_date) {
+            if ($a->show_date == $b->show_date) {
 
                 if($a->created_at == $b->created_at) {
                     return 0;
@@ -125,4 +125,5 @@ class User extends Authenticatable
     {
         return $this->hasMany("App\Model\AttendanceRecord", "user_id");
     }
+
 }

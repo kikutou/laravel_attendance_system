@@ -94,41 +94,18 @@
                             </div>
                             <!-- インナーモーダル -->
                             <div class="modal fade" id="inner0Modal{{ $one_info->id }}">
-                                @component('sub_view.inner_modal',['title' => 'トータル','infos' => $one_info->get_users()])
-                                @endcomponent
+                                @include('sub_view.inner_modal',['title' => 'トータル','infos' => $one_info->get_users()])
                             </div>
                             <div class="modal fade" id="inner1Modal{{ $one_info->id }}">
-                                @component('sub_view.inner_modal',['title' => '既読','infos' => $one_info->get_read_users()])
-                                @endcomponent
+                                @include('sub_view.inner_modal',['title' => '既読','infos' => $one_info->get_read_users()])
                             </div>
                             <div class="modal fade" id="inner2Modal{{ $one_info->id }}">
-                                @component('sub_view.inner_modal',['title' => '未読','infos' => $one_info->get_unread_users()])
-                                @endcomponent
+                                @include('sub_view.inner_modal',['title' => '未読','infos' => $one_info->get_unread_users()])
                             </div>
                             <!-- ここまで -->
-                            <!-- サブモーダル -->
+                            <!-- サブモーダル(お知らせの内容変更) -->
                             <div div class="modal fade" id="subModal{{ $one_info->id }}">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <form action="{{ route('post_updated_info') }}" method="post">
-                                      @csrf
-                                    <div class="modal-header">
-                                      <input type="text" class="form-control" name="title" value="{{ $one_info->title }}">
-                                      <input type="hidden" name="info_id" value="{{ $one_info->id }}">
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-                                    </div>
-                                    <div class="modal-body" style="height:auto">
-                                      <textarea name="content" class="form-control">{{ $one_info->comment }}</textarea>
-                                    </div>
-                                    <div class="modal-body">
-                                      <input type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">
-                                    </form>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                  </div>
-                                </div>
-                              </div>
+                                @include('sub_view.sub_modal',['one_info' => $one_info])
                             </div>
                             <!-- ここまで -->
                           </td>

@@ -66,7 +66,7 @@ class NoticeController extends Controller
    */
   public function show_all_info(Request $request)
   {
-    $all_infos = Information::all();
+    $all_infos = Information::get_all_infos_orderby();
     return view('admin.all_info',['all_infos' => $all_infos]);
   }
 
