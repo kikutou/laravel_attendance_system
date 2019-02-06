@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Model\AttendanceRecord;
+use App\Model\Users_of_information;
 use Carbon\Carbon;
+use function foo\func;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,6 +36,11 @@ class User extends Authenticatable
     public function users_of_informations()
     {
         return $this->hasMany('App\Model\Users_of_information','user_id');
+    }
+
+    public function infos()
+    {
+        return $this->belongsToMany("App\Model\Information", "users_of_informations", "user_id", "information_id");
     }
 
     public function get_recent_attendance_records($days = 7) {
@@ -67,5 +74,56 @@ class User extends Authenticatable
 
         return $result;
 
+    }
+
+    public function get_all_infos()
+    {
+
+        $result = array();
+
+        foreach ($this->infos as $info) {
+            if(!$info->show_date->isFuture()) {
+                $result[] = $info;
+            }
+        }
+
+
+
+        usort($result, function($a, $b) {
+            if ($a->shwo_date == $b->show_date) {
+
+                if($a->created_at == $b->created_at) {
+                    return 0;
+                }
+                return ($a->created_at < $b->created_at) ? 1 : -1;
+            }
+            return ($a->show_date < $b->show_date) ? 1 : -1;
+        });
+
+        return count($result) > 0 ? $result : false;
+
+    }
+
+    public function get_all_unread_infos() {
+
+        $result = array();
+        $all_infos = $this->get_all_infos();
+        if($all_infos) {
+            foreach ($all_infos as $info) {
+                $user_id = $this->id;
+                $info_id = $info->id;
+                $user_info = Users_of_information::query()->where("user_id", $user_id)->where("information_id", $info_id)->first();
+                if($user_info && !$user_info->read_at) {
+                    $result[] = $info;
+                }
+            }
+        }
+
+        return count($result) > 0 ? $result : false;
+    }
+
+    public function check()
+    {
+        return $this->hasMany("App\Model\AttendanceRecord", "user_id");
     }
 }
