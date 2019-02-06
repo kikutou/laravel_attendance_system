@@ -38,13 +38,6 @@ class HomeController extends Controller
       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
       ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
       ->get();
-      // dd(Carbon::now()->subMonth(1)->addDays(1)->format('Y-m-d'));
-      // dd($att->toArray());
-      // dd(Carbon::now()->subMonth(1)->subDays(1)->format('Y-m-d'));
-      // dd($att->toArray());
-      // dd(Carbon::today()->format('m-d'));
-      // dd(Carbon::now()->subMonth(1)->format('m-d'));
-    //  dd($att['0']['start_time']);
     //本月迟到次数
     $late = AttendanceRecord::whereNotNull('reason')
       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
@@ -57,12 +50,6 @@ class HomeController extends Controller
       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
       ->get()
       ->count();
-
-      // ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-      // ->get()
-      // ->count();
-      // dd($leave);
-
     if($user->email_verified_at == null){
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");

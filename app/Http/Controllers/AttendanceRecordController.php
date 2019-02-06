@@ -208,10 +208,7 @@ class AttendanceRecordController extends Controller
     $starttime = $stime->subDay(1);
     $end = new Carbon($request->end);
     $diff = $end->diffInDays(new Carbon($request->start));
-    // $attendance_records = AttendanceRecord::where('user_id', $request->user_id)
-    //   ->where('attendance_date', ">=", $request->start)
-    //   ->where('attendance_date', "<=", $request->end)
-    //   ->get();
+
     $attendance_records = null;
     $user_name = null;
     if($request->user_id && $request->start){
