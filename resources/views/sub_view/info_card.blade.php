@@ -16,7 +16,7 @@
         text-align: center;
     }
 </style>
-
+@if($infos)
 <div class="card">
     <div class="card-header">お知らせ一覧</div>
     <div class="card-body">
@@ -57,3 +57,4 @@
         </table>
     </div>
 </div>
+@endif
