@@ -48,27 +48,6 @@
                                 rotation:-30
                               }
                             };
-                           //  var xAxis = {
-                           //
-                           //    title: {
-                           //       text: '日付(最近の一か月)'
-                           //    },
-                           //    labels:{
-                           //      rotation:-30
-                           //    },
-                           //    categories: [
-                           //      @for ($i = 1; $i <= 30; $i++)
-                           //       @foreach ($atts as $val)
-                           //         @if (date("Y-m-d", strtotime($val->attendance_date)) == \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'))
-                           //           ['date("m-d", strtotime($val->attendance_date'],
-                           //         @else
-                           //           ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('m-d') }}'],
-                           //         @endif
-                           //       @endforeach
-                           //     @endfor
-                           //    ],
-                           //    crosshair: true
-                           // };
                             var yAxis = {
                                min: 0,
                                max: 20,
