@@ -52,12 +52,12 @@
 
           <div class="card-body">
             @foreach($attendancerecords as $attendancerecord)
-            <ul class="list-group top1" id="socool">
-              <li class="list-group-item"><span class="person-info-title">従業員&nbsp:</span>&nbsp{{ $attendancerecord->users->name }}</li>
-              <li class="list-group-item"><span class="person-info-title">欠勤開始時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}</li>
-              <li class="list-group-item"><span class="person-info-title">欠勤終了時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}</li>
-              <li class="list-group-item"><span class="person-info-title">休みの理由&nbsp:</span>&nbsp{{ $attendancerecord->leave_reason}}</li>
-              <li class="list-group-item"><span class="person-info-title">欠勤承認状態&nbsp:</span>
+            <ul class="list-group top1" id="socool"style="border:1px solid lightgray">
+              <li class="list-group-item bg-light" style="border:0px"><span class="person-info-title">従業員&nbsp:</span>&nbsp{{ $attendancerecord->users->name }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤開始時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤終了時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">休みの理由&nbsp:</span>&nbsp{!! nl2br($attendancerecord->leave_reason) !!}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤承認状態&nbsp:</span>
                 @if ($attendancerecord->mtb_leave_check_status_id == 3)
                 断り
                 @elseif ($attendancerecord->mtb_leave_check_status_id == 1)
