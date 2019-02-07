@@ -38,7 +38,7 @@
                 </div>
                 <div class="card-body">
                    <table class="table">
-                     <thead>
+                     <thead class="bg-light">
                        <tr>
                          <th class="inline_first td">タイトル</th>
                          <th class="inline_second td">公開日時</th>

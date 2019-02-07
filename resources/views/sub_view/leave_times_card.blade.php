@@ -31,7 +31,7 @@
     }
     };
     var tooltip = {
-    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+    headerFormat: '<span style="font-size:10px">{point.key}</span><table style="width:250px">',
     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
        '<td style="padding:0"><b>{point.y}</b></td></tr>',
     footerFormat: '</table>',
