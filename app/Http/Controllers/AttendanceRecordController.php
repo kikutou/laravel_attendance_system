@@ -202,7 +202,7 @@ class AttendanceRecordController extends Controller
 
   public function user_find(Request $request)
   {
-    $user = User::all();
+    $user = User::whereNotNull('email_verified_at')->get();
     $attendance_records = null;
     $stime = new Carbon($request->start);
     $starttime = $stime->subDay(1);

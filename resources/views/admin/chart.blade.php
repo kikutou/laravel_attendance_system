@@ -5,7 +5,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-          @include('sub_view.attendance_card',['user_names' => $user_names, 'late_times' => $late_times])
+          @include('sub_view.admin_attendance_card',
+            [
+              'user_names' => $user_names,
+              'late_times' => $late_times
+            ])
         </div>
     </div>
 </div>

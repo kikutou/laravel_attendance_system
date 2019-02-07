@@ -17,11 +17,11 @@
            <div class="card-header">欠勤申込</div>
            <div class="card-body">
              <ul class="list-group">
-               <li class="list-group-item">
+               <li class="list-group-item" style="border:0px">
                  <span class="person-info-title">欠勤日</span>
                  <input id="start_day" class="form-control" name="attendance_date" autocomplete="off" type="text" value="{{ old('attendance_date') }}" placeholder="欠勤日を選択してください">
                </li>
-               <li class="list-group-item">
+               <li class="list-group-item" style="border:0px">
                  <span class="person-info-title">欠勤開始時間</span>
                  <div class="form-inline">
                    <select class="form-control" name="leave_start_hour" style="width:310px">
@@ -50,7 +50,7 @@
                      @endfor
                    </select>
                  </li>
-                 <li class="list-group-item">
+                 <li class="list-group-item" style="border:0px">
                    <span class="person-info-title">欠勤終了時間</span>
                    <div class="form-inline">
                      <select class="form-control" name="leave_end_hour" style="width:310px">
@@ -80,11 +80,11 @@
                      </select>
                  </div>
                </li>
-               <li class="list-group-item">
+               <li class="list-group-item" style="border:0px">
                  <span class="person-info-title">申請理由</span>
                  <textarea class="form-control" name="leave_reason" rows="5" placeholder="申請理由を入力してください">{{ old('leave_reason') }}</textarea>
                </li>
-               <li class="list-group-item" style="text-align:center">
+               <li class="list-group-item" style="text-align:center;border:0px">
                    <input type="submit" class="btn btn-primary" value="申請">
                    <input type="reset" class="btn btn-primary"value="リセット">
                </li>

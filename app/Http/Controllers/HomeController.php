@@ -63,7 +63,7 @@ class HomeController extends Controller
 
   public function showchart(Request $request)
   {
-    $users = User::all();
+    $users = User::whereNotNull('email_verified_at')->get();
     $user_names = array();
     $late_times = array();
     $this_month_leave_times = array();
@@ -72,15 +72,18 @@ class HomeController extends Controller
     foreach ($users as $user) {
       $user_names[] = $user->name;
       $late_times[] = $user->get_late_times();
-      $this_month_leave_times[] = $user->get_leave_times('this_month');
-      $next_month_leave_times[] = $user->get_leave_times('next_month');
-      $month_after_next_month_leave_times[] = $user->get_leave_times('month_after_next_month');
+      $this_month_leave_times[] = $user->get_leave_times(0);
+      $next_month_leave_times[] = $user->get_leave_times(1);
+      $month_after_next_month_leave_times[] = $user->get_leave_times(2);
     }
-      return view('admin.chart', ['user_names' => $user_names,
-                                  'late_times' => $late_times,
-                                  'this_month_leave_times' => $this_month_leave_times,
-                                  'next_month_leave_times' => $next_month_leave_times,
-                                  'month_after_next_month_leave_times' => $month_after_next_month_leave_times]);
+      return view('admin.chart',
+       [
+        'user_names' => $user_names,
+        'late_times' => $late_times,
+        'this_month_leave_times' => $this_month_leave_times,
+        'next_month_leave_times' => $next_month_leave_times,
+        'month_after_next_month_leave_times' => $month_after_next_month_leave_times
+       ]);
   }
 
   /**

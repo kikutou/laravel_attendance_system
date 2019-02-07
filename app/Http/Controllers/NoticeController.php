@@ -18,7 +18,7 @@ class NoticeController extends Controller
    */
   public function create_notice(Request $request)
   {
-    $users = User::all();
+    $users = User::whereNotNull('email_verified_at')->get();
     return view('admin.create_notice',['users' => $users]);
   }
 
