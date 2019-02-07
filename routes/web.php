@@ -33,6 +33,8 @@ Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name(
 Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish')->middleware("auth");
 
 Route::get('/user_attendance_rec', 'AttendanceRecordController@create_csv')->name('get_create_csv')->middleware("auth");
+Route::get('/user_attendance_rec_1', 'AttendanceRecordController@create_csv_find')->name('get_create_csv_find')->middleware('admin')->middleware("auth");
+
 //tao
 Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all')->middleware("auth");
 Route::get('user_find','AttendanceRecordController@user_find')->name('get_user_find')->middleware('admin')->middleware("auth");

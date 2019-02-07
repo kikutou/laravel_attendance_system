@@ -202,33 +202,50 @@ class AttendanceRecordController extends Controller
 
   public function user_find(Request $request)
   {
-    $user = User::all();
     $attendance_records = null;
-    $stime = new Carbon($request->start);
-    $starttime = $stime->subDay(1);
-    $end = new Carbon($request->end);
-    $diff = $end->diffInDays(new Carbon($request->start));
+    $users = User::all();
 
-    $attendance_records = null;
-    $user_name = null;
-    if($request->user_id && $request->start){
-      $user_name = User::find($request->user_id)->name;
-      $attendance_records = AttendanceRecord::query()
-        ->where('user_id', $request->user_id)
-        ->where('attendance_date', ">=", New Carbon($request->start))
-        ->where('attendance_date', "<=",  New Carbon($request->end) ?? Carbon::today())
-        ->get();
+    if($request->search) {
+      if($request->user_id == "all") {
+        $users_rec = User::all();
+        $attendance_records = AttendanceRecord::query();
+      } else {
+        $users_rec = array();
+        $users_rec[] = User::find($request->user_id);
+        $attendance_records = AttendanceRecord::query()->where('user_id', $request->user_id);
+      }
 
+      if($request->start) {
+        $starttime = New Carbon($request->start);
+      } else {
+        $starttime = New Carbon(AttendanceRecord::orderBy('attendance_date','asc')->first()->attendance_date);
+      }
+
+      $attendance_records = $attendance_records->where('attendance_date', '>=', $starttime);
+
+      if($request->end && new Carbon($request->end) <= Today()) {
+        $endtime = New Carbon($request->end);
+      } else {
+        $endtime = Today();
+      }
+
+      $attendance_records = $attendance_records->where('attendance_date', '<=', $endtime);
+
+      $diff = $starttime->diffIndays($endtime) + 1;
+
+      return view ('admin.user_find', [
+        'attendance_records' => $attendance_records,
+        'users' => $users,
+        'users_rec' => $users_rec,
+        'starttime' => $starttime,
+        'endtime' => $endtime,
+        'diff' => $diff
+      ]);
     }
 
-    return view('admin.user_find',[
+    return view ('admin.user_find', [
       'attendance_records' => $attendance_records,
-      'users'=>$user,
-      'user_name' => $user_name,
-      'diff' =>$diff,
-      'starttime' =>$starttime,
-      'endtime' =>$end
-    ]);
+      'users' => $users]);
   }
 
     public function create_csv()
@@ -297,4 +314,79 @@ class AttendanceRecordController extends Controller
       return Response::make($csv, 200, $headers);
     }
 
+
+
+    public function create_csv_find(Request $request)
+    {
+      $starttime =  New Carbon($request->starttime['date']);
+      $endtime = New Carbon($request->endtime['date']);
+      $diff = $starttime->diffIndays($endtime);
+
+      $recs_r = AttendanceRecord::where('user_id', '=', $request->user_id)->where('attendance_date', '>=', $starttime)->where('attendance_date', '<=', $endtime)->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+      $recs = [];
+      $rec_n = [];
+      $time_count = null;
+
+      for ($i = 0; $i <= $diff; $i++) {
+        $start_at = clone $starttime;
+        $thisday = $start_at->addDays($i);
+
+        foreach ($recs_r as $rec_r) {
+          if ($rec_r['attendance_date'] == $thisday) {
+            $rec_n = $rec_r;
+            break;
+          }
+        }
+
+        if ($rec_n) {
+          $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
+          if ($rec_n['end_time']) {
+            $time_start = new Carbon($rec_n['start_time']);
+            $time_end = new Carbon($rec_n['end_time']);
+            $time_oneday = $time_end->diffInMinutes($time_start);
+            $time_count = $time_count + $time_oneday;
+          }
+
+          if ($rec_n['leave_end_time']) {
+            $rec_n['leave_start_time'] = '休み' . $rec_n['leave_start_time'] . '-' . $rec_n['leave_end_time'];
+            $rec_n['leave_end_time'] = null;
+          }
+
+          $recs[] = $rec_n;
+        }
+
+        else {
+          $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
+          $recs[] = $rec_n;
+        }
+
+        $rec_n = [];
+      }
+
+      $csvHeader = ['日付', '出勤時間', '退勤時間'];
+      array_unshift($recs, $csvHeader);
+
+      $csvHeader_b = ['名前', User::find($request->user_id)->name];
+      array_unshift($recs, $csvHeader_b);
+
+      $time_count_hour = floor($time_count / 60);
+      $time_count_min = $time_count % 60;
+
+      $csvFooter = ['総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
+      array_push($recs, $csvFooter);
+
+      $stream = fopen('php://temp', 'r+b');
+      foreach ($recs as $rec) {
+        fputcsv($stream, $rec);
+      }
+      rewind($stream);
+      $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+      $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+      $filename = date('YmdHis') . '.' . 'csv';
+      $headers = array(
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => "attachment; filename=$filename",
+      );
+      return Response::make($csv, 200, $headers);
+    }
 }
