@@ -1,5 +1,5 @@
 @extends("layouts.app")
-@section("title","出勤状態")
+@section('title','出勤状態')
 @section("content")
   <link href="{{ asset('/css/tao.css') }}" rel="stylesheet">
     <h3>一週間の勤怠表</h3>

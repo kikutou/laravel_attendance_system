@@ -202,6 +202,10 @@ class AttendanceRecordController extends Controller
 
   public function user_find(Request $request)
   {
+<<<<<<< HEAD
+=======
+    $user = User::whereNotNull('email_verified_at')->get();
+>>>>>>> 518631b7463fe8d103178ad149374b3ec83d1788
     $attendance_records = null;
     $users = User::all();
 

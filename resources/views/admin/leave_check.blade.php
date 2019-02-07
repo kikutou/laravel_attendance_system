@@ -24,9 +24,6 @@
       }
     </script>
   <body>
-    @if(Session::has("message"))
-      <p>{{ Session::get("message") }}</p>
-    @endif
     <div id="content" class="container-fluid">
       <div class="col-sm text-center top36 bottom36">
         <p>休み請求一覧</p>
@@ -39,28 +36,28 @@
 
         <div class="card top2 col-sm-6">
           <div class="card-header row cool">
-            <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='all') ? 'bg-info' : '' }}">
               <a href="/check" style="color:{{ ($current_page=='all') ? 'white' : '' }}">すべて</a>
             </div>
-            <div class="col-sm-3 {{ ($current_page=='approval_pending') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='approval_pending') ? 'bg-info' : '' }}">
               <a href="/check/approval_pending" style="color:{{ ($current_page=='approval_pending') ? 'white' : '' }}">未承認</a>
             </div>
-            <div class="col-sm-3 {{ ($current_page=='approval') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='approval') ? 'bg-info' : '' }}">
               <a href="/check/approval" style="color:{{ ($current_page=='approval') ? 'white' : '' }}">承認済み</a>
             </div>
-            <div class="col-sm-3 {{ ($current_page=='refuse') ? 'current' : '' }}">
+            <div class="col-sm-3 p-2 {{ ($current_page=='refuse') ? 'bg-info' : '' }}">
               <a href="/check/refuse" style="color:{{ ($current_page=='refuse') ? 'white' : '' }}">断り</a>
             </div>
           </div>
 
           <div class="card-body">
             @foreach($attendancerecords as $attendancerecord)
-            <ul class="list-group top1" id="socool">
-              <li class="list-group-item"><span class="person-info-title">従業員&nbsp:</span>&nbsp{{ $attendancerecord->users->name }}</li>
-              <li class="list-group-item"><span class="person-info-title">欠勤開始時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}</li>
-              <li class="list-group-item"><span class="person-info-title">欠勤終了時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}</li>
-              <li class="list-group-item"><span class="person-info-title">休みの理由&nbsp:</span>&nbsp{{ $attendancerecord->leave_reason}}</li>
-              <li class="list-group-item"><span class="person-info-title">欠勤承認状態&nbsp:</span>
+            <ul class="list-group top1" id="socool"style="border:1px solid lightgray">
+              <li class="list-group-item bg-light" style="border:0px"><span class="person-info-title">従業員&nbsp:</span>&nbsp{{ $attendancerecord->users->name }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤開始時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤終了時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">休みの理由&nbsp:<br></span>&nbsp{!! nl2br($attendancerecord->leave_reason) !!}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤承認状態&nbsp:</span>
                 @if ($attendancerecord->mtb_leave_check_status_id == 3)
                 断り
                 @elseif ($attendancerecord->mtb_leave_check_status_id == 1)
@@ -70,12 +67,12 @@
                 @endif
               </li>
               @if($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 2)
-              <li class="list-group-item"><span class="person-info-title">承認時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">承認時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
               @elseif($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 3)
-              <li class="list-group-item"><span class="person-info-title">断り時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">断り時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
               @endif
               @if ($attendancerecord->mtb_leave_check_status_id == 1)
-              <li class="list-group-item">
+              <li class="list-group-item" style="border:0px">
                 <div class="form-inline" style="width:200px;margin:0 auto">
                   <div class="col-sm-6 text-right">
                     <form action="{{ route('post_check') }}" method="post">

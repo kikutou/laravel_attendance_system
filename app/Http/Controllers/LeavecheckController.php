@@ -22,10 +22,9 @@ class LeavecheckController extends Controller
 
         $status = $status ?? 'all';
         $attendancerecords = ($status == 'all')
-            ? AttendanceRecord::where("start_time",null)->orderBy("attendance_date")->get()
+            ? AttendanceRecord::whereNotNull('mtb_leave_check_status_id')->orderBy("attendance_date",'desc')->get()
             : AttendanceRecord::where("mtb_leave_check_status_id", $statusArr[$status])
-              ->where("start_time",null)
-              ->orderBy("attendance_date")
+              ->orderBy("attendance_date",'desc')
               ->get();
 
         return view(

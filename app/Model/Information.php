@@ -50,4 +50,38 @@ class Information extends Model
         }
         return false;
     }
+    public function get_read_users()
+    {
+       return $this->users_of_informations()->whereNotNull('read_at')->get();
+    }
+
+    public function get_unread_users()
+    {
+       return $this->users_of_informations()->whereNull('read_at')->get();
+    }
+    public function get_users()
+    {
+       return $this->users_of_informations()->get();
+    }
+
+    public static function get_all_infos_orderby()
+    {
+      $all_infos = Information::all();
+      $result = array();
+      foreach ($all_infos as $info) {
+        $result[] = $info;
+      }
+      usort($result, function($a, $b) {
+          if ($a->show_date == $b->show_date) {
+
+              if($a->created_at == $b->created_at) {
+                  return 0;
+              }
+              return ($a->created_at < $b->created_at) ? 1 : -1;
+          }
+          return ($a->show_date < $b->show_date) ? 1 : -1;
+      });
+
+      return count($result) > 0 ? $result : false;
+    }
 }

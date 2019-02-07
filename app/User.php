@@ -4,6 +4,7 @@ namespace App;
 
 use App\Model\AttendanceRecord;
 use App\Model\Users_of_information;
+use App\Model\Master\MtbLeaveCheckStatus;
 use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Notifications\Notifiable;
@@ -41,6 +42,10 @@ class User extends Authenticatable
     public function infos()
     {
         return $this->belongsToMany("App\Model\Information", "users_of_informations", "user_id", "information_id");
+    }
+    public function attendance_records()
+    {
+        return $this->hasMany('App\Model\AttendanceRecord','user_id');
     }
 
     public function get_recent_attendance_records($days = 7, $thisday = null) {
@@ -97,7 +102,7 @@ class User extends Authenticatable
         }
 
         usort($result, function($a, $b) {
-            if ($a->shwo_date == $b->show_date) {
+            if ($a->show_date == $b->show_date) {
 
                 if($a->created_at == $b->created_at) {
                     return 0;
@@ -133,4 +138,30 @@ class User extends Authenticatable
     {
         return $this->hasMany("App\Model\AttendanceRecord", "user_id");
     }
+
+    public function get_late_times()
+    {
+      $start_of_month = Carbon::today()->startOfMonth();
+      $end_of_month = Carbon::today()->endOfMonth();
+      $late_times = count($this->attendance_records()
+                               ->where('attendance_date','>=',new Carbon($start_of_month))
+                               ->where('attendance_date','<=',new Carbon($end_of_month))
+                               ->whereNotNull('reason')
+                               ->get());
+      return $late_times;
+    }
+
+    public function get_leave_times($month)
+    {
+      $start_of_month = Carbon::today()->addMonth($month)->startOfMonth();
+      $end_of_month = Carbon::today()->addMonth($month)->endOfMonth();
+      $month_leave_times = count($this->attendance_records()
+                                             ->where('attendance_date','>=',$start_of_month)
+                                             ->where('attendance_date','<=',$end_of_month)
+                                             ->where('mtb_leave_check_status_id',MtbLeaveCheckStatus::APPROVAL)
+                                             ->get());
+      return $month_leave_times;
+
+    }
+
 }

@@ -59,7 +59,6 @@ class AttendanceRecord extends Model
       }
 
       return $result;
-    }
-
+    } 
 
 }

@@ -1,5 +1,5 @@
 @extends("layouts.app")
-@section("title","会員認証")
+@section('title','会員認証')
 @section("content")
 
 <div class="container">
@@ -20,7 +20,7 @@
                         <input type="hidden" name="confirmOrNOt" value="yes">
                         <input type="hidden" name="id" value="{{ $user->id }}">
                         <input type="submit" class="btn btn-primary" value="承認">
-                        <input style="margin-left:50px" type="submit" name="delete" class="btn btn-primary" value="削除">
+                        <input style="margin-left:20px" type="submit" name="delete" class="btn btn-primary" value="削除">
                       </form>
                     </div>
                   </li>

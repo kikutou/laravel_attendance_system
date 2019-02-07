@@ -63,15 +63,27 @@ class HomeController extends Controller
 
   public function showchart(Request $request)
   {
-    $user = User::all();
-
-    $att = AttendanceRecord::whereNotNull('reason')
-    ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-    ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
-    ->selectRaw('count(reason) as top,user_id')
-    ->groupBy('user_id')
-    ->get();
-      return view('admin.chart', ['atts' => $att, 'users' => $user]);
+    $users = User::whereNotNull('email_verified_at')->get();
+    $user_names = array();
+    $late_times = array();
+    $this_month_leave_times = array();
+    $next_month_leave_times = array();
+    $month_after_next_month_leave_times = array();
+    foreach ($users as $user) {
+      $user_names[] = $user->name;
+      $late_times[] = $user->get_late_times();
+      $this_month_leave_times[] = $user->get_leave_times(0);
+      $next_month_leave_times[] = $user->get_leave_times(1);
+      $month_after_next_month_leave_times[] = $user->get_leave_times(2);
+    }
+      return view('admin.chart',
+       [
+        'user_names' => $user_names,
+        'late_times' => $late_times,
+        'this_month_leave_times' => $this_month_leave_times,
+        'next_month_leave_times' => $next_month_leave_times,
+        'month_after_next_month_leave_times' => $month_after_next_month_leave_times
+       ]);
   }
 
   /**

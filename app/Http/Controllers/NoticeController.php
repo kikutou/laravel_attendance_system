@@ -18,7 +18,7 @@ class NoticeController extends Controller
    */
   public function create_notice(Request $request)
   {
-    $users = User::all();
+    $users = User::whereNotNull('email_verified_at')->get();
     return view('admin.create_notice',['users' => $users]);
   }
 
@@ -66,7 +66,7 @@ class NoticeController extends Controller
    */
   public function show_all_info(Request $request)
   {
-    $all_infos = Information::all();
+    $all_infos = Information::get_all_infos_orderby();
     return view('admin.all_info',['all_infos' => $all_infos]);
   }
 
@@ -78,12 +78,8 @@ class NoticeController extends Controller
   public function update_info(Request $request)
   {
     $one_info = Information::where('id',$request->info_id)->first();
-    $one_info->title = $request->old_title;
-    $one_info->comment = $request->old_content;
-    if($request->new_title && $request->new_content){
-      $one_info->title = $request->new_title;
-      $one_info->comment = $request->new_content;
-    }
+    $one_info->title = $request->title;
+    $one_info->comment = $request->content;
     $one_info->save();
 
     $success_message = '更新しました。';

@@ -1,6 +1,5 @@
 @extends('layouts.app')
-@section("title","通知関連")
-
+@section('title','通知関連')
 @section('content')
 <script>
   $(function(){
@@ -51,19 +50,18 @@ $(function(){
                     <ul class="list-group">
                       <form action="{{ route('post_create_notice') }}" method="post">
                         @csrf
-                        <li class="list-group-item"><span class="person-info-title">お知らせ日時</span>
-                          <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" placeholder="お知らせ日時を選択してください">
+                        <li class="list-group-item" style="border:0px"><span class="person-info-title">お知らせ日時</span>
+                          <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" autocomplete="off" placeholder="お知らせ日時を選択してください">
                         </li>
-                        <li class="list-group-item"><span class="person-info-title">タイトル</span>
+                        <li class="list-group-item" style="border:0px"><span class="person-info-title">タイトル</span>
                           <input class="form-control" name="title" type="text" value="{{ old('title') }}" placeholder="タイトルを入力してください">
                         </li>
-                        <li class="list-group-item"><span class="person-info-title">内容</span>
+                        <li class="list-group-item" style="border:0px"><span class="person-info-title">内容</span>
                           <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
-                        <li class="list-group-item"><span class="person-info-title">送信先</span>
+                        <li class="list-group-item" style="border:0px"><span class="person-info-title">送信先</span>
                           <div id="checkboxlist" class="checkbox-inline form-control"style="height:auto">
                             @foreach($users as $user)
-                              @continue(!$user->email_verified_at)
                               <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
                                @if(old('user_ids') && in_array($user->id,old('user_ids')))
                                 checked
@@ -72,7 +70,7 @@ $(function(){
                               <br><input id="all_users" type="checkbox" name="all_users">&nbspすべて
                           </div>
                         </li>
-                        <li class="list-group-item" style="text-align:center">
+                        <li class="list-group-item" style="text-align:center;border:0px">
                           <input type="submit" class="btn btn-primary" value="作成">
                           <input style="margin-left:50px" type="reset" class="btn btn-primary" value="リセット">
                         </li>
