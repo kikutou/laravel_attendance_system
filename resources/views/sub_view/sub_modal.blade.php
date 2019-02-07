@@ -4,7 +4,7 @@
       <form action="{{ route('post_updated_info') }}" method="post">
         @csrf
       <div class="modal-header">
-        <input type="text" class="form-control" name="title" value="{{ $one_info->title }}">
+        <textarea  class="form-control" name="title">{!! nl2br($one_info->title) !!}</textarea>
         <input type="hidden" name="info_id" value="{{ $one_info->id }}">
         <button  type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>

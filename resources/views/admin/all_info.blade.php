@@ -92,7 +92,7 @@
                                 </div>
                               </div>
                             </div>
-                            <!-- インナーモーダル -->
+                            <!-- インナーモーダル（既読人数の詳細表示） -->
                             <div class="modal fade" id="inner0Modal{{ $one_info->id }}">
                                 @include('sub_view.inner_modal',['title' => 'トータル','infos' => $one_info->get_users()])
                             </div>
