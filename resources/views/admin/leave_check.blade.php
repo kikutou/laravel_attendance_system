@@ -56,7 +56,7 @@
               <li class="list-group-item bg-light" style="border:0px"><span class="person-info-title">従業員&nbsp:</span>&nbsp{{ $attendancerecord->users->name }}</li>
               <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤開始時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_start_time }}</li>
               <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤終了時間&nbsp:</span>&nbsp{{ $attendancerecord->attendance_date->format("Y年n月j日") . $attendancerecord->leave_end_time }}</li>
-              <li class="list-group-item" style="border:0px"><span class="person-info-title">休みの理由&nbsp:</span>&nbsp{!! nl2br($attendancerecord->leave_reason) !!}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">休みの理由&nbsp:<br></span>&nbsp{!! nl2br($attendancerecord->leave_reason) !!}</li>
               <li class="list-group-item" style="border:0px"><span class="person-info-title">欠勤承認状態&nbsp:</span>
                 @if ($attendancerecord->mtb_leave_check_status_id == 3)
                 断り
@@ -67,12 +67,12 @@
                 @endif
               </li>
               @if($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 2)
-              <li class="list-group-item"><span class="person-info-title">承認時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">承認時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
               @elseif($attendancerecord->leave_check_time && $attendancerecord->mtb_leave_check_status_id == 3)
-              <li class="list-group-item"><span class="person-info-title">断り時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
+              <li class="list-group-item" style="border:0px"><span class="person-info-title">断り時間&nbsp:</span>&nbsp{{ $attendancerecord->leave_check_time }}</li>
               @endif
               @if ($attendancerecord->mtb_leave_check_status_id == 1)
-              <li class="list-group-item">
+              <li class="list-group-item" style="border:0px">
                 <div class="form-inline" style="width:200px;margin:0 auto">
                   <div class="col-sm-6 text-right">
                     <form action="{{ route('post_check') }}" method="post">
