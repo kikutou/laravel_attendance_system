@@ -383,9 +383,9 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="246" />
-    <option name="y" value="119" />
-    <option name="width" value="1709" />
+    <option name="x" value="245" />
+    <option name="y" value="118" />
+    <option name="width" value="1710" />
     <option name="height" value="930" />
   </component>
   <component name="ProjectView">
@@ -460,9 +460,6 @@
         </RuleState>
       </list>
     </option>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
