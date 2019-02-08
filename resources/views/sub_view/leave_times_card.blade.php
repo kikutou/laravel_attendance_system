@@ -5,22 +5,22 @@
     <script language="JavaScript">
     $(document).ready(function() {
     var chart = {
-    type: 'column'
+      type: 'column'
     };
     var title = {
-    text: '３ヶ月間の欠勤（予定）回数の棒状チャート図'
+      text: '３ヶ月間の欠勤（予定）回数の棒状チャート図'
     };
     var subtitle = {
-    text: '勤怠管理システム'
+      text: '勤怠管理システム'
     };
     var user_names = {!! json_encode($user_names) !!};
     var xAxis = {
-    categories:user_names,
-    crosshair: true
+      categories:user_names,
+      crosshair: true
     };
     var yAxis = {
-    min: 0,
-    max:30,
+      min: 0,
+      max:30,
     title: {
        text: '回数(1-30回)'
     },
@@ -31,12 +31,12 @@
     }
     };
     var tooltip = {
-    headerFormat: '<span style="font-size:10px">{point.key}</span><table style="width:250px">',
-    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+      headerFormat: '<span style="font-size:10px">{point.key}</span><table style="width:250px">',
+      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                  '<td style="padding:0"><b>{point.y}</b></td></tr>',
-    footerFormat: '</table>',
-    shared: true,
-    useHTML: true
+      footerFormat: '</table>',
+      shared: true,
+      useHTML: true
     };
     var plotOptions = {
     column: {
