@@ -7,7 +7,7 @@
         <div class="col-md-8">
           @include('sub_view.admin_attendance_card',
             [
-              'user_names' => $user_names,
+              'late_user_names' => $late_user_names,
               'late_times' => $late_times
             ])
         </div>
@@ -18,7 +18,7 @@
         <div class="col-md-8">
           @include('sub_view.leave_times_card',
           [
-            'user_names' => $user_names,
+            'leave_user_names' => $leave_user_names,
             'this_month_leave_times' => $this_month_leave_times,
             'next_month_leave_times' => $next_month_leave_times,
             'month_after_next_month_leave_times' => $month_after_next_month_leave_times
