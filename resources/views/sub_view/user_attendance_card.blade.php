@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">今月の出勤時間の棒状チャート図</div>
   <div class="card-body">
-    <div id="user_attendance_card"></div>
+    <div id="user_attendance_card" style="width: 550px; height: 400px; margin: 0 auto"></div>
     <script language="JavaScript">
   $(document).ready(function() {
    var chart = {
@@ -18,7 +18,7 @@
        type:'datetime',
        title: {
           text: '日付(最近の一か月)',
-          x:-40
+          x:-30
 
        },
       categories:days,
