@@ -37,6 +37,7 @@ class HomeController extends Controller
      $att = AttendanceRecord::where('user_id',$user->id)
        ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
        ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+       ->whereNotNull('start_time')
        ->get()
        ->toArray();
        $date = [];

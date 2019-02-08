@@ -4,7 +4,7 @@
 
     <style>
         main div.container {
-            margin-bottom: 20px;
+          margin-bottom: 20px;
         }
         .td{
           display: table-cell;
@@ -40,7 +40,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @include('sub_view.user_attendance_card')
+              @include('sub_view.user_attendance_card')
             </div>
         </div>
     </div>
