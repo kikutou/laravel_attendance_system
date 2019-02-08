@@ -67,6 +67,10 @@ class NoticeController extends Controller
   public function show_all_info(Request $request)
   {
     $all_infos = Information::get_all_infos_orderby();
+    if(!$all_infos){
+        $message = 'まだデータがありません。';
+        return view('admin.all_info')->with(['message' => $message]);
+     }
     return view('admin.all_info',['all_infos' => $all_infos]);
   }
 
@@ -79,7 +83,7 @@ class NoticeController extends Controller
   {
     $one_info = Information::where('id',$request->info_id)->first();
     $one_info->title = $request->title;
-    $one_info->comment = $request->content;
+    $one_info->comment = $request->comment;
     $one_info->save();
 
     $success_message = '更新しました。';

@@ -28,48 +28,54 @@ class HomeController extends Controller
    *
    * @return \Illuminate\Contracts\Support\Renderable
    */
-  public function index(Request $request)
-  {
-    $today = Carbon::now();
-    $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
-    $login_user = Auth::user();
-    $user = User::where('id', $login_user->id)->first();
-    $att = AttendanceRecord::where('user_id',$user->id)
-      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-      ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
-      ->get();
-    //本月迟到次数
-    $late = AttendanceRecord::whereNotNull('reason')
-      ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
-      ->where('attendance_date', '<=' , Carbon::now()->lastOfMonth()->format('Y-m-d'))
-      ->get()
-      ->count();
-    //本月请假次数
-    $leave = AttendanceRecord::whereNotNull('leave_reason')
-      ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
-      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-      ->get()
-      ->count();
-
+   public function index(Request $request)
+   {
+     $today = Carbon::now();
+     $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
+     $login_user = Auth::user();
+     $user = User::where('id', $login_user->id)->first();
+     $att = AttendanceRecord::where('user_id',$user->id)
+       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+       ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+       ->whereNotNull('start_time')
+       ->get()
+       ->toArray();
+       $date = [];
+       foreach ($att as $v) {
+         $date[] = date("Y-m-d", strtotime($v['attendance_date']));
+       }
+     //本月迟到次数
+     $late = AttendanceRecord::whereNotNull('reason')
+       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
+       ->where('attendance_date', '<=' , Carbon::now()->lastOfMonth()->format('Y-m-d'))
+       ->get()
+       ->count();
+     //本月请假次数
+     $leave = AttendanceRecord::whereNotNull('leave_reason')
+       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
+       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+       ->get()
+       ->count();
     if($user->email_verified_at == null){
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");
     }else{
         $days = $login_user->get_recent_days(30,'m-d');
-        $start_time = $login_user->get_start_time_of_days();
-        $end_time = $login_user->get_end_time_of_days();
-        $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
+        $start_time = $login_user->get_start_time_of_days(30);
+        $end_time = $login_user->get_end_time_of_days(30);
+        $infos = $login_user->get_all_unread_infos();
         return view('home',
             [
               'today' => $today,
               'late' => $late,
               'leave' => $leave,
               'atts' => $att,
-              'days' => $days,
-              'start_time' => $start_time,
-              'end_time' => $end_time,
               'onemomthago' => $onemomthago,
-              'orderby_infors' => $users_of_infors
+              'orderby_infors' => $infos,
+              'days' => $days,
+              't_date' => $date,
+              'start_time' => $start_time,
+              'end_time' => $end_time
 
             ])->with('message', "ログインできました。");
     }
@@ -79,21 +85,29 @@ class HomeController extends Controller
   public function showchart(Request $request)
   {
     $users = User::whereNotNull('email_verified_at')->get();
-    $user_names = array();
+    $late_user_names = array();
+    $leave_user_names = array();
     $late_times = array();
     $this_month_leave_times = array();
     $next_month_leave_times = array();
     $month_after_next_month_leave_times = array();
     foreach ($users as $user) {
-      $user_names[] = $user->name;
-      $late_times[] = $user->get_late_times();
-      $this_month_leave_times[] = $user->get_leave_times(0);
-      $next_month_leave_times[] = $user->get_leave_times(1);
-      $month_after_next_month_leave_times[] = $user->get_leave_times(2);
+        if($user->get_late_times() > 0){
+            $late_user_names[] = $user->name;
+            $late_times[] = $user->get_late_times();
+        }
+        if($user->get_leave_times(0) > 0 || $user->get_leave_times(1) > 0 || $user->get_leave_times(2) > 0){
+            $leave_user_names[] = $user->name;
+            $this_month_leave_times[] = $user->get_leave_times(0);
+            $next_month_leave_times[] = $user->get_leave_times(1);
+            $month_after_next_month_leave_times[] = $user->get_leave_times(2);
+        }
+
     }
       return view('admin.chart',
        [
-        'user_names' => $user_names,
+        'late_user_names' => $late_user_names,
+        'leave_user_names' => $leave_user_names,
         'late_times' => $late_times,
         'this_month_leave_times' => $this_month_leave_times,
         'next_month_leave_times' => $next_month_leave_times,

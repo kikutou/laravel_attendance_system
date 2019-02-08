@@ -131,6 +131,17 @@ class User extends Authenticatable
             }
         }
 
+        usort($result, function($a, $b) {
+            if ($a->show_date == $b->show_date) {
+
+                if($a->created_at == $b->created_at) {
+                    return 0;
+                }
+                return ($a->created_at < $b->created_at) ? 1 : -1;
+            }
+            return ($a->show_date < $b->show_date) ? 1 : -1;
+        });
+
         return count($result) > 0 ? $result : false;
     }
 
@@ -163,61 +174,48 @@ class User extends Authenticatable
       return $month_leave_times;
 
     }
+
     public function get_recent_days($days,$format)
     {
       $dayarr = array();
-      for($i = $days; $i > 0; $i--){
-        $dayarr[$days-$i] = Carbon::today()->subDay($i)->format($format);
+      for($i = $days-1; $i >= 0; $i--){
+         $dayarr[$days-1-$i] = Carbon::today()->subDay($i)->format($format);
       }
       return $dayarr;
     }
 
-    public function get_start_time_of_days()
+    public function get_start_time_of_days($days)
     {
       $start_time = array();
-      foreach($this->get_recent_days(30,'Y-m-d') as $day){
-        $temp = $this->attendance_records()
-                     ->where('attendance_date',$day)
-                     ->whereNotNull('start_time')
-                     ->whereNotNull('end_time')
-                     ->first();
-        if(!$temp){
-          $start_time[] = 0;
+      foreach($this->get_recent_days($days,'Y-m-d') as $day){
+        $temp = $this->attendance_records()->where('attendance_date',$day)->first();
+        if(!$temp) {
+            $start_time[] = 0;
         } else {
-          $temp_time =new Carbon($temp->start_time);
-          $temp_hour = $temp_time->format('H');
-          $temp_minute = $temp_time->format('i');
-          $hour = intval($temp_hour);
-          $minute = intval($temp_minute);
-          $new_start_time = floatval($hour.'.'.$minute);
-          $start_time[] = $new_start_time;
+            $hoge = new Carbon($temp->start_time);
+            $temp_hour = intval($hoge->format('H'));
+            $temp_minute = intval($hoge->format('i'))/60;
+            $temp_start_time = $temp_hour + $temp_minute;
+            $start_time[] = $temp_start_time;
         }
       }
       return $start_time;
     }
-
-    public function get_end_time_of_days()
+    public function get_end_time_of_days($days)
     {
       $end_time = array();
-      foreach($this->get_recent_days(30,'Y-m-d') as $day){
-        $temp = $this->attendance_records()
-                     ->where('attendance_date',$day)
-                     ->whereNotNull('start_time')
-                     ->whereNotNull('end_time')
-                     ->first();
-        if(!$temp){
-          $end_time[] = 0;
+      foreach($this->get_recent_days($days,'Y-m-d') as $day){
+        $temp = $this->attendance_records()->where('attendance_date',$day)->first();
+        if(!$temp) {
+            $end_time[] = 0;
         } else {
-          $temp_time =new Carbon($temp->end_time);
-          $temp_hour = $temp_time->format('H');
-          $temp_minute = $temp_time->format('i');
-          $hour = intval($temp_hour);
-          $minute = intval($temp_minute)/60;
-          $new_end_time = floatval($hour.'.'.$minute);
-          $end_time[] = $new_end_time;
+          $hoge = new Carbon($temp->end_time);
+          $temp_hour = intval($hoge->format('H'));
+          $temp_minute = intval($hoge->format('i'))/60;
+          $temp_end_time = $temp_hour + $temp_minute;
+          $end_time[] = $temp_end_time;
         }
       }
-
       return $end_time;
     }
 }

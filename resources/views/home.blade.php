@@ -4,7 +4,7 @@
 
     <style>
         main div.container {
-            margin-bottom: 20px;
+          margin-bottom: 20px;
         }
         .td{
           display: table-cell;
@@ -43,6 +43,7 @@
                 @include('sub_view.user_attendance_card',
                   [
                     'days' => $days,
+                    't_date' => $t_date,
                     'start_time' => $start_time,
                     'end_time' => $end_time
                   ])

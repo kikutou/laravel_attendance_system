@@ -219,7 +219,15 @@ class AttendanceRecordController extends Controller
       if($request->start) {
         $starttime = New Carbon($request->start);
       } else {
-        $starttime = New Carbon(AttendanceRecord::orderBy('attendance_date','asc')->first()->attendance_date);
+        $first_record = AttendanceRecord::orderBy('attendance_date','asc')->first();
+
+      if($first_record) {
+        $starttime = New Carbon($first_record->attendance_date);
+        } else {
+        $error = 'データが存在しません。';
+        return  redirect()->back()->with(['error' => $error]);
+        }
+
       }
 
       $attendance_records = $attendance_records->where('attendance_date', '>=', $starttime);
@@ -231,6 +239,12 @@ class AttendanceRecordController extends Controller
       }
 
       $attendance_records = $attendance_records->where('attendance_date', '<=', $endtime);
+
+      if($request->end && new Carbon($request->end) > Today()) {
+        $attendance_records = null;
+        $error = '今日以降のデータが存在しません';
+        return redirect(route('get_user_find'))->with(['error' => $error]);
+      }
 
       $diff = $starttime->diffIndays($endtime) + 1;
 
