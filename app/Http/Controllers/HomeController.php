@@ -40,10 +40,6 @@ class HomeController extends Controller
        ->whereNotNull('start_time')
        ->get()
        ->toArray();
-<<<<<<< HEAD
-
-=======
->>>>>>> dff6fcbb4d9234a5926e77473fdb70f3a1a7fc3e
        $date = [];
        foreach ($att as $v) {
          $date[] = date("Y-m-d", strtotime($v['attendance_date']));

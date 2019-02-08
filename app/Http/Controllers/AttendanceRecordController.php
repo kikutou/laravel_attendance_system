@@ -240,6 +240,11 @@ class AttendanceRecordController extends Controller
 
       $attendance_records = $attendance_records->where('attendance_date', '<=', $endtime);
 
+      if($request->end && new Carbon($request->end) > Today()) {
+        $error = '今日以降のデータが存在しません';
+        return redirect()->back()->with(['error' => $error]);
+      }
+
       $diff = $starttime->diffIndays($endtime) + 1;
 
       return view ('admin.user_find', [
