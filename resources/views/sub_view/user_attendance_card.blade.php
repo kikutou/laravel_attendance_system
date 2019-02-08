@@ -25,7 +25,7 @@
 
           var yAxis = {
              min: 0,
-             // max: 20,
+             max: 20,
              title: {
                 text: '時間(0:00-20:00)'
              },
