@@ -21,7 +21,7 @@
     <div class="card-header">お知らせ一覧</div>
     <div class="card-body">
         <table class="table">
-            <tr>
+            <tr class="bg-light">
                 <td class="td">公開日付</td>
                 <td class="td">タイトル</td>
                 <td class="td">閲覧状態</td>

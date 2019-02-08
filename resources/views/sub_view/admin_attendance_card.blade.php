@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">今月の出勤時間の棒状チャート図</div>
   <div class="card-body">
-    <div id="attendance" style="width: 550px; height: 400px; margin: 0 auto"></div>
+    <div id="attendance"></div>
     <input type="hidden">
     <script language="JavaScript">
   $(document).ready(function() {
