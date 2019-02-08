@@ -163,5 +163,61 @@ class User extends Authenticatable
       return $month_leave_times;
 
     }
+    public function get_recent_days($days,$format)
+    {
+      $dayarr = array();
+      for($i = $days; $i > 0; $i--){
+        $dayarr[$days-$i] = Carbon::today()->subDay($i)->format($format);
+      }
+      return $dayarr;
+    }
 
+    public function get_start_time_of_days()
+    {
+      $start_time = array();
+      foreach($this->get_recent_days(30,'Y-m-d') as $day){
+        $temp = $this->attendance_records()
+                     ->where('attendance_date',$day)
+                     ->whereNotNull('start_time')
+                     ->whereNotNull('end_time')
+                     ->first();
+        if(!$temp){
+          $start_time[] = 0;
+        } else {
+          $temp_time =new Carbon($temp->start_time);
+          $temp_hour = $temp_time->format('H');
+          $temp_minute = $temp_time->format('i');
+          $hour = intval($temp_hour);
+          $minute = intval($temp_minute);
+          $new_start_time = floatval($hour.'.'.$minute);
+          $start_time[] = $new_start_time;
+        }
+      }
+      return $start_time;
+    }
+
+    public function get_end_time_of_days()
+    {
+      $end_time = array();
+      foreach($this->get_recent_days(30,'Y-m-d') as $day){
+        $temp = $this->attendance_records()
+                     ->where('attendance_date',$day)
+                     ->whereNotNull('start_time')
+                     ->whereNotNull('end_time')
+                     ->first();
+        if(!$temp){
+          $end_time[] = 0;
+        } else {
+          $temp_time =new Carbon($temp->end_time);
+          $temp_hour = $temp_time->format('H');
+          $temp_minute = $temp_time->format('i');
+          $hour = intval($temp_hour);
+          $minute = intval($temp_minute)/60;
+          $new_end_time = floatval($hour.'.'.$minute);
+          $end_time[] = $new_end_time;
+        }
+      }
+
+      return $end_time;
+    }
 }

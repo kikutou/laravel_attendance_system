@@ -42,7 +42,9 @@
             <div class="col-md-8">
                 @include('sub_view.user_attendance_card',
                   [
-
+                    'days' => $days,
+                    'start_time' => $start_time,
+                    'end_time' => $end_time
                   ])
             </div>
         </div>
