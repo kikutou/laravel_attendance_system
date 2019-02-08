@@ -79,7 +79,7 @@ class NoticeController extends Controller
   {
     $one_info = Information::where('id',$request->info_id)->first();
     $one_info->title = $request->title;
-    $one_info->comment = $request->content;
+    $one_info->comment = $request->comment;
     $one_info->save();
 
     $success_message = '更新しました。';

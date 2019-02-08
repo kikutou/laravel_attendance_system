@@ -13,7 +13,7 @@
    var subtitle = {
       text: '勤怠管理システム'
    };
-   var days = {!! json_encode($days) !!}
+   var days = {!! json_encode($days) !!};
    var xAxis = {
        title: {
           text:'最近一ヶ月',

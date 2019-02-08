@@ -39,8 +39,8 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <span style="float:left">{!! nl2br(e($info->comment)) !!}</span>
+                                    <div class="modal-body" style="text-align: left">
+                                        {!! nl2br(e($info->comment)) !!}
                                     </div>
                                 </div>
                             </div>

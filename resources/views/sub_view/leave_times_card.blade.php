@@ -13,9 +13,9 @@
         var subtitle = {
             text: '勤怠管理システム'
         };
-        var user_names = {!! json_encode($user_names) !!};
+        var leave_user_names = {!! json_encode($leave_user_names) !!};
         var xAxis = {
-            categories:user_names,
+            categories:leave_user_names,
             crosshair: true
         };
         var yAxis = {

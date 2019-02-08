@@ -14,9 +14,9 @@
    var subtitle = {
       text: '勤怠管理システム'
    };
-   var user_names = {!! json_encode($user_names) !!};
+   var late_user_names = {!! json_encode($late_user_names) !!};
    var xAxis = {
-      categories:user_names,
+      categories:late_user_names,
       crosshair: true
    };
    var yAxis = {
@@ -48,7 +48,7 @@
    var credits = {
       enabled: false
    };
-   var late_times = {!! json_encode($late_times) !!}
+   var late_times = {!! json_encode($late_times) !!};
    var series= [{
             name: '遅刻回数',
             data: late_times
