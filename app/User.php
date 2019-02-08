@@ -48,12 +48,20 @@ class User extends Authenticatable
         return $this->hasMany('App\Model\AttendanceRecord','user_id');
     }
 
-    public function get_recent_attendance_records($days = 7) {
+    public function get_recent_attendance_records($days = 7, $thisday = null) {
 
         $result = [];
 
+
+
         for($i = ($days - 1); $i >= 0; $i--) {
-            $one_day = today()->subDay($i);
+            if (!$thisday) {
+              $one_day = Today()->subDays($i);
+            } else {
+              $basi_day = clone $thisday;
+              $one_day = $basi_day->subDays($i);
+            }
+
 
             $attendance_record = AttendanceRecord::query()->where("attendance_date", $one_day)->where("user_id", $this->id)->first();
             if(!$attendance_record) {

@@ -36,12 +36,12 @@
      }
    };
    var tooltip = {
-      headerFormat: '<span style="font-size:10px">{point.key}</span><table style="width:100px">',
-      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                   '<td style="padding:0"><b>{point.y}</b></td></tr>',
-      footerFormat: '</table>',
-      shared: true,
-      useHTML: true
+     formatter: function(){
+              var data = this.y.toString().split('.');
+              var h = data[0];
+              var m = data[1] ? data[1] : '00';
+              // console.log(this.point);
+              return this.point.name+'<br/>'+this.series.name+'<br/>'+h+':'+m;
    };
    var plotOptions = {
       column: {

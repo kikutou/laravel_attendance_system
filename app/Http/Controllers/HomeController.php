@@ -28,29 +28,32 @@ class HomeController extends Controller
    *
    * @return \Illuminate\Contracts\Support\Renderable
    */
-  public function index(Request $request)
-  {
-    $today = Carbon::now();
-    $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
-    $login_user = Auth::user();
-    $user = User::where('id', $login_user->id)->first();
-    $att = AttendanceRecord::where('user_id',$user->id)
-      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-      ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
-      ->get();
-    //本月迟到次数
-    $late = AttendanceRecord::whereNotNull('reason')
-      ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
-      ->where('attendance_date', '<=' , Carbon::now()->lastOfMonth()->format('Y-m-d'))
-      ->get()
-      ->count();
-    //本月请假次数
-    $leave = AttendanceRecord::whereNotNull('leave_reason')
-      ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
-      ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
-      ->get()
-      ->count();
-
+   public function index(Request $request)
+   {
+     $today = Carbon::now();
+     $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
+     $login_user = Auth::user();
+     $user = User::where('id', $login_user->id)->first();
+     $att = AttendanceRecord::where('user_id',$user->id)
+       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+       ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+       ->get()->toArray();
+       $date = [];
+       foreach ($att as $v) {
+         $date[] = date("Y-m-d", strtotime($v['attendance_date']));
+       }
+     //本月迟到次数
+     $late = AttendanceRecord::whereNotNull('reason')
+       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
+       ->where('attendance_date', '<=' , Carbon::now()->lastOfMonth()->format('Y-m-d'))
+       ->get()
+       ->count();
+     //本月请假次数
+     $leave = AttendanceRecord::whereNotNull('leave_reason')
+       ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
+       ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+       ->get()
+       ->count();
     if($user->email_verified_at == null){
         return redirect('/verified')->with('warning', "管理員に
             承認されていませんので、ログインできません。");
