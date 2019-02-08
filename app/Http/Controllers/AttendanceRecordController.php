@@ -221,10 +221,10 @@ class AttendanceRecordController extends Controller
       } else {
         $first_record = AttendanceRecord::orderBy('attendance_date','asc')->first();
         if($first_record) {
-          $starttime = New Carbon($first_record->attendence_date);
+          $starttime = New Carbon($first_record->attendance_date);
         } else {
-            $error = 'データが存在しない。';
-            return  redirect()->back()->with(['error' => $error]);
+           $error = 'データが存在しません。';
+           return  redirect()->back()->with(['error' => $error]);
         }
 
       }

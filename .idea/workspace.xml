@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05218b97-dbc3-4da8-a6a3-71170b8be9dc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_01_25_091338_create_mtb_leave_check_statuses_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_01_25_091338_create_mtb_leave_check_statuses_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user_a_week.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user_a_week.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,14 +22,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-101">
+              <caret line="146" column="10" selection-start-line="146" selection-start-column="10" selection-end-line="146" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="226" column="39" lean-forward="true" selection-start-line="226" selection-start-column="39" selection-end-line="226" selection-end-column="39" />
+            <state relative-caret-position="318">
+              <caret line="197" column="23" selection-start-line="197" selection-start-column="23" selection-end-line="197" selection-end-column="23" />
               <folding>
                 <element signature="e#40#68#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/user_a_week.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="85" selection-start-line="5" selection-start-column="85" selection-end-line="5" selection-end-column="85" />
             </state>
           </provider>
         </entry>
@@ -88,10 +104,10 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/NoticeController.php" />
         <option value="$PROJECT_DIR$/app/Model/AttendanceRecord.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
-        <option value="$PROJECT_DIR$/resources/views/user_a_week.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_01_25_091338_create_mtb_leave_check_statuses_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" />
+        <option value="$PROJECT_DIR$/resources/views/user_a_week.blade.php" />
       </list>
     </option>
   </component>
@@ -234,7 +250,13 @@
             <path>
               <item name="laravel_attendance_system" type="b2602c69:ProjectViewProjectNode" />
               <item name="laravel_attendance_system" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="laravel_attendance_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="laravel_attendance_system" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -246,7 +268,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.customizations" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -279,12 +301,12 @@
       <workItem from="1549435045384" duration="8614000" />
       <workItem from="1549534132329" duration="287000" />
       <workItem from="1549588925636" duration="268000" />
-      <workItem from="1549589212607" duration="2538000" />
+      <workItem from="1549589212607" duration="4626000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40466000" />
+    <option name="totallyTimeSpent" value="42554000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -312,7 +334,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -431,13 +453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
           <caret line="32" column="3" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-85">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
         </state>
       </provider>
     </entry>
@@ -630,13 +645,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/user_a_week.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.editorconfig">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -662,13 +670,27 @@
         <state relative-caret-position="-153" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-101">
+          <caret line="146" column="10" selection-start-line="146" selection-start-column="10" selection-end-line="146" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="226" column="39" lean-forward="true" selection-start-line="226" selection-start-column="39" selection-end-line="226" selection-end-column="39" />
+        <state relative-caret-position="318">
+          <caret line="197" column="23" selection-start-line="197" selection-start-column="23" selection-end-line="197" selection-end-column="23" />
           <folding>
             <element signature="e#40#68#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/user_a_week.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="85" selection-start-line="5" selection-start-column="85" selection-end-line="5" selection-end-column="85" />
         </state>
       </provider>
     </entry>
