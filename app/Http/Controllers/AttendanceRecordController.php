@@ -223,7 +223,7 @@ class AttendanceRecordController extends Controller
         if($first_record) {
           $starttime = New Carbon($first_record->attendence_date);
         } else {
-            $error = 'データが存在しない。';
+            $error = 'データが存在しません。';
             return  redirect()->back()->with(['error' => $error]);
         }
 
