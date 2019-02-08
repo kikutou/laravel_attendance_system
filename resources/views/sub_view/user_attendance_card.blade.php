@@ -41,13 +41,8 @@
                var data = this.y.toString().split('.');
                var h = data[0];
                var m = data[1] ? data[1] : '00';
-               // console.log(this.point);
                return this.point.name+'<br/>'+this.series.name+'<br/>'+h+':'+m;
              }
-             // headerFormat: '<span style="font-size:10px">{point.key}</span>',
-             // pointFormat: '<tr><td style="padding:0"><b>{point.v}時</b></td></tr>',
-             // shared: false,
-             // useHTML: true,
           };
           var plotOptions = {
              column: {
