@@ -84,4 +84,6 @@ class Information extends Model
 
       return count($result) > 0 ? $result : false;
     }
+
+  
 }

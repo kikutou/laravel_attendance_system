@@ -51,18 +51,18 @@
     var next_month_leave_times = {!! json_encode($next_month_leave_times) !!}
     var month_after_next_month_leave_times = {!! json_encode($month_after_next_month_leave_times) !!}
     var series= [
-    {
-    name: '今月の欠勤（予定）回数',
-    data: this_month_leave_times
-    },
-    {
-    name: '来月の欠勤（予定）回数',
-    data: next_month_leave_times
-    },
-    {
-    name: '再来月の欠勤（予定）回数',
-    data: month_after_next_month_leave_times
-    }
+        {
+          name: '今月の欠勤（予定）回数',
+          data: this_month_leave_times
+        },
+        {
+          name: '来月の欠勤（予定）回数',
+          data: next_month_leave_times
+        },
+        {
+          name: '再来月の欠勤（予定）回数',
+          data: month_after_next_month_leave_times
+        }
               ];
 
     var json = {};

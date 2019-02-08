@@ -50,7 +50,7 @@
    };
    var late_times = {!! json_encode($late_times) !!}
    var series= [{
-        name: '遅刻回数',
+            name: '遅刻回数',
             data: late_times
         }];
 

@@ -40,12 +40,14 @@ class HomeController extends Controller
        ->whereNotNull('start_time')
        ->get()
        ->toArray();
+<<<<<<< HEAD
 
+=======
+>>>>>>> dff6fcbb4d9234a5926e77473fdb70f3a1a7fc3e
        $date = [];
        foreach ($att as $v) {
          $date[] = date("Y-m-d", strtotime($v['attendance_date']));
        }
-
      //本月迟到次数
      $late = AttendanceRecord::whereNotNull('reason')
        ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
@@ -58,16 +60,30 @@ class HomeController extends Controller
        ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
        ->get()
        ->count();
+    if($user->email_verified_at == null){
+        return redirect('/verified')->with('warning', "管理員に
+            承認されていませんので、ログインできません。");
+    }else{
+        $days = $login_user->get_recent_days(30,'m-d');
+        $start_time = $login_user->get_start_time_of_days(30);
+        $end_time = $login_user->get_end_time_of_days(30);
+        $infos = $login_user->get_all_unread_infos();
+        return view('home',
+            [
+              'today' => $today,
+              'late' => $late,
+              'leave' => $leave,
+              'atts' => $att,
+              'onemomthago' => $onemomthago,
+              'orderby_infors' => $infos,
+              'days' => $days,
+              't_date' => $date,
+              'start_time' => $start_time,
+              'end_time' => $end_time
 
-
-
-     if($user->email_verified_at == null){
-         return redirect('/verified')->with('warning', "管理員に
-             承認されていませんので、ログインできません。");
-     }else{
-         return view('home', ['t_date' => $date,'today' => $today, 'late' => $late, 'leave' => $leave,'atts' => $att, 'onemomthago' => $onemomthago])->with('message', "ログインできました。");
-     }
-   }
+            ])->with('message', "ログインできました。");
+    }
+  }
 
 
   public function showchart(Request $request)
