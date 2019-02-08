@@ -219,7 +219,14 @@ class AttendanceRecordController extends Controller
       if($request->start) {
         $starttime = New Carbon($request->start);
       } else {
-        $starttime = New Carbon(AttendanceRecord::orderBy('attendance_date','asc')->first()->attendance_date);
+        $first_record = AttendanceRecord::orderBy('attendance_date','asc')->first();
+        if($first_record) {
+          $starttime = New Carbon($first_record->attendence_date);
+        } else {
+            $error = 'データが存在しない。';
+            return  redirect()->back()->with(['error' => $error]);
+        }
+
       }
 
       $attendance_records = $attendance_records->where('attendance_date', '>=', $starttime);
