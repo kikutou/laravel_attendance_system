@@ -84,6 +84,15 @@ class HomeController extends Controller
 
   public function showchart(Request $request)
   {
+    $user = User::all();
+
+    $att = AttendanceRecord::whereNotNull('reason')
+    ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+    ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+    ->selectRaw('count(reason) as top,user_id')
+    ->groupBy('user_id')
+    ->get();
+
     $users = User::whereNotNull('email_verified_at')->get();
     $user_names = array();
     $late_times = array();
@@ -98,9 +107,11 @@ class HomeController extends Controller
       $month_after_next_month_leave_times[] = $user->get_leave_times(2);
     }
       return view('admin.chart',
-       [
-        'user_names' => $user_names,
-        'late_times' => $late_times,
+       [//第一张表
+        'atts' => $att, 
+        'users' => $user，
+        //第二张表
+        
         'this_month_leave_times' => $this_month_leave_times,
         'next_month_leave_times' => $next_month_leave_times,
         'month_after_next_month_leave_times' => $month_after_next_month_leave_times
