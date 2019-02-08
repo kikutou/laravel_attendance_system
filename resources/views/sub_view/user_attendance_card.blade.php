@@ -36,12 +36,11 @@
      }
    };
    var tooltip = {
-     formatter: function(){
-              var data = this.y.toString().split('.');
-              var h = data[0];
-              var m = data[1] ? data[1] : '00';
-              // console.log(this.point);
-              return this.point.name+'<br/>'+this.series.name+'<br/>'+h+':'+m;
+     /*formatter: function(){
+         var h = parseInt(this.y) < 10 ? "0" + parseInt(this.y) : parseInt(this.y);
+         var m = (this.y-parseInt(this.y))*60 < 10 ? "0" + Math.round((this.y-parseInt(this.y))*60) : Math.round((this.y-parseInt(this.y))*60);
+         return this.x+'<br/>'+this.series.name+'<br/>'+h+':'+ m;
+       }*/
    };
    var plotOptions = {
       column: {
@@ -55,14 +54,14 @@
    var start_time = {!! json_encode($start_time) !!}
    var end_time = {!! json_encode($end_time) !!}
    var series= [
-      {
+    /*  {
         name:'出勤時間',
         data:start_time
       },
       {
         name:'退勤時間',
         data:end_time
-      }
+      }*/
     ];
 
    var json = {};

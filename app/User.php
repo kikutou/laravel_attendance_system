@@ -131,6 +131,17 @@ class User extends Authenticatable
             }
         }
 
+        usort($result, function($a, $b) {
+            if ($a->show_date == $b->show_date) {
+
+                if($a->created_at == $b->created_at) {
+                    return 0;
+                }
+                return ($a->created_at < $b->created_at) ? 1 : -1;
+            }
+            return ($a->show_date < $b->show_date) ? 1 : -1;
+        });
+
         return count($result) > 0 ? $result : false;
     }
 
@@ -167,8 +178,8 @@ class User extends Authenticatable
     public function get_recent_days($days,$format)
     {
       $dayarr = array();
-      for($i = $days; $i > 0; $i--){
-         $dayarr[$days-$i] = Carbon::today()->subDay($i)->format($format);
+      for($i = $days-1; $i >= 0; $i--){
+         $dayarr[$days-1-$i] = Carbon::today()->subDay($i)->format($format);
       }
       return $dayarr;
     }
