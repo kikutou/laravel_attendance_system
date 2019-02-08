@@ -159,39 +159,44 @@ class User extends Authenticatable
     public function get_recent_days($days,$format)
     {
       $dayarr = array();
-      for($i = $days; $i >= 0; $i--){
+      for($i = $days; $i > 0; $i--){
          $dayarr[$days-$i] = Carbon::today()->subDay($i)->format($format);
       }
       return $dayarr;
     }
 
-    public function get_start_time_of_days()
+    public function get_start_time_of_days($days)
     {
       $start_time = array();
-      foreach($this->get_recent_days(30,'Y-m-d') as $day){
+      foreach($this->get_recent_days($days,'Y-m-d') as $day){
         $temp = $this->attendance_records()->where('attendance_date',$day)->first();
         if(!$temp) {
-            $start_time[] = "0";
+            $start_time[] = 0;
         } else {
-            $hoge = new Carbon( $temp->start_time);
-            $start_time[] = !strpos($hoge->format('m'),'0') ? substr($hoge->format('m'),-1) : $hoge->format('m');
+            $hoge = new Carbon($temp->start_time);
+            $temp_hour = intval($hoge->format('H'));
+            $temp_minute = intval($hoge->format('i'))/60;
+            $temp_start_time = $temp_hour + $temp_minute;
+            $start_time[] = $temp_start_time;
         }
       }
       return $start_time;
     }
-    public function get_end_time_of_days()
+    public function get_end_time_of_days($days)
     {
       $end_time = array();
-      foreach($this->get_recent_days(30,'Y-m-d') as $day){
+      foreach($this->get_recent_days($days,'Y-m-d') as $day){
         $temp = $this->attendance_records()->where('attendance_date',$day)->first();
         if(!$temp) {
-            $end_time[] = "0";
+            $end_time[] = 0;
         } else {
-          $hoge = new Carbon( $temp->end_time);
-          $end_time[] = !strpos($hoge->format('m'),'0') ? substr($hoge->format('m'),-1) : $hoge->format('m');
+          $hoge = new Carbon($temp->end_time);
+          $temp_hour = intval($hoge->format('H'));
+          $temp_minute = intval($hoge->format('i'))/60;
+          $temp_end_time = $temp_hour + $temp_minute;
+          $end_time[] = $temp_end_time;
         }
       }
-     dd($end_time);
       return $end_time;
     }
 

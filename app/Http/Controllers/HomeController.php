@@ -56,9 +56,9 @@ class HomeController extends Controller
             承認されていませんので、ログインできません。");
     }else{
         $days = $login_user->get_recent_days(30,'m-d');
-        $start_time = $login_user->get_start_time_of_days();
-        $end_time = $login_user->get_end_time_of_days();
-        $users_of_infors = $login_user->users_of_informations()->orderBy('created_at','desc')->get();
+        $start_time = $login_user->get_start_time_of_days(30);
+        $end_time = $login_user->get_end_time_of_days(30);
+        $infos = $login_user->get_all_unread_infos();
         return view('home',
             [
               'today' => $today,
@@ -66,7 +66,7 @@ class HomeController extends Controller
               'leave' => $leave,
               'atts' => $att,
               'onemomthago' => $onemomthago,
-              'orderby_infors' => $users_of_infors,
+              'orderby_infors' => $infos,
               'days' => $days,
               'start_time' => $start_time,
               'end_time' => $end_time
