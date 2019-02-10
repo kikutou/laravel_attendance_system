@@ -1,4 +1,4 @@
-
+<div class="card">
   <div class="card-header">今月の出勤時間の棒状チャート図</div>
   <div class="card-body">
     <div id="user_attendance_card"></div>
@@ -38,7 +38,7 @@
      formatter: function(){
          var h = parseInt(this.y) < 10 ? "0" + parseInt(this.y) : parseInt(this.y);
          var m = (this.y-parseInt(this.y))*60 < 10 ? "0" + Math.round((this.y-parseInt(this.y))*60) : Math.round((this.y-parseInt(this.y))*60);
-         return this.x+'<br/>'+this.series.name+'<br/>'+h+':'+ m;
+         return this.x + '<br/>' + this.series.name + '<br/>' + h + ':' + m;
        }
    };
    var plotOptions = {
@@ -75,7 +75,8 @@
     json.credits = credits;
     $('#user_attendance_card').highcharts(json);
 
- };
+ });
       </script>
     </div>
+  </div>
 </div>

@@ -46,6 +46,7 @@
                        </tr>
                      </thead>
                      <tbody>
+                     @if($all_infos)
                        @foreach($all_infos as $one_info)
                         <tr>
                           <td class="td">
@@ -114,6 +115,11 @@
                         <td class="td">{{ $one_info->created_at }}</td>
                        </tr>
                        @endforeach
+                       @else
+                         <tr>
+                             <td>{{ $no_date }}</td>
+                         </tr>
+                       @endif
                      </tbody>
                   </table>
                 </div>
