@@ -60,7 +60,7 @@ $(function(){
                           <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">送信先</span>
-                          <div id="checkboxlist" class="checkbox-inline form-control"style="height:auto">
+                          <div id="checkboxlist" class="checkbox-inline form-check form-control"style="height:auto">
                             @foreach($users as $user)
                               <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
                                @if(old('user_ids') && in_array($user->id,old('user_ids')))

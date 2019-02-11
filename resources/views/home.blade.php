@@ -2,6 +2,7 @@
 @section('title','ホーム')
 @section('content')
 
+
     <style>
         main div.container {
           margin-bottom: 20px;
