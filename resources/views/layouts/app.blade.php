@@ -21,6 +21,8 @@
 
       <!-- Styles -->
       <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+      <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
+      <link href="{{ asset('css/checkbox.css') }}" rel="stylesheet">
 
 
 

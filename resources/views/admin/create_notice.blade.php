@@ -38,6 +38,7 @@ $(function(){
   });
 })
 </script>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -59,16 +60,22 @@ $(function(){
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">内容</span>
                           <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
-                        <li class="list-group-item" style="border:0px"><span class="person-info-title">送信先</span>
-                          <div id="checkboxlist" class="checkbox-inline form-check form-control"style="height:auto">
+                        <li class="list-group-item" style="border:0px;"><span class="person-info-title">送信先</span>
+                          <div class="checkbox checkbox-primary checkbox-inline form-control"style="height:auto;overflow:auto">
                             @foreach($users as $user)
-                              <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                               @if(old('user_ids') && in_array($user->id,old('user_ids')))
-                                checked
-                               @endif><span>&nbsp{{ $user->name }}@if($user->admin_flg)（管理員）@endif</span>
+                              <span style="float: left">
+                                <input id="user{{ $user->id }}" type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                                @if(old('user_ids') && in_array($user->id,old('user_ids')))
+                                 checked
+                                 @endif>
+                                <label for="user{{ $user->id }}">{{ $user->name }}@if($user->admin_flg)（管理員）@else &nbsp;&nbsp;@endif</label>
+                              </span>
                             @endforeach
-                              <br><input id="all_users" type="checkbox" name="all_users">&nbspすべて
-                          </div>
+                              <span style="float: left">
+                                <input id="all_users" type="checkbox" name="all_users">
+                                <label for="all_users">すべて&nbsp;&nbsp;</label>
+                              </span>
+                         </div>
                         </li>
                         <li class="list-group-item" style="text-align:center;border:0px">
                           <input type="submit" class="btn btn-primary" value="作成">
