@@ -55,3 +55,4 @@ Route::get('create_notice','NoticeController@create_notice')->name('get_create_n
 Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');
 Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->middleware('auth')->middleware('admin');
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
+

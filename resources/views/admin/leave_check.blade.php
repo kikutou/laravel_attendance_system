@@ -23,7 +23,6 @@
      }
       }
     </script>
-  <body>
     <div id="content" class="container-fluid">
       <div class="col-sm text-center top36 bottom36">
         <p>休み請求一覧</p>
@@ -103,5 +102,4 @@
       <div class="col-sm-3"></div>
     </div>
    </div>
-  </body>
 @endsection

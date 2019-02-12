@@ -218,5 +218,4 @@ class User extends Authenticatable
       }
       return $end_time;
     }
-
 }
