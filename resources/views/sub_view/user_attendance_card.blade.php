@@ -122,9 +122,9 @@
                    @php
                      $pos = array_search(\Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'), $t_date);
                      $timeArr = explode(":", $atts[$pos]['end_time']);
-                     $h = $timeArr[0];
-                     $m = $timeArr[1];
-                     $end_time = $h.'.'.$m;
+                     $h = $timeArr[0] ?? 0;
+                     $m = $timeArr[1] ?? 0;
+                     $end_time = !$h && !$m ? 0 : $h.'.'.$m;
                      // dd($start_time);
                    @endphp
                    ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format("m-d") }}', {{ $end_time }}],

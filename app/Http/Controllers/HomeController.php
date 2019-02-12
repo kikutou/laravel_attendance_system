@@ -34,6 +34,7 @@ class HomeController extends Controller
      $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
      $login_user = Auth::user();
      $user = User::where('id', $login_user->id)->first();
+     //homepage柱状图
      $att = AttendanceRecord::where('user_id',$user->id)
        ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
        ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
@@ -76,7 +77,6 @@ class HomeController extends Controller
               't_date' => $date,
               'start_time' => $start_time,
               'end_time' => $end_time
-
             ])->with('message', "ログインできました。");
     }
   }
