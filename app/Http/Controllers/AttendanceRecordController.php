@@ -153,7 +153,9 @@ class AttendanceRecordController extends Controller
 
     //出勤時間外での申請制御。
     $user = Auth::user();
-    if(!AttendanceRecord::check_leave_time($user, $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
+    $leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
+    $leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
+    if(!AttendanceRecord::check_leave_time($user, $request->attendance_date,  $leave_start_time,  $leave_end_time)) {
       $one_message = "出勤時間外の時間で申請してください!";
       return redirect()->back()->with(['error' => $one_message]);
     }
@@ -169,8 +171,8 @@ class AttendanceRecordController extends Controller
       $one_attendance_record->attendance_date = $request->attendance_date ? new Carbon($request->attendance_date) : Carbon::now();
     }
 
-    $one_attendance_record->leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
-    $one_attendance_record->leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
+    $one_attendance_record->leave_start_time =  $leave_start_time;
+    $one_attendance_record->leave_end_time =  $leave_end_time;
     $one_attendance_record->leave_reason = $request->leave_reason;
     $one_attendance_record->leave_applicate_time = Carbon::now();
     $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatus::APPROVAL_PENDING;

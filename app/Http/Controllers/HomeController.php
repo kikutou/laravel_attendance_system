@@ -84,6 +84,15 @@ class HomeController extends Controller
 
   public function showchart(Request $request)
   {
+    $user = User::all();
+
+    $att = AttendanceRecord::whereNotNull('reason')
+    ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+    ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+    ->selectRaw('count(reason) as top,user_id')
+    ->groupBy('user_id')
+    ->get();
+
     $users = User::whereNotNull('email_verified_at')->get();
     $late_user_names = array();
     $leave_user_names = array();
