@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AttendanceRecord extends Model
 {
     public static $validator_rules = [
-       'attendance_date' => 'required',
+
        'leave_start_hour' => 'required',
        'leave_start_minute' => 'required',
        'leave_end_hour' => 'required',
@@ -17,7 +17,7 @@ class AttendanceRecord extends Model
     ];
 
     public static $validator_messages = [
-       'attendance_date.required' => '欠勤日をお選びください!',
+        
        'leave_start_hour.required' => '欠勤開始時間(時)を選択してください!',
        'leave_start_minute.required' => '欠勤開始時間(分)を選択してください!',
        'leave_end_hour.required' => '欠勤終了時間(時)を選択してください!',
