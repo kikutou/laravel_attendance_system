@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05218b97-dbc3-4da8-a6a3-71170b8be9dc" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NoticeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NoticeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/chart.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/chart.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/admin_attendance_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/admin_attendance_card.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/attendance_info_table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/attendance_info_table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/info_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/info_card.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/leave_times_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/leave_times_card.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/sub_view/user_attendance_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/user_attendance_card.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -237,12 +244,12 @@
       <workItem from="1549534132329" duration="287000" />
       <workItem from="1549588925636" duration="268000" />
       <workItem from="1549589212607" duration="6631000" />
-      <workItem from="1549616838058" duration="2014000" />
+      <workItem from="1549616838058" duration="3080000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46573000" />
+    <option name="totallyTimeSpent" value="47639000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">

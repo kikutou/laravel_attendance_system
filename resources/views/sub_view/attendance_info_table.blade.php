@@ -13,7 +13,7 @@
         <th>休み情報</th>
     </tr>
 
-@foreach($user->get_recent_attendance_records() as $date => $record)
+@foreach($user->get_recent_attendance_records($days, $thisday) as $date => $record)
 
   <tr>
 

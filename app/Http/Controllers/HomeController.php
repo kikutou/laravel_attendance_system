@@ -94,24 +94,30 @@ class HomeController extends Controller
     ->get();
 
     $users = User::whereNotNull('email_verified_at')->get();
-    $user_names = array();
+    $late_user_names = array();
+    $leave_user_names = array();
     $late_times = array();
     $this_month_leave_times = array();
     $next_month_leave_times = array();
     $month_after_next_month_leave_times = array();
     foreach ($users as $user) {
-      $user_names[] = $user->name;
-      $late_times[] = $user->get_late_times();
-      $this_month_leave_times[] = $user->get_leave_times(0);
-      $next_month_leave_times[] = $user->get_leave_times(1);
-      $month_after_next_month_leave_times[] = $user->get_leave_times(2);
+        if($user->get_late_times() > 0){
+            $late_user_names[] = $user->name;
+            $late_times[] = $user->get_late_times();
+        }
+        if($user->get_leave_times(0) > 0 || $user->get_leave_times(1) > 0 || $user->get_leave_times(2) > 0){
+            $leave_user_names[] = $user->name;
+            $this_month_leave_times[] = $user->get_leave_times(0);
+            $next_month_leave_times[] = $user->get_leave_times(1);
+            $month_after_next_month_leave_times[] = $user->get_leave_times(2);
+        }
+
     }
       return view('admin.chart',
-       [//第一张表
-        'atts' => $att, 
-        'users' => $user，
-        //第二张表
-        
+       [
+        'late_user_names' => $late_user_names,
+        'leave_user_names' => $leave_user_names,
+        'late_times' => $late_times,
         'this_month_leave_times' => $this_month_leave_times,
         'next_month_leave_times' => $next_month_leave_times,
         'month_after_next_month_leave_times' => $month_after_next_month_leave_times
