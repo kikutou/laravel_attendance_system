@@ -46,6 +46,7 @@
                        </tr>
                      </thead>
                      <tbody>
+                     @if($all_infosgit)
                        @foreach($all_infos as $one_info)
                         <tr>
                           <td class="td">
@@ -114,6 +115,7 @@
                         <td class="td">{{ $one_info->created_at }}</td>
                        </tr>
                        @endforeach
+                     @endif
                      </tbody>
                   </table>
                 </div>
