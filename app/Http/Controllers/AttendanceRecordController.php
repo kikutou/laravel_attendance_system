@@ -146,7 +146,7 @@ class AttendanceRecordController extends Controller
 
     //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->attendance_date);
-    if($carbon->isPast()){
+    if($carbon->lt(Carbon::today())){
       $one_message = "本日以降の日付をお選びください。";
       return redirect()->back()->withInput()->with(['error' => $one_message]);
     }
@@ -166,7 +166,7 @@ class AttendanceRecordController extends Controller
     if(!$one_attendance_record){
       $one_attendance_record = new AttendanceRecord;
       $one_attendance_record->user_id = $user->id;
-      $one_attendance_record->attendance_date = new Carbon($request->attendance_date);
+      $one_attendance_record->attendance_date = $request->attendance_date ? new Carbon($request->attendance_date) : Carbon::now();
     }
 
     $one_attendance_record->leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;

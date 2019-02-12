@@ -16,7 +16,7 @@
         text-align: center;
     }
 </style>
-
+@if($infos)
 <div class="card">
     <div class="card-header">お知らせ一覧</div>
     <div class="card-body">
@@ -26,7 +26,6 @@
                 <td class="td">タイトル</td>
                 <td class="td">閲覧状態</td>
             </tr>
-            @if($infos)
                 @foreach($infos as $info)
                     <tr>
                         <td class="td">{{$info->show_date->format("Y年m月d日")}}</td>
