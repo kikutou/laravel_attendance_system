@@ -237,7 +237,7 @@ class AttendanceRecordController extends Controller
       }
 
       if ($starttime > New Carbon($request->end)){
-         $error = '正しい日付を入力してください。';
+         $error = '【開始日】終了日以前の日付を入力してください。';
          return  redirect()->back()->with(['error' => $error]);
       }
 
