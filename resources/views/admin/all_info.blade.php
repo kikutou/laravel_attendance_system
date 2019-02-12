@@ -46,7 +46,11 @@
                        </tr>
                      </thead>
                      <tbody>
+<<<<<<< HEAD
                      @if($all_infosgit)
+=======
+                     @if($all_infos)
+>>>>>>> 09a216a4785c0372bd5dd4bce616cbe49ff1f4a1
                        @foreach($all_infos as $one_info)
                         <tr>
                           <td class="td">
@@ -115,7 +119,15 @@
                         <td class="td">{{ $one_info->created_at }}</td>
                        </tr>
                        @endforeach
+<<<<<<< HEAD
                      @endif
+=======
+                       @else
+                         <tr>
+                             <td>{{ $no_date }}</td>
+                         </tr>
+                       @endif
+>>>>>>> 09a216a4785c0372bd5dd4bce616cbe49ff1f4a1
                      </tbody>
                   </table>
                 </div>
