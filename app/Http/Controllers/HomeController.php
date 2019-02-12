@@ -77,6 +77,7 @@ class HomeController extends Controller
               't_date' => $date,
               'start_time' => $start_time,
               'end_time' => $end_time
+
             ])->with('message', "ログインできました。");
     }
   }
