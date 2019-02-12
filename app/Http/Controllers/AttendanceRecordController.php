@@ -16,25 +16,25 @@ class AttendanceRecordController extends Controller
 {
   public function begin_finish_view() {
     $user_id = Auth::id();//ユーザーのidを獲得する
-    $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();//本日ユーザーの状態を確認する
-    $time_lim = new Carbon(env('START_TIME',"09:00:00"));
+    $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();//本日ユーザーの出退勤状態を確認する
+    $time_lim = new Carbon(env('START_TIME',"09:00:00"));//標準出勤時間を設定する
     return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim, 'attendance_date' => Carbon::now()->format('Y-m-d')]);
   }
 
   public function attendance_begin_finish(Request $request) {
-    if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
+    if ($request->attendance_date == Carbon::now()->format('Y-m-d'))//出勤日を確認する
     {
-      $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-      $time_lim = new Carbon(env('START_TIME', '09:00:00'));
+      $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();//本日ユーザーの出退勤状態を確認する
+      $time_lim = new Carbon(env('START_TIME', '09:00:00'));//標準出勤時間を設定する
 
-      if (!$user_rec)
+      if (!$user_rec)//出勤記録がない場合
       {
         $user_rec = New AttendanceRecord;
         $user_rec->user_id = Auth::id();
         $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
         $user_rec->start_time = Carbon::now()->format('H:i');
 
-        if (Carbon::now()->gt($time_lim))
+        if (Carbon::now()->gt($time_lim))//遅刻する場合
         {
           $validator_rules = [
             'reason' => 'required'
@@ -61,12 +61,12 @@ class AttendanceRecordController extends Controller
 
       }
 
-      if ($user_rec) {
+      if ($user_rec) {  //当日記録があるが、出勤時間がない場合
         if (!$user_rec->start_time)
         {
           $user_rec->start_time = Carbon::now()->format('H:i');
 
-          if (Carbon::now()->gt($time_lim))
+          if (Carbon::now()->gt($time_lim))//遅刻する場合
           {
             $validator_rules = [
               'reason' => 'required'
@@ -92,7 +92,7 @@ class AttendanceRecordController extends Controller
           return redirect()->back()->with(['message' => $message]);
         }
 
-        if ($user_rec->start_time && !$user_rec->end_time)
+        if ($user_rec->start_time && !$user_rec->end_time)//出勤記録がある、退勤記録がない場合
         {
           $validator_rules = [
             'report' => 'required'
@@ -110,7 +110,7 @@ class AttendanceRecordController extends Controller
           }
 
           $user_rec->end_time = Carbon::now()->format('H:i');
-          $user_rec->report = $request->report;
+          $user_rec->report = $request->report;//レポートの提出が要求されている
           $user_rec->save();
 
           $message = '操作成功。今日はお疲れ様でした。';
@@ -118,7 +118,7 @@ class AttendanceRecordController extends Controller
         }
       }
     }
-    $error = '操作を完了できませんでした。管理者に連絡してください。';
+    $error = '操作を完了できませんでした。管理者に連絡してください。';//出勤日と現在日が異なる場合、エラーメッセージが出る
     return redirect()->back()->with(['error' => $error]);
   }
 
@@ -220,6 +220,10 @@ class AttendanceRecordController extends Controller
 
       if($request->start) {
         $starttime = New Carbon($request->start);
+        if($starttime > Today()){
+           $error = '【開始日】今日以前の日付を入力してください。';
+           return  redirect()->back()->with(['error' => $error]);
+        }
       } else {
         $first_record = AttendanceRecord::orderBy('attendance_date','asc')->first();
 
@@ -232,6 +236,11 @@ class AttendanceRecordController extends Controller
 
       }
 
+      if ($starttime > New Carbon($request->end)){
+         $error = '正しい日付を入力してください。';
+         return  redirect()->back()->with(['error' => $error]);
+      }
+
       $attendance_records = $attendance_records->where('attendance_date', '>=', $starttime);
 
       if($request->end && new Carbon($request->end) <= Today()) {
@@ -241,12 +250,6 @@ class AttendanceRecordController extends Controller
       }
 
       $attendance_records = $attendance_records->where('attendance_date', '<=', $endtime);
-
-      if($request->end && new Carbon($request->end) > Today()) {
-        $attendance_records = null;
-        $error = '今日以降のデータが存在しません';
-        return redirect(route('get_user_find'))->with(['error' => $error]);
-      }
 
       $diff = $starttime->diffIndays($endtime) + 1;
 
@@ -335,36 +338,36 @@ class AttendanceRecordController extends Controller
 
     public function create_csv_find(Request $request)
     {
-      $starttime =  New Carbon($request->starttime['date']);
-      $endtime = New Carbon($request->endtime['date']);
-      $diff = $starttime->diffIndays($endtime);
+      $starttime =  New Carbon($request->starttime['date']);//開始日を獲得する
+      $endtime = New Carbon($request->endtime['date']);//終了日を獲得する
+      $diff = $starttime->diffIndays($endtime);//日付の差を求める
 
-      $recs_r = AttendanceRecord::where('user_id', '=', $request->user_id)->where('attendance_date', '>=', $starttime)->where('attendance_date', '<=', $endtime)->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+      $recs_r = AttendanceRecord::where('user_id', '=', $request->user_id)->where('attendance_date', '>=', $starttime)->where('attendance_date', '<=', $endtime)->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();//時間範囲内のデータを獲得し、配列に入れる
       $recs = [];
       $rec_n = [];
       $time_count = null;
 
-      for ($i = 0; $i <= $diff; $i++) {
+      for ($i = 0; $i <= $diff; $i++) { //開始日から終了日までの記録を作成する
         $start_at = clone $starttime;
         $thisday = $start_at->addDays($i);
 
         foreach ($recs_r as $rec_r) {
-          if ($rec_r['attendance_date'] == $thisday) {
+          if ($rec_r['attendance_date'] == $thisday) {//もしその日、出退勤記録があるなら
             $rec_n = $rec_r;
             break;
           }
         }
 
-        if ($rec_n) {
+        if ($rec_n) {//出退勤記録がある日であれば
           $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
-          if ($rec_n['end_time']) {
+          if ($rec_n['end_time']) {//出勤総時間を分で計算する
             $time_start = new Carbon($rec_n['start_time']);
             $time_end = new Carbon($rec_n['end_time']);
             $time_oneday = $time_end->diffInMinutes($time_start);
             $time_count = $time_count + $time_oneday;
           }
 
-          if ($rec_n['leave_end_time']) {
+          if ($rec_n['leave_end_time']) {//休み記録があれば
             $rec_n['leave_start_time'] = '休み' . $rec_n['leave_start_time'] . '-' . $rec_n['leave_end_time'];
             $rec_n['leave_end_time'] = null;
           }
@@ -372,7 +375,7 @@ class AttendanceRecordController extends Controller
           $recs[] = $rec_n;
         }
 
-        else {
+        else {//記録がない日であれば、日付だけを配列に入れる
           $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
           $recs[] = $rec_n;
         }
@@ -380,17 +383,17 @@ class AttendanceRecordController extends Controller
         $rec_n = [];
       }
 
-      $csvHeader = ['日付', '出勤時間', '退勤時間'];
-      array_unshift($recs, $csvHeader);
+        $csvHeader = ['日付', '出勤時間', '退勤時間'];
+      array_unshift($recs, $csvHeader);//タイトルを先頭に入れる
 
       $csvHeader_b = ['名前', User::find($request->user_id)->name];
-      array_unshift($recs, $csvHeader_b);
+      array_unshift($recs, $csvHeader_b);//個人情報を先頭に入れる
 
-      $time_count_hour = floor($time_count / 60);
-      $time_count_min = $time_count % 60;
+      $time_count_hour = floor($time_count / 60);//出勤総時間の時間数を獲得する
+      $time_count_min = $time_count % 60;//余る分の数を獲得する
 
       $csvFooter = ['総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
-      array_push($recs, $csvFooter);
+      array_push($recs, $csvFooter);//最後に総出勤時間を表示する
 
       $stream = fopen('php://temp', 'r+b');
       foreach ($recs as $rec) {
@@ -399,7 +402,7 @@ class AttendanceRecordController extends Controller
       rewind($stream);
       $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
       $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
-      $filename = date('YmdHis') . '.' . 'csv';
+      $filename = date('YmdHis') . '.' . 'csv';//ファイルの命名規則を指定する
       $headers = array(
         'Content-Type' => 'text/csv',
         'Content-Disposition' => "attachment; filename=$filename",

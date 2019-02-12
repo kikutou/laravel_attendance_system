@@ -2,7 +2,7 @@
 @section('title','勤怠管理')
 @section('content')
 <script>
-$(function(){
+$(function(){　 //現在時刻の表示
   setInterval(function(){
     var now = new Date();
     var y = now.getFullYear();
@@ -50,14 +50,14 @@ $(function(){
                             <input type="hidden" name="attendance_date" value="{{ $attendance_date }}">
                           </div>
 
-                          @if(!$rec || !$rec->start_time)
-                            @if(\Carbon\Carbon::now()->gt($time_lim))
+                          @if(!$rec || !$rec->start_time)  {{--出勤記録がない場合--}}
+                            @if(\Carbon\Carbon::now()->gt($time_lim))　{{--遅刻する場合--}}
                               <li class="list-group-item" style="border:0px"><span class="person-info-title">遅刻原因</span>
                                 <textarea id="late" name="reason" class="form-control" rows="2" style="width:100%"></textarea>
                               </li>
                             @endif
                               <li class="list-group-item" style="text-align:center;border:0px"><input type="submit" class="btn btn-primary" name="begin" value="出勤"></li>
-                          @elseif($rec && $rec->start_time && !$rec->end_time)
+                          @elseif($rec && $rec->start_time && !$rec->end_time)　{{--出勤記録があり、退勤記録がない場合--}}
                               <li class="list-group-item" style="border:0px"><span class="person-info-title">勤務報告
                                 <textarea id="late" name="report" class="form-control" rows="2" style="width:100%"></textarea>
                               </li>
