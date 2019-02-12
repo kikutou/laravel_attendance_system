@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05218b97-dbc3-4da8-a6a3-71170b8be9dc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NoticeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NoticeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/chart.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/chart.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/admin_attendance_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/admin_attendance_card.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/attendance_info_table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/attendance_info_table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/info_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/info_card.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/leave_times_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/leave_times_card.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/sub_view/user_attendance_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/user_attendance_card.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,7 +14,7 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -182,12 +174,13 @@
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="245" />
-    <option name="y" value="116" />
-    <option name="width" value="1710" />
-    <option name="height" value="930" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-13" />
+    <option name="y" value="2" />
+    <option name="width" value="1620" />
+    <option name="height" value="920" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -245,11 +238,12 @@
       <workItem from="1549588925636" duration="268000" />
       <workItem from="1549589212607" duration="6631000" />
       <workItem from="1549616838058" duration="3080000" />
+      <workItem from="1549934146506" duration="723000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47639000" />
+    <option name="totallyTimeSpent" value="48362000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
