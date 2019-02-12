@@ -162,13 +162,13 @@ class AttendanceRecordController extends Controller
 
     //欠勤申請データの書き込み。
     $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
-      ->where('attendance_date',new Carbon($request->attendance_date))
+      ->where('attendance_date',$request->attendance_date ?? Carbon::today())
       ->first();
 
     if(!$one_attendance_record){
       $one_attendance_record = new AttendanceRecord;
       $one_attendance_record->user_id = $user->id;
-      $one_attendance_record->attendance_date = $request->attendance_date ? new Carbon($request->attendance_date) : Carbon::now();
+      $one_attendance_record->attendance_date = $request->attendance_date ?? Carbon::today();
     }
 
     $one_attendance_record->leave_start_time =  $leave_start_time;
