@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="05218b97-dbc3-4da8-a6a3-71170b8be9dc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/sub_view/user_attendance_card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sub_view/user_attendance_card.blade.php" afterDir="false" />
-    </list>
+    <list default="true" id="05218b97-dbc3-4da8-a6a3-71170b8be9dc" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,7 +12,20 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="675">
+              <caret line="134" column="5" lean-forward="true" selection-start-line="134" selection-start-column="5" selection-end-line="134" selection-end-column="5" />
+              <folding>
+                <element signature="e#40#68#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -174,7 +185,7 @@
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-13" />
     <option name="y" value="2" />
     <option name="width" value="1620" />
@@ -238,12 +249,12 @@
       <workItem from="1549588925636" duration="268000" />
       <workItem from="1549589212607" duration="6631000" />
       <workItem from="1549616838058" duration="3080000" />
-      <workItem from="1549934146506" duration="723000" />
+      <workItem from="1549934146506" duration="779000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48362000" />
+    <option name="totallyTimeSpent" value="48418000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -255,7 +266,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <frame x="-13" y="2" width="1620" height="920" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20565553" />
       <window_info id="Structure" order="1" weight="0.24966443" />
@@ -270,7 +282,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3286119" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32839838" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.31003812" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -600,16 +612,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="197" column="23" selection-start-line="197" selection-start-column="23" selection-end-line="197" selection-end-column="23" />
-          <folding>
-            <element signature="e#40#68#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/user_a_week.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -628,6 +630,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-841">
           <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AttendanceRecordController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="134" column="5" lean-forward="true" selection-start-line="134" selection-start-column="5" selection-end-line="134" selection-end-column="5" />
+          <folding>
+            <element signature="e#40#68#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
