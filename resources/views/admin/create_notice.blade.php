@@ -72,7 +72,10 @@ $(function(){
                               </span>
                             @endforeach
                               <span style="float: left">
-                                <input id="all_users" type="checkbox" name="all_users">
+                                <input id="all_users" type="checkbox" name="all_users"
+                                @if(old('all_users'))
+                                 checked
+                                 @endif>
                                 <label for="all_users">すべて&nbsp;&nbsp;</label>
                               </span>
                          </div>

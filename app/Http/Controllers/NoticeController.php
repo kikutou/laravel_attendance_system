@@ -53,7 +53,8 @@ class NoticeController extends Controller
     $one_info = new Information;
 
      //公開日時が入力されていない場合、デフォルトで本日とみなされる。
-    $one_info->show_date = $request->show_date ?? Carbon::today();
+    $one_info->show_date = new Carbon($request->show_date) ??  Carbon::today();
+
     $one_info->title = $request->title;
     $one_info->comment = $request->comment;
 
@@ -66,7 +67,7 @@ class NoticeController extends Controller
         $one_pivot->save();
       }
     }
-     //すべてが終了した場合、「お知らせ一覧」画面にリダイレクトし、以下のメッセージを表示する。
+     //すべてが無事に終了した場合、「お知らせ一覧」画面にリダイレクトし、以下のメッセージを表示する。
     $success_message = '登録完了しました！';
     return redirect(route('get_all_info'))->with(['message' => $success_message]);
   }
