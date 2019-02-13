@@ -59,7 +59,7 @@ Route::post('store_leave_request','AttendanceRecordController@store')->name('pos
 //「通知関連」リンクをクリックすると、実行される。
 Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->middleware('auth')->middleware('admin');
 
-//SubMdalの「変更」ボタンをクリックすると、実行される。
+//SubModalの「変更」ボタンをクリックすると、実行される。
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
 
 //「お知らせ一覧」の右上の「お知らせの新規作成」をクリックすると、実行される。
