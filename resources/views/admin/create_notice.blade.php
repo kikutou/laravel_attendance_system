@@ -51,7 +51,7 @@ $(function(){
                     <ul class="list-group">
                       <form action="{{ route('post_create_notice') }}" method="post">
                         @csrf
-                        <li class="list-group-item" style="border:0px"><span class="person-info-title">お知らせ日時</span>
+                        <li class="list-group-item" style="border:0px"><span class="person-info-title">公開日時</span>
                           <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" autocomplete="off" placeholder="お知らせ日時を選択してください">
                         </li>
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">タイトル</span>
@@ -72,7 +72,10 @@ $(function(){
                               </span>
                             @endforeach
                               <span style="float: left">
-                                <input id="all_users" type="checkbox" name="all_users">
+                                <input id="all_users" type="checkbox" name="all_users"
+                                @if(old('all_users'))
+                                 checked
+                                 @endif>
                                 <label for="all_users">すべて&nbsp;&nbsp;</label>
                               </span>
                          </div>

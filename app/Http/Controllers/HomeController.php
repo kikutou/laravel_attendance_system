@@ -41,7 +41,7 @@ class HomeController extends Controller
        ->whereNotNull('start_time')
        ->get()
        ->toArray();
-       $date = [];
+    $date = [];
        foreach ($att as $v) {
          $date[] = date("Y-m-d", strtotime($v['attendance_date']));
        }
@@ -77,6 +77,7 @@ class HomeController extends Controller
               't_date' => $date,
               'start_time' => $start_time,
               'end_time' => $end_time
+
             ])->with('message', "ログインできました。");
     }
   }

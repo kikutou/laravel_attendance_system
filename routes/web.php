@@ -44,17 +44,32 @@ Route::get('user_find','AttendanceRecordController@user_find')->name('get_user_f
 
 
 //liang
-//缺勤请求一栏
+//休み請求の一覧
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->middleware('admin')->middleware("auth");
+//休み請求への操作
 Route::post('check',"LeavecheckController@check")->name("post_check")->middleware('admin')->middleware("auth");
+//会員認証請求の一覧
 Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail")->middleware('admin')->middleware("auth");
+//会員認証請求への操作
 Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check")->middleware('admin')->middleware("auth");
+//遅刻照会の棒状チャート図
 Route::get('adminchart', "HomeController@showchart")->name("get_adminchart")->middleware('admin')->middleware("auth");
 
 //huang
-Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request')->middleware('auth');
-Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request')->middleware('auth');
-Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice')->middleware('auth')->middleware('admin');
-Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');
+Route::get('create_leave_request','AttendanceRecordController@create')->name('get_leave_request')->middleware('auth');
+Route::post('store_leave_request','AttendanceRecordController@store')->name('post_leave_request')->middleware('auth');
+
+//「通知関連」リンクをクリックすると、実行される。
 Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->middleware('auth')->middleware('admin');
+
+//SubMdalの「変更」ボタンをクリックすると、実行される。
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
+<<<<<<< HEAD
+=======
+
+//「お知らせ一覧」の右上の「お知らせの新規作成」をクリックすると、実行される。
+Route::get('create_notice','NoticeController@create')->name('get_create_notice')->middleware('auth')->middleware('admin');
+
+//「お知らせの新規作成」の「作成」ボタンをクリックすると、実行される。
+Route::post('store_notice','NoticeController@store')->name('post_create_notice')->middleware('auth')->middleware('admin');
+>>>>>>> e02154a79d37427afa7f108d3694cd6662329b16

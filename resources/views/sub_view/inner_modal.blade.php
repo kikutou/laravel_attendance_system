@@ -7,7 +7,7 @@
     <div class="modal-body">
       @foreach($infos as $info)
         <li class="list-group-item">
-          {{ $info->user->name }}
+          {{ $info->user->name }}@if($info->user->admin_flg)（管理員）@endif
         </li>
       @endforeach
     </div>
