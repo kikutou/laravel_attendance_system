@@ -41,11 +41,15 @@ Route::get('user_find','AttendanceRecordController@user_find')->name('get_user_f
 
 
 //liang
-//缺勤请求一栏
+//休み請求の一覧
 Route::get('check/{staus?}',"LeavecheckController@check")->name("get_check")->middleware('admin')->middleware("auth");
+//休み請求への操作
 Route::post('check',"LeavecheckController@check")->name("post_check")->middleware('admin')->middleware("auth");
+//会員認証請求の一覧
 Route::get('mailcheck',"EmailcheckController@show_mail")->name("get_user_mail")->middleware('admin')->middleware("auth");
+//会員認証請求への操作
 Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_check")->middleware('admin')->middleware("auth");
+//遅刻照会の棒状チャート図
 Route::get('adminchart', "HomeController@showchart")->name("get_adminchart")->middleware('admin')->middleware("auth");
 
 //huang
@@ -55,4 +59,3 @@ Route::get('create_notice','NoticeController@create_notice')->name('get_create_n
 Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');
 Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->middleware('auth')->middleware('admin');
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
-
