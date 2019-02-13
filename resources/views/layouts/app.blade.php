@@ -84,7 +84,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('begin_finish_view') }}">{{ __('勤怠管理') }}</a>
+                                <a class="nav-link" href="{{ route('get_begin_finish_view') }}">{{ __('勤怠管理') }}</a>
                             </li>
 
                             <li class="nav-item">

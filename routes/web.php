@@ -29,11 +29,14 @@ Route::get('/info/{id}', 'HomeController@readinfo')->name('get_readinfo')->middl
 
 
 //出退勤管理　金
-Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('begin_finish_view')->middleware("auth");
-Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('attendance_begin_finish')->middleware("auth");
 
+Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('get_begin_finish_view')->middleware("auth");
+//ユーザログイン状態で、「勤怠管理」をクリックすると、ROUTE「get_begin_finish_view」に従って、CONTROLLER「AttendanceRecordController」のファンクション「begin_finish_view」を実行する
+Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('post_attendance_begin_finish')->middleware("auth");
+//ユーザログイン状態で、「出勤」「退勤」ボタンを押すと、ROUTE「post_attendance_begin_finish」に従って、CONTROLLER「AttendanceRecordController」のファンクション「attendance_begin_finish」を実行する
 Route::get('/user_attendance_rec', 'AttendanceRecordController@create_csv')->name('get_create_csv')->middleware("auth");
 Route::get('/user_attendance_rec_1', 'AttendanceRecordController@create_csv_find')->name('get_create_csv_find')->middleware('admin')->middleware("auth");
+//ADMINログイン状態で、「csvファイルで出力」リンクをクリックすると、ファンクション「create_csv_find」を実行する
 
 //tao
 Route::get('user_a_week',"AttendanceRecordController@get_all")->name('get_user_all')->middleware("auth");
@@ -61,9 +64,12 @@ Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->m
 
 //SubModalの「変更」ボタンをクリックすると、実行される。
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
+<<<<<<< HEAD
+=======
 
 //「お知らせ一覧」の右上の「お知らせの新規作成」をクリックすると、実行される。
 Route::get('create_notice','NoticeController@create')->name('get_create_notice')->middleware('auth')->middleware('admin');
 
 //「お知らせの新規作成」の「作成」ボタンをクリックすると、実行される。
 Route::post('store_notice','NoticeController@store')->name('post_create_notice')->middleware('auth')->middleware('admin');
+>>>>>>> e02154a79d37427afa7f108d3694cd6662329b16
