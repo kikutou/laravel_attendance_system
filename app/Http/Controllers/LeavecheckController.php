@@ -19,7 +19,9 @@ class LeavecheckController extends Controller
             'approval' => MtbLeaveCheckStatus::APPROVAL,
             'refuse' => MtbLeaveCheckStatus::REFUSE
         ];
-
+//URL{status?}の値によって相対の値を取得して表示する
+//{status}の値は未入力の場合、デフォルトallで表示する
+//表示の値は時間の降順で表示する
         $status = $status ?? 'all';
         $attendancerecords = ($status == 'all')
             ? AttendanceRecord::whereNotNull('mtb_leave_check_status_id')->orderBy("attendance_date",'desc')->get()

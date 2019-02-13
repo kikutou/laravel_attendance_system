@@ -13,14 +13,14 @@
    var subtitle = {
       text: '勤怠管理システム'
    };
-   var days = {!! json_encode($days) !!}
    var xAxis = {
-       title: {
-          text:'最近一ヶ月',
-          x:-40
+     type:'category',
+     title: {
+        text: '日付(最近の一か月)'
      },
-      categories:days,
-      crosshair: true
+     labels:{
+       rotation:-30
+     }
    };
    var yAxis = {
        type:'datetime',

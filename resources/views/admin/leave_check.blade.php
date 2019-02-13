@@ -24,8 +24,8 @@
       }
     </script>
     <div id="content" class="container-fluid">
-      <div class="col-sm text-center top36 bottom36">
-        <p>休み請求一覧</p>
+      <div>
+        <font size="5" class="abb" color="darkgrey">休み請求一覧</font>
       </div>
 
     <div class="col-sm text-center top36 bottom36">
