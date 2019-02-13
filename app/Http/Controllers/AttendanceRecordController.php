@@ -127,7 +127,7 @@ class AttendanceRecordController extends Controller
    *欠勤申請画面の表示。
    *
    */
-  public function create_leave_request(Request $request)
+  public function create(Request $request)
   {
     return view('leave_request');
   }
@@ -137,7 +137,7 @@ class AttendanceRecordController extends Controller
    *欠勤申請機能。
    *
    */
-  public function store_leave_request(Request $request)
+  public function store(Request $request)
   {
     $validator = Validator::make($request->all(),AttendanceRecord::$validator_rules,AttendanceRecord::$validator_messages);
     if($validator->fails()){

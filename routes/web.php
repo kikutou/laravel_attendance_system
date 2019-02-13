@@ -49,10 +49,17 @@ Route::post('checkmail',"EmailcheckController@check_mail")->name("post_mail_chec
 Route::get('adminchart', "HomeController@showchart")->name("get_adminchart")->middleware('admin')->middleware("auth");
 
 //huang
-Route::get('create_leave_request','AttendanceRecordController@create_leave_request')->name('get_leave_request')->middleware('auth');
-Route::post('store_leave_request','AttendanceRecordController@store_leave_request')->name('post_leave_request')->middleware('auth');
-Route::get('create_notice','NoticeController@create_notice')->name('get_create_notice')->middleware('auth')->middleware('admin');
-Route::post('store_notice','NoticeController@store_notice')->name('post_create_notice')->middleware('auth')->middleware('admin');
+Route::get('create_leave_request','AttendanceRecordController@create')->name('get_leave_request')->middleware('auth');
+Route::post('store_leave_request','AttendanceRecordController@store')->name('post_leave_request')->middleware('auth');
+
+//「通知関連」リンクをクリックすると、実行される。
 Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->middleware('auth')->middleware('admin');
+
+//SubMdalの「変更」ボタンをクリックすると、実行される。
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
 
+//「お知らせ一覧」の右上の「お知らせの新規作成」をクリックすると、実行される。
+Route::get('create_notice','NoticeController@create')->name('get_create_notice')->middleware('auth')->middleware('admin');
+
+//「お知らせの新規作成」の「作成」ボタンをクリックすると、実行される。
+Route::post('store_notice','NoticeController@store')->name('post_create_notice')->middleware('auth')->middleware('admin');
