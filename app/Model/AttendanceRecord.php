@@ -3,12 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 
 class AttendanceRecord extends Model
 {
     public static $validator_rules = [
-       'attendance_date' => 'required',
+
        'leave_start_hour' => 'required',
        'leave_start_minute' => 'required',
        'leave_end_hour' => 'required',
@@ -17,7 +17,7 @@ class AttendanceRecord extends Model
     ];
 
     public static $validator_messages = [
-       'attendance_date.required' => '欠勤日をお選びください!',
+
        'leave_start_hour.required' => '欠勤開始時間(時)を選択してください!',
        'leave_start_minute.required' => '欠勤開始時間(分)を選択してください!',
        'leave_end_hour.required' => '欠勤終了時間(時)を選択してください!',
@@ -41,18 +41,21 @@ class AttendanceRecord extends Model
     {
       $result = true;
       $attendance_record = self::where('user_id',$user->id)
-        ->where('attendance_date',$attendance_date)
+        ->where('attendance_date',$attendance_date ?? Carbon::today())
         ->where('start_time','!=',null)
         ->where("end_time", "!=", null)
         ->first();
 
       if($attendance_record) {
-
-        if($attendance_record->start_time->lt($leave_start_at) && $attendance_record->end_time->gt($leave_start_at)) {
+        $cb_start_time = new Carbon($attendance_record->start_time);
+        $cb_end_time = new Carbon($attendance_record->end_time);
+        $cb_leave_start_at = new Carbon($leave_start_at);
+        $cb_leave_end_at = new Carbon($leave_end_at);
+        if($cb_start_time ->lt($cb_leave_start_at) &&  $cb_end_time->gt($cb_leave_end_at)) {
           $result = false;
         }
 
-        if($attendance_record->start_time->lt($leave_end_at) && $attendance_record->end_time->gt($leave_end_at)) {
+        if($cb_start_time->lt($cb_leave_end_at) && $cb_end_time->gt($cb_leave_end_at)) {
           $result = false;
         }
 
