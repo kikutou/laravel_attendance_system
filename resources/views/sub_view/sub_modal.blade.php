@@ -9,7 +9,7 @@
         <button  type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body" style="height:auto">
-        <textarea  name="content" class="form-control">{{ $one_info->comment }}</textarea>
+        <textarea  name="comment" class="form-control">{{ $one_info->comment }}</textarea>
       </div>
       <div class="modal-body">
         <input type="submit" class="btn btn-primary" value="更新" style="float:right;margin-top:15px;margin-left:20px">
