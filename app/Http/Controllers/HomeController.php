@@ -34,13 +34,14 @@ class HomeController extends Controller
      $onemomthago = Carbon::now()->subMonth(1)->format('m-d');
      $login_user = Auth::user();
      $user = User::where('id', $login_user->id)->first();
+     //homepage柱状图
      $att = AttendanceRecord::where('user_id',$user->id)
        ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
        ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
        ->whereNotNull('start_time')
        ->get()
        ->toArray();
-       $date = [];
+    $date = [];
        foreach ($att as $v) {
          $date[] = date("Y-m-d", strtotime($v['attendance_date']));
        }
@@ -84,6 +85,15 @@ class HomeController extends Controller
 
   public function showchart(Request $request)
   {
+    $user = User::all();
+
+    $att = AttendanceRecord::whereNotNull('reason')
+    ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+    ->where('attendance_date', '>=' , Carbon::now()->subMonth(1)->format('Y-m-d'))
+    ->selectRaw('count(reason) as top,user_id')
+    ->groupBy('user_id')
+    ->get();
+
     $users = User::whereNotNull('email_verified_at')->get();
     $late_user_names = array();
     $leave_user_names = array();

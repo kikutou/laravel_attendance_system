@@ -31,6 +31,7 @@
       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script src="{{ asset('/js/jquery-ja.js') }}"></script>
 
 
 
@@ -84,7 +85,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('begin_finish_view') }}">{{ __('勤怠管理') }}</a>
+                                <a class="nav-link" href="{{ route('get_begin_finish_view') }}">{{ __('勤怠管理') }}</a>
                             </li>
 
                             <li class="nav-item">

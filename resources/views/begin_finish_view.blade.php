@@ -3,6 +3,7 @@
 @section('content')
 <script>
 $(function(){
+  //現在時刻の表示
   setInterval(function(){
     var now = new Date();
     var y = now.getFullYear();
@@ -44,29 +45,34 @@ $(function(){
                   <ul class="list-group">
                       <li class="list-group-item" style="text-align:center;border:0px" ><span class="person-info-title">出勤標準時間&nbsp</span>{{ $time_lim->format('H:i') }}</li>
                       <li id='time_now' class="list-group-item" style="text-align:center;border:0px">現在時間取得中</li>
-                       <form action="{{ route('attendance_begin_finish') }}" method="post">
+                       <form action="{{ route('post_attendance_begin_finish') }}" method="post">
                           @csrf
                           <div>
                             <input type="hidden" name="attendance_date" value="{{ $attendance_date }}">
                           </div>
 
                           @if(!$rec || !$rec->start_time)
+                          {{--データがないまたは出勤記録がない場合は出勤画面--}}
                             @if(\Carbon\Carbon::now()->gt($time_lim))
+                            {{--遅刻する場合、遅刻原因エリアが--}}
                               <li class="list-group-item" style="border:0px"><span class="person-info-title">遅刻原因</span>
                                 <textarea id="late" name="reason" class="form-control" rows="2" style="width:100%"></textarea>
                               </li>
                             @endif
                               <li class="list-group-item" style="text-align:center;border:0px"><input type="submit" class="btn btn-primary" name="begin" value="出勤"></li>
                           @elseif($rec && $rec->start_time && !$rec->end_time)
+                          {{--出勤記録があり、退勤記録がない場合は退勤画面。勤務レポート入力エリアが表示--}}
                               <li class="list-group-item" style="border:0px"><span class="person-info-title">勤務報告
                                 <textarea id="late" name="report" class="form-control" rows="2" style="width:100%"></textarea>
                               </li>
                               <li class="list-group-item" style="text-align:center;border:0px"><input type="submit" name="begin" class="btn btn-primary" value="退勤"></li>
                           @endif
                           @if ($rec && $rec->start_time)
+                          {{--出勤記録がる場合は出勤時間が表示--}}
                           <li id='time_start' class="list-group-item" style="text-align:center;border:0px">今日の出勤時間&nbsp{{ $rec->start_time }}</li>
                           @endif
                           @if ($rec && $rec->end_time)
+                          {{--退勤記録がる場合は出勤時間が表示--}}
                           <li id='time_end' class="list-group-item" style="text-align:center;border:0px">今日の退勤時間&nbsp{{ $rec->end_time }}</li>
                           @endif
                       </form>
