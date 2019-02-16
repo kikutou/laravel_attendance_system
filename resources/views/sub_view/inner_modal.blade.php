@@ -4,10 +4,10 @@
       <h5 class="modal-title">{{ $title }}</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="height:50%;overflow:scroll">
       @foreach($infos as $info)
         <li class="list-group-item">
-          {{ $info->user->name }}
+          {{ $info->user->name }}@if($info->user->admin_flg)（管理員）@endif
         </li>
       @endforeach
     </div>
