@@ -1,46 +1,9 @@
 @extends('layouts.app')
 @section('title','通知関連')
 @section('content')
-<script>
-  $(function(){
-    $('#show_time').datepicker({
-        minDate: new Date()
-      });
-  })
-</script>
-<script>
-//すべてのcheckboxを選択。
-$(function(){
-  $('#all_users').click(function() {
-      if(this.checked) {
-          $(':checkbox').each(function() {
-              this.checked = true;
-          });
-      } else {
-          $(':checkbox').each(function() {
-              this.checked = false;
-          });
-      }
-  });
-})
-$(function(){
-  $(':checkbox').not('#all_users').click(function(){
-    var count =  0;
-    var len = $(':checkbox').length-1;
-    $(':checkbox').not('#all_users').each(function(){
-      if(!this.checked){
-        $('#all_users').prop('checked',false);
-      } else {
-        count++;
-      }
-      if(count == len){
-        $('#all_users').prop('checked',true);
-      }
-    });
-  });
-})
-</script>
 
+<script src="{{ asset('/js/datePicker.js') }}"></script>
+<script src="{{ asset('/js/checkAllBoxOrNot.js') }}"></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
