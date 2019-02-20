@@ -60,7 +60,7 @@ $(function(){
                           <input class="form-control" name="title" type="text" value="{{ old('title') }}" placeholder="タイトルを入力してください">
                         </li>
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">内容</span>
-                          <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
+                         <textarea  class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
                         <li class="list-group-item" style="border:0px;"><span class="person-info-title">送信先</span>
                           <div class="checkbox checkbox-primary checkbox-inline form-control"style="height:auto;overflow:auto">
