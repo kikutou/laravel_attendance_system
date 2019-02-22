@@ -79,7 +79,8 @@
  };*/
           var tooltip = {
              formatter: function(){
-               var data = this.y.toString().split('.');
+               var data = Highcharts.numberFormat(this.y, 2)
+                   data = data.toString().split('.')
                var h = data[0];
                var m = data[1] ? data[1] : '00';
                return this.point.name+'<br/>'+this.series.name+'<br/>'+h+':'+m;
@@ -125,7 +126,7 @@
                      $h = $timeArr[0] ?? 0;
                      $m = $timeArr[1] ?? 0;
                      $end_time = !$h && !$m ? 0 : $h.'.'.$m;
-                     // dd($start_time);
+                    // dd($end_time);
                    @endphp
                    ['{{ \Carbon\Carbon::now()->subMonth(1)->addDays($i)->format("m-d") }}', {{ $end_time }}],
                  @else

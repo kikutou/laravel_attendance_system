@@ -41,14 +41,6 @@ class NoticeController extends Controller
       return redirect()->back()->withInput()->withErrors($validator);
     }
 
-    //日付が過去かどうかを確認する。
-    $carbon = new Carbon($request->show_date);
-    if($carbon->lt(Carbon::today())){
-      //選択された日付が過去の場合、「お知らせの新規作成」画面にリダイレクトし、入力された内容とともに、以下のエラーメッセージが表示される。
-      $error_message = '本日以降の日付で選択してください！';
-      return redirect()->back()->withInput()->with(['error' => $error_message]);
-    }
-
     //入力された内容がすべて問題ない場合、データベースのinformationsテーブルに新規データを書き込む。
     $one_info = new Information;
 

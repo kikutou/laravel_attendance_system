@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title','通知関連')
 @section('content')
+<<<<<<< HEAD
 <script>
   $(function(){
     $('#show_time').datepicker(
@@ -40,7 +41,11 @@ $(function(){
   });
 })
 </script>
+=======
+>>>>>>> 3bd3271612947c69153ea43f880e72eec0ea2100
 
+<script src="{{ asset('/js/datePicker.js') }}"></script>
+<script src="{{ asset('/js/checkAllBoxOrNot.js') }}"></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -60,7 +65,7 @@ $(function(){
                           <input class="form-control" name="title" type="text" value="{{ old('title') }}" placeholder="タイトルを入力してください">
                         </li>
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">内容</span>
-                          <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
+                         <textarea  class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
                         <li class="list-group-item" style="border:0px;"><span class="person-info-title">送信先</span>
                           <div class="checkbox checkbox-primary checkbox-inline form-control"style="height:auto;overflow:auto">
