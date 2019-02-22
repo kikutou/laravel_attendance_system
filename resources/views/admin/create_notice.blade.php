@@ -3,7 +3,9 @@
 @section('content')
 <script>
   $(function(){
-    $('#show_time').datepicker();
+    $('#show_time').datepicker(
+      { minDate: New Date()}
+    );
   })
 </script>
 <script>

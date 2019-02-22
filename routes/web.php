@@ -64,12 +64,9 @@ Route::get('all_info','NoticeController@show_all_info')->name('get_all_info')->m
 
 //SubMdalの「変更」ボタンをクリックすると、実行される。
 Route::post('all_info','NoticeController@update_info')->name('post_updated_info')->middleware('auth')->middleware('admin');
-<<<<<<< HEAD
-=======
 
 //「お知らせ一覧」の右上の「お知らせの新規作成」をクリックすると、実行される。
 Route::get('create_notice','NoticeController@create')->name('get_create_notice')->middleware('auth')->middleware('admin');
 
 //「お知らせの新規作成」の「作成」ボタンをクリックすると、実行される。
 Route::post('store_notice','NoticeController@store')->name('post_create_notice')->middleware('auth')->middleware('admin');
->>>>>>> e02154a79d37427afa7f108d3694cd6662329b16
