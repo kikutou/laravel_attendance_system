@@ -15,119 +15,139 @@ use Illuminate\Support\Facades\Auth;
 class AttendanceRecordController extends Controller
 {
   public function begin_finish_view() {
+    //出退勤画面にアクセスする
     $user_id = Auth::id();
+    //ユーザーのidを取得する
     $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-    $time_lim = new Carbon(env('START_TIME', '09:00'));
+    //本日ユーザーの出退勤状態を確認する
+    $time_lim = new Carbon(env('START_TIME',"09:00:00"));
+    //標準出勤時間を設定する
     return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim, 'attendance_date' => Carbon::now()->format('Y-m-d')]);
+    //出退勤データ・出勤標準時間・現在日の日付をVIEWに渡す
   }
 
   public function attendance_begin_finish(Request $request) {
-    if ($request->attendance_date == Carbon::now()->format('Y-m-d'))
-    {
-      $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-      $time_lim = new Carbon(env('START_TIME', '09:00'));
+    //出退勤機能
+    if ($request->attendance_date == Carbon::now()->format('Y-m-d')) {
+    //出勤日と現在日を確認する
+        $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
+        //本日ユーザーの出退勤状態を確認する、データが存在する場合は、記録を取得する
+        $time_lim = new Carbon(env('START_TIME', '09:00:00'));
+        //標準出勤時間を設定する
 
-      if (!$user_rec)
-      {
-        $user_rec = New AttendanceRecord;
-        $user_rec->user_id = Auth::id();
-        $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
-        $user_rec->start_time = Carbon::now()->format('H:i');
-
-        if (Carbon::now()->gt($time_lim))
+        if (!$user_rec)
+        //出勤1：出勤・休み記録がない場合
         {
-          $validator_rules = [
-            'reason' => 'required'
-          ];
-
-          $validator_messages = [
-            'reason.required' => '遅刻原因を説明してください。'
-          ];
-
-          $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
-
-          if ($validator->fails())
-          {
-            return redirect()->back()->withInput()->withErrors($validator);
-          }
-
-          $user_rec->reason = $request->reason;
-        }
-
-        $user_rec->save();
-
-        $message = '操作成功。';
-        return redirect()->back()->with(['message' => $message]);
-
-      }
-
-      if ($user_rec) {
-        if (!$user_rec->start_time)
-        {
+          $user_rec = New AttendanceRecord;
+          //新しいデータを作る
+          $user_rec->user_id = Auth::id();
+          //ユーザーIDを設定する
+          $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
+          //日付を設定する
           $user_rec->start_time = Carbon::now()->format('H:i');
+          //出勤時間を設定する
 
           if (Carbon::now()->gt($time_lim))
+          //遅刻する場合
           {
             $validator_rules = [
               'reason' => 'required'
+              //遅刻原因の説明が必要である
             ];
-
             $validator_messages = [
-              'reason.required' => '遅刻理由を入力してください。'
+              'reason.required' => '遅刻原因を説明してください。'
             ];
-
             $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
+            //バリエーションを設置する
 
             if ($validator->fails())
             {
               return redirect()->back()->withInput()->withErrors($validator);
+              //入力しないと、エラーメッセージを付けて、前の画面にリダイレクトする
             }
-
             $user_rec->reason = $request->reason;
+            //入力原因を設定する
           }
-
           $user_rec->save();
-
+          //出勤記録を保存する
           $message = '操作成功。';
           return redirect()->back()->with(['message' => $message]);
+          //成功メッセージを付けて、前の画面にリダイレクトする
         }
 
-        if ($user_rec->start_time && !$user_rec->end_time)
-        {
-          $validator_rules = [
-            'report' => 'required'
-          ];
+        if ($user_rec && !$user_rec->start_time) {
+          //出勤2：休み記録があるが、出勤時間がない場合
 
-          $validator_messages = [
-            'report.required' => '今日のレポートを提出してください。'
-          ];
+            $user_rec->start_time = Carbon::now()->format('H:i');
+            //出勤時間を設定する
+            if (Carbon::now()->gt($time_lim))
+            //遅刻する場合
+            {
+              $validator_rules = [
+                'reason' => 'required'
+                //遅刻原因の説明が必要である
+              ];
+              $validator_messages = [
+                'reason.required' => '遅刻原因を説明してください。'
+              ];
+              $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
+              //バリエーションを設置する
 
-          $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
-
-          if ($validator->fails())
-          {
-            return redirect()->back()->withInput()->withErrors($validator);
+              if ($validator->fails())
+              {
+                return redirect()->back()->withInput()->withErrors($validator);
+                //入力しないと、エラーメッセージを付けて、前の画面にリダイレクトする
+              }
+              $user_rec->reason = $request->reason;
+              //入力原因を設定する
+            }
+            $user_rec->save();
+            //出勤記録を保存する
+            $message = '操作成功。';
+            return redirect()->back()->with(['message' => $message]);
+            //成功メッセージを付けて、前の画面にリダイレクトする
           }
 
-          $user_rec->end_time = Carbon::now()->format('H:i');
-          $user_rec->report = $request->report;
-          $user_rec->save();
-
-          $message = '操作成功。今日はお疲れ様でした。';
-          return redirect()->back()->with(['message' => $message]);
+          if ($user_rec->start_time && !$user_rec->end_time) {
+          //退勤：出勤記録があり、退勤記録がない場合
+            $validator_rules = [
+              'report' => 'required'
+              //勤務レポートの提出が必要である
+            ];
+            $validator_messages = [
+              'report.required' => '今日のレポートを提出してください。'
+            ];
+            $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
+            //バリエーションを設置する
+            if ($validator->fails())
+            {
+              return redirect()->back()->withInput()->withErrors($validator);
+              //入力しないと、エラーメッセージを付けて、前の画面にリダイレクトする
+            }
+            $user_rec->end_time = Carbon::now()->format('H:i');
+            //退勤時間を設定する
+            $user_rec->report = $request->report;
+            //レポートを設定する
+            $user_rec->save();
+            //退勤記録を保存する
+            $message = '操作成功。今日はお疲れ様でした。';
+            return redirect()->back()->with(['message' => $message]);
+            //成功メッセージを付けて、前の画面にリダイレクトする
+          }
         }
-      }
+
+      $error = '操作を完了できませんでした。管理者に連絡してください。';
+      return redirect()->back()->with(['error' => $error]);
+      //出勤日と現在日が異なる場合、エラーメッセージを付けて、前の画面にリダイレクトする
     }
-    $error = '操作を完了できませんでした。管理者に連絡してください。';
-    return redirect()->back()->with(['error' => $error]);
-  }
+
 
   /**
    *
    *欠勤申請画面の表示。
    *
    */
-  public function create_leave_request(Request $request)
+  public function create(Request $request)
   {
     return view('leave_request');
   }
@@ -137,7 +157,7 @@ class AttendanceRecordController extends Controller
    *欠勤申請機能。
    *
    */
-  public function store_leave_request(Request $request)
+  public function store(Request $request)
   {
     $validator = Validator::make($request->all(),AttendanceRecord::$validator_rules,AttendanceRecord::$validator_messages);
     if($validator->fails()){
@@ -146,31 +166,33 @@ class AttendanceRecordController extends Controller
 
     //日付が過去かどうかを確認する。
     $carbon = new Carbon($request->attendance_date);
-    if($carbon->isPast()){
+    if($carbon->lt(Carbon::today())){
       $one_message = "本日以降の日付をお選びください。";
       return redirect()->back()->withInput()->with(['error' => $one_message]);
     }
 
     //出勤時間外での申請制御。
     $user = Auth::user();
-    if(!AttendanceRecord::check_leave_time($user, $request->attendance_date, $request->leave_start_time, $request->leave_end_time)) {
+    $leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
+    $leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
+    if(!AttendanceRecord::check_leave_time($user, $request->attendance_date,  $leave_start_time,  $leave_end_time)) {
       $one_message = "出勤時間外の時間で申請してください!";
       return redirect()->back()->with(['error' => $one_message]);
     }
 
     //欠勤申請データの書き込み。
     $one_attendance_record = AttendanceRecord::where('user_id', $user->id)
-      ->where('attendance_date',new Carbon($request->attendance_date))
+      ->where('attendance_date',$request->attendance_date ?? Carbon::today())
       ->first();
 
     if(!$one_attendance_record){
       $one_attendance_record = new AttendanceRecord;
       $one_attendance_record->user_id = $user->id;
-      $one_attendance_record->attendance_date = new Carbon($request->attendance_date);
+      $one_attendance_record->attendance_date = $request->attendance_date ?? Carbon::today();
     }
 
-    $one_attendance_record->leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
-    $one_attendance_record->leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
+    $one_attendance_record->leave_start_time =  $leave_start_time;
+    $one_attendance_record->leave_end_time =  $leave_end_time;
     $one_attendance_record->leave_reason = $request->leave_reason;
     $one_attendance_record->leave_applicate_time = Carbon::now();
     $one_attendance_record->mtb_leave_check_status_id = MtbLeaveCheckStatus::APPROVAL_PENDING;
@@ -218,8 +240,25 @@ class AttendanceRecordController extends Controller
 
       if($request->start) {
         $starttime = New Carbon($request->start);
+        if($starttime > Today()){
+           $error = '【開始日】今日以前の日付を入力してください。';
+           return  redirect()->back()->with(['error' => $error]);
+        }
       } else {
-        $starttime = New Carbon(AttendanceRecord::orderBy('attendance_date','asc')->first()->attendance_date);
+        $first_record = AttendanceRecord::orderBy('attendance_date','asc')->first();
+
+      if($first_record) {
+        $starttime = New Carbon($first_record->attendance_date);
+        } else {
+        $error = 'データが存在しません。';
+        return  redirect()->back()->with(['error' => $error]);
+        }
+
+      }
+
+      if ($starttime > New Carbon($request->end)){
+         $error = '【開始日】終了日以前の日付を入力してください。';
+         return  redirect()->back()->with(['error' => $error]);
       }
 
       $attendance_records = $attendance_records->where('attendance_date', '>=', $starttime);
@@ -320,10 +359,14 @@ class AttendanceRecordController extends Controller
     public function create_csv_find(Request $request)
     {
       $starttime =  New Carbon($request->starttime['date']);
+      //開始日を取得する
       $endtime = New Carbon($request->endtime['date']);
+      //終了日を取得する
       $diff = $starttime->diffIndays($endtime);
+      //日付の差を計算する
 
       $recs_r = AttendanceRecord::where('user_id', '=', $request->user_id)->where('attendance_date', '>=', $starttime)->where('attendance_date', '<=', $endtime)->get(['attendance_date', 'start_time', 'end_time', 'leave_start_time', 'leave_end_time'])->toArray();
+      //時間範囲内のデータを取得し、配列に入れる
       $recs = [];
       $rec_n = [];
       $time_count = null;
@@ -331,9 +374,11 @@ class AttendanceRecordController extends Controller
       for ($i = 0; $i <= $diff; $i++) {
         $start_at = clone $starttime;
         $thisday = $start_at->addDays($i);
+        //for文で開始日から終了日までのデータを構成する
 
         foreach ($recs_r as $rec_r) {
           if ($rec_r['attendance_date'] == $thisday) {
+            //出勤または休み記録がある日であれば
             $rec_n = $rec_r;
             break;
           }
@@ -341,19 +386,23 @@ class AttendanceRecordController extends Controller
 
         if ($rec_n) {
           $rec_n['attendance_date'] = date('Y-m-d', strtotime($thisday));
+          //日付の形式を整理する
           if ($rec_n['end_time']) {
             $time_start = new Carbon($rec_n['start_time']);
             $time_end = new Carbon($rec_n['end_time']);
             $time_oneday = $time_end->diffInMinutes($time_start);
             $time_count = $time_count + $time_oneday;
+            //出勤総時間を分で計算する
           }
 
           if ($rec_n['leave_end_time']) {
             $rec_n['leave_start_time'] = '休み' . $rec_n['leave_start_time'] . '-' . $rec_n['leave_end_time'];
             $rec_n['leave_end_time'] = null;
+            //休み記録があれば、開始時間と終了時間を記入する
           }
 
           $recs[] = $rec_n;
+          //データを配列に入れる
         }
 
         else {
@@ -364,30 +413,38 @@ class AttendanceRecordController extends Controller
         $rec_n = [];
       }
 
-      $csvHeader = ['日付', '出勤時間', '退勤時間'];
+        $csvHeader = ['日付', '出勤時間', '退勤時間'];
       array_unshift($recs, $csvHeader);
+      //各項目のタイトルを表の先頭に入れる
 
       $csvHeader_b = ['名前', User::find($request->user_id)->name];
       array_unshift($recs, $csvHeader_b);
+      //個人情報を表の先頭に入れる
 
       $time_count_hour = floor($time_count / 60);
+      //出勤総時間の時間数を取得する
       $time_count_min = $time_count % 60;
+      //余る分の数を取得する
 
       $csvFooter = ['総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
       array_push($recs, $csvFooter);
+      //最後に総出勤時間を表示する
 
       $stream = fopen('php://temp', 'r+b');
       foreach ($recs as $rec) {
         fputcsv($stream, $rec);
+        //配列の各項目をcvsファイルに保存する
       }
       rewind($stream);
       $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
       $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
       $filename = date('YmdHis') . '.' . 'csv';
+      //ファイルの命名規則を指定する
       $headers = array(
         'Content-Type' => 'text/csv',
         'Content-Disposition' => "attachment; filename=$filename",
       );
       return Response::make($csv, 200, $headers);
+      //csvファイルを出力する
     }
 }

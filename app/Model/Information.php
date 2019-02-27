@@ -68,8 +68,8 @@ class Information extends Model
     {
       $all_infos = Information::all();
       $result = array();
-      foreach ($all_infos as $info) {
-        $result[] = $info;
+      foreach($all_infos as $info){
+          $result[] = $info;
       }
       usort($result, function($a, $b) {
           if ($a->show_date == $b->show_date) {
@@ -81,7 +81,8 @@ class Information extends Model
           }
           return ($a->show_date < $b->show_date) ? 1 : -1;
       });
-
       return count($result) > 0 ? $result : false;
     }
+
+  
 }

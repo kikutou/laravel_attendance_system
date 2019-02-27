@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('title','通知関連')
 @section('content')
+<<<<<<< HEAD
 <script>
   $(function(){
-    $('#show_time').datepicker();
+    $('#show_time').datepicker(
+      { minDate: New Date()}
+    );
   })
 </script>
 <script>
@@ -38,6 +41,11 @@ $(function(){
   });
 })
 </script>
+=======
+>>>>>>> 3bd3271612947c69153ea43f880e72eec0ea2100
+
+<script src="{{ asset('/js/datePicker.js') }}"></script>
+<script src="{{ asset('/js/checkAllBoxOrNot.js') }}"></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -50,25 +58,34 @@ $(function(){
                     <ul class="list-group">
                       <form action="{{ route('post_create_notice') }}" method="post">
                         @csrf
-                        <li class="list-group-item" style="border:0px"><span class="person-info-title">お知らせ日時</span>
+                        <li class="list-group-item" style="border:0px"><span class="person-info-title">公開日時</span>
                           <input id='show_time' class="form-control" name="show_date" type="text" value="{{ old('show_date') }}" autocomplete="off" placeholder="お知らせ日時を選択してください">
                         </li>
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">タイトル</span>
                           <input class="form-control" name="title" type="text" value="{{ old('title') }}" placeholder="タイトルを入力してください">
                         </li>
                         <li class="list-group-item" style="border:0px"><span class="person-info-title">内容</span>
-                          <textarea class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
+                         <textarea  class="form-control" name="comment" placeholder="内容を入力してください">{{ old('comment') }}</textarea>
                         </li>
-                        <li class="list-group-item" style="border:0px"><span class="person-info-title">送信先</span>
-                          <div id="checkboxlist" class="checkbox-inline form-control"style="height:auto">
+                        <li class="list-group-item" style="border:0px;"><span class="person-info-title">送信先</span>
+                          <div class="checkbox checkbox-primary checkbox-inline form-control"style="height:auto;overflow:auto">
                             @foreach($users as $user)
-                              <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                               @if(old('user_ids') && in_array($user->id,old('user_ids')))
-                                checked
-                               @endif><span>&nbsp{{ $user->name }}@if($user->admin_flg)（管理員）@endif</span>
+                              <span style="float: left">
+                                <input id="user{{ $user->id }}" type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                                @if(old('user_ids') && in_array($user->id,old('user_ids')))
+                                 checked
+                                 @endif>
+                                <label for="user{{ $user->id }}">{{ $user->name }}@if($user->admin_flg)（管理員）@else &nbsp;&nbsp;@endif</label>
+                              </span>
                             @endforeach
-                              <br><input id="all_users" type="checkbox" name="all_users">&nbspすべて
-                          </div>
+                              <span style="float: left">
+                                <input id="all_users" type="checkbox" name="all_users"
+                                @if(old('all_users'))
+                                 checked
+                                 @endif>
+                                <label for="all_users">すべて&nbsp;&nbsp;</label>
+                              </span>
+                         </div>
                         </li>
                         <li class="list-group-item" style="text-align:center;border:0px">
                           <input type="submit" class="btn btn-primary" value="作成">

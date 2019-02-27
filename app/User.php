@@ -131,6 +131,17 @@ class User extends Authenticatable
             }
         }
 
+        usort($result, function($a, $b) {
+            if ($a->show_date == $b->show_date) {
+
+                if($a->created_at == $b->created_at) {
+                    return 0;
+                }
+                return ($a->created_at < $b->created_at) ? 1 : -1;
+            }
+            return ($a->show_date < $b->show_date) ? 1 : -1;
+        });
+
         return count($result) > 0 ? $result : false;
     }
 
@@ -164,4 +175,47 @@ class User extends Authenticatable
 
     }
 
+    public function get_recent_days($days,$format)
+    {
+      $dayarr = array();
+      for($i = $days-1; $i >= 0; $i--){
+         $dayarr[$days-1-$i] = Carbon::today()->subDay($i)->format($format);
+      }
+      return $dayarr;
+    }
+
+    public function get_start_time_of_days($days)
+    {
+      $start_time = array();
+      foreach($this->get_recent_days($days,'Y-m-d') as $day){
+        $temp = $this->attendance_records()->where('attendance_date',$day)->first();
+        if(!$temp) {
+            $start_time[] = 0;
+        } else {
+            $hoge = new Carbon($temp->start_time);
+            $temp_hour = intval($hoge->format('H'));
+            $temp_minute = intval($hoge->format('i'))/60;
+            $temp_start_time = $temp_hour + $temp_minute;
+            $start_time[] = $temp_start_time;
+        }
+      }
+      return $start_time;
+    }
+    public function get_end_time_of_days($days)
+    {
+      $end_time = array();
+      foreach($this->get_recent_days($days,'Y-m-d') as $day){
+        $temp = $this->attendance_records()->where('attendance_date',$day)->first();
+        if(!$temp) {
+            $end_time[] = 0;
+        } else {
+          $hoge = new Carbon($temp->end_time);
+          $temp_hour = intval($hoge->format('H'));
+          $temp_minute = intval($hoge->format('i'))/60;
+          $temp_end_time = $temp_hour + $temp_minute;
+          $end_time[] = $temp_end_time;
+        }
+      }
+      return $end_time;
+    }
 }
