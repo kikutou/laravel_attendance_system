@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">今月の出勤時間の棒状チャート図</div>
+  <div class="card-header">今月の出席時間の棒状チャート図</div>
   <div class="card-body">
     <div id="user_attendance_card"></div>
     <script language="JavaScript">
@@ -8,10 +8,10 @@
       type: 'column'
    };
    var title = {
-      text: '{{ Auth::user()->name }} 今月の出勤時間の棒状チャート図'
+      text: '{{ Auth::user()->name }} 今月の出席時間の棒状チャート図'
    };
    var subtitle = {
-      text: '勤怠管理システム'
+      text: '出席管理システム'
    };
    var xAxis = {
      type:'category',
@@ -55,11 +55,11 @@
    var end_time = {!! json_encode($end_time) !!}
    var series= [
      {
-        name:'出勤時間',
+        name:'出席時間',
         data:start_time
       },
       {
-        name:'退勤時間',
+        name:'退席時間',
         data:end_time
       }
     ];
@@ -97,7 +97,7 @@
           };
 
           var series= [{
-            name: '出勤時間',
+            name: '出席時間',
                    data: [
                      @for ($i = 1; $i <= 30; $i++)
                         @if (in_array(\Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'), $t_date))
@@ -116,7 +116,7 @@
                     @endfor
                    ]
                  }, {
-            name: '退勤時間',
+            name: '退席時間',
             data: [
               @for ($i = 1; $i <= 30; $i++)
                  @if (in_array(\Carbon\Carbon::now()->subMonth(1)->addDays($i)->format('Y-m-d'), $t_date))

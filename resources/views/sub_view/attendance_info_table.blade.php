@@ -7,8 +7,8 @@
   <table class="top table table-striped">
     <tr>
         <th>日付</th>
-        <th>出勤時間</th>
-        <th>退勤時間</th>
+        <th>出席時間</th>
+        <th>退席時間</th>
         <th>遅刻理由</th>
         <th>休み情報</th>
     </tr>
@@ -59,7 +59,7 @@
 
     @else
       <td>{{ $date }}</td>
-      <td colspan="4">出勤していません。</td>
+      <td colspan="4">出席していません。</td>
     @endif
   </tr>
 @endforeach

@@ -41,7 +41,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">
-                    勤怠管理システム
+                    出席管理システム
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -84,14 +84,14 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('get_begin_finish_view') }}">{{ __('勤怠管理') }}</a>
+                                <a class="nav-link" href="{{ route('get_begin_finish_view') }}">{{ __('出席管理') }}</a>
                             </li>
 
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_leave_request') }}">{{ __('休暇申込') }}</a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('get_user_all') }}">{{ __('出勤状態') }}</a>
+                                    <a class="nav-link" href="{{ route('get_user_all') }}">{{ __('出席状態') }}</a>
                             </li>
                             <li class="nav-item">
                                     <a class="nav-link" href="{{ route('get_info') }}">{{ __('お知らせ') }}</a>
@@ -140,7 +140,7 @@
                                     <a class="nav-link" href="{{ route('get_all_info') }}">{{ __('通知関連') }}</a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('get_user_find') }}">{{ __('勤怠検索') }}</a>
+                                    <a class="nav-link" href="{{ route('get_user_find') }}">{{ __('出席検索') }}</a>
                             </li>
                             @endif
                         @endguest

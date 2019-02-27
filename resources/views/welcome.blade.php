@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>勤怠管理システム</title>
+        <title>出席管理システム</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
@@ -87,7 +87,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    勤怠管理システム
+                    出席管理システム
                 </div>
 
                 <div class="links">

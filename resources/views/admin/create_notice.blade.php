@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','通知関連')
 @section('content')
-<<<<<<< HEAD
+
 <script>
   $(function(){
     $('#show_time').datepicker(
@@ -41,8 +41,7 @@ $(function(){
   });
 })
 </script>
-=======
->>>>>>> 3bd3271612947c69153ea43f880e72eec0ea2100
+
 
 <script src="{{ asset('/js/datePicker.js') }}"></script>
 <script src="{{ asset('/js/checkAllBoxOrNot.js') }}"></script>

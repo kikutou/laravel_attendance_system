@@ -15,28 +15,28 @@ use Illuminate\Support\Facades\Auth;
 class AttendanceRecordController extends Controller
 {
   public function begin_finish_view() {
-    //出退勤画面にアクセスする
+    //出退席画面にアクセスする
     $user_id = Auth::id();
     //ユーザーのidを取得する
     $user_rec = AttendanceRecord::query()->where('user_id', $user_id)->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-    //本日ユーザーの出退勤状態を確認する
+    //本日ユーザーの出退席状態を確認する
     $time_lim = new Carbon(env('START_TIME',"09:00:00"));
-    //標準出勤時間を設定する
+    //標準出席時間を設定する
     return view('begin_finish_view', ['rec' => $user_rec, 'time_lim' => $time_lim, 'attendance_date' => Carbon::now()->format('Y-m-d')]);
-    //出退勤データ・出勤標準時間・現在日の日付をVIEWに渡す
+    //出退席データ・出席標準時間・現在日の日付をVIEWに渡す
   }
 
   public function attendance_begin_finish(Request $request) {
-    //出退勤機能
+    //出退席機能
     if ($request->attendance_date == Carbon::now()->format('Y-m-d')) {
-    //出勤日と現在日を確認する
+    //出席日と現在日を確認する
         $user_rec = AttendanceRecord::query()->where('user_id', Auth::id())->where('attendance_date', Carbon::now()->format('Y-m-d'))->first();
-        //本日ユーザーの出退勤状態を確認する、データが存在する場合は、記録を取得する
+        //本日ユーザーの出退席状態を確認する、データが存在する場合は、記録を取得する
         $time_lim = new Carbon(env('START_TIME', '09:00:00'));
-        //標準出勤時間を設定する
+        //標準出席時間を設定する
 
         if (!$user_rec)
-        //出勤1：出勤・休み記録がない場合
+        //出席1：出席・休み記録がない場合
         {
           $user_rec = New AttendanceRecord;
           //新しいデータを作る
@@ -45,7 +45,7 @@ class AttendanceRecordController extends Controller
           $user_rec->attendance_date = Carbon::now()->format('Y-m-d');
           //日付を設定する
           $user_rec->start_time = Carbon::now()->format('H:i');
-          //出勤時間を設定する
+          //出席時間を設定する
 
           if (Carbon::now()->gt($time_lim))
           //遅刻する場合
@@ -69,17 +69,17 @@ class AttendanceRecordController extends Controller
             //入力原因を設定する
           }
           $user_rec->save();
-          //出勤記録を保存する
+          //出席記録を保存する
           $message = '操作成功。';
           return redirect()->back()->with(['message' => $message]);
           //成功メッセージを付けて、前の画面にリダイレクトする
         }
 
         if ($user_rec && !$user_rec->start_time) {
-          //出勤2：休み記録があるが、出勤時間がない場合
+          //出席2：休み記録があるが、出席時間がない場合
 
             $user_rec->start_time = Carbon::now()->format('H:i');
-            //出勤時間を設定する
+            //出席時間を設定する
             if (Carbon::now()->gt($time_lim))
             //遅刻する場合
             {
@@ -102,14 +102,14 @@ class AttendanceRecordController extends Controller
               //入力原因を設定する
             }
             $user_rec->save();
-            //出勤記録を保存する
+            //出席記録を保存する
             $message = '操作成功。';
             return redirect()->back()->with(['message' => $message]);
             //成功メッセージを付けて、前の画面にリダイレクトする
           }
 
           if ($user_rec->start_time && !$user_rec->end_time) {
-          //退勤：出勤記録があり、退勤記録がない場合
+          //退席：出席記録があり、退席記録がない場合
             $validator_rules = [
               'report' => 'required'
               //勤務レポートの提出が必要である
@@ -125,11 +125,11 @@ class AttendanceRecordController extends Controller
               //入力しないと、エラーメッセージを付けて、前の画面にリダイレクトする
             }
             $user_rec->end_time = Carbon::now()->format('H:i');
-            //退勤時間を設定する
+            //退席時間を設定する
             $user_rec->report = $request->report;
             //レポートを設定する
             $user_rec->save();
-            //退勤記録を保存する
+            //退席記録を保存する
             $message = '操作成功。今日はお疲れ様でした。';
             return redirect()->back()->with(['message' => $message]);
             //成功メッセージを付けて、前の画面にリダイレクトする
@@ -138,7 +138,7 @@ class AttendanceRecordController extends Controller
 
       $error = '操作を完了できませんでした。管理者に連絡してください。';
       return redirect()->back()->with(['error' => $error]);
-      //出勤日と現在日が異なる場合、エラーメッセージを付けて、前の画面にリダイレクトする
+      //出席日と現在日が異なる場合、エラーメッセージを付けて、前の画面にリダイレクトする
     }
 
 
@@ -171,12 +171,12 @@ class AttendanceRecordController extends Controller
       return redirect()->back()->withInput()->with(['error' => $one_message]);
     }
 
-    //出勤時間外での申請制御。
+    //出席時間外での申請制御。
     $user = Auth::user();
     $leave_start_time = $request->leave_start_hour.":".$request->leave_start_minute;
     $leave_end_time = $request->leave_end_hour.":".$request->leave_end_minute;
     if(!AttendanceRecord::check_leave_time($user, $request->attendance_date,  $leave_start_time,  $leave_end_time)) {
-      $one_message = "出勤時間外の時間で申請してください!";
+      $one_message = "出席時間外の時間で申請してください!";
       return redirect()->back()->with(['error' => $one_message]);
     }
 
@@ -204,7 +204,7 @@ class AttendanceRecordController extends Controller
   }
 
     /**
-     * 会員の一週間の勤怠常置を表示する
+     * 会員の一週間の出席常置を表示する
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -330,13 +330,13 @@ class AttendanceRecordController extends Controller
         $rec_n = [];
       }
 
-      $csvHeader = ['日付', '出勤時間', '退勤時間'];
+      $csvHeader = ['日付', '出席時間', '退席時間'];
       array_unshift($recs, $csvHeader);
 
       $time_count_hour = floor($time_count / 60);
       $time_count_min = $time_count % 60;
 
-      $csvFooter = ['本月の総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
+      $csvFooter = ['本月の総出席時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
       array_push($recs, $csvFooter);
 
       $stream = fopen('php://temp', 'r+b');
@@ -378,7 +378,7 @@ class AttendanceRecordController extends Controller
 
         foreach ($recs_r as $rec_r) {
           if ($rec_r['attendance_date'] == $thisday) {
-            //出勤または休み記録がある日であれば
+            //出席または休み記録がある日であれば
             $rec_n = $rec_r;
             break;
           }
@@ -392,7 +392,7 @@ class AttendanceRecordController extends Controller
             $time_end = new Carbon($rec_n['end_time']);
             $time_oneday = $time_end->diffInMinutes($time_start);
             $time_count = $time_count + $time_oneday;
-            //出勤総時間を分で計算する
+            //出席総時間を分で計算する
           }
 
           if ($rec_n['leave_end_time']) {
@@ -413,7 +413,7 @@ class AttendanceRecordController extends Controller
         $rec_n = [];
       }
 
-        $csvHeader = ['日付', '出勤時間', '退勤時間'];
+        $csvHeader = ['日付', '出席時間', '退席時間'];
       array_unshift($recs, $csvHeader);
       //各項目のタイトルを表の先頭に入れる
 
@@ -422,13 +422,13 @@ class AttendanceRecordController extends Controller
       //個人情報を表の先頭に入れる
 
       $time_count_hour = floor($time_count / 60);
-      //出勤総時間の時間数を取得する
+      //出席総時間の時間数を取得する
       $time_count_min = $time_count % 60;
       //余る分の数を取得する
 
-      $csvFooter = ['総出勤時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
+      $csvFooter = ['総出席時間', $time_count_hour . '時間' . $time_count_min . '分', '', 'サイン', ''];
       array_push($recs, $csvFooter);
-      //最後に総出勤時間を表示する
+      //最後に総出席時間を表示する
 
       $stream = fopen('php://temp', 'r+b');
       foreach ($recs as $rec) {

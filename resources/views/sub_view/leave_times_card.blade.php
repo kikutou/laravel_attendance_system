@@ -11,7 +11,7 @@
             text: '３ヶ月間の欠勤（予定）回数の棒状チャート図'
         };
         var subtitle = {
-            text: '勤怠管理システム'
+            text: '出席管理システム'
         };
         var leave_user_names = {!! json_encode($leave_user_names) !!};
         var xAxis = {

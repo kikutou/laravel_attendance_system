@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">今月の出勤時間の棒状チャート図</div>
+  <div class="card-header">今月の出席時間の棒状チャート図</div>
   <div class="card-body">
     <div id="attendance"></div>
     <input type="hidden">
@@ -12,7 +12,7 @@
       text: '従業員今月の遅刻回数の棒状チャート図'
    };
    var subtitle = {
-      text: '勤怠管理システム'
+      text: '出席管理システム'
    };
    var late_user_names = {!! json_encode($late_user_names) !!};
    var xAxis = {

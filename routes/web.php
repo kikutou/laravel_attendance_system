@@ -28,13 +28,13 @@ Route::get('/info/{id}', 'HomeController@readinfo')->name('get_readinfo')->middl
 
 
 
-//出退勤管理　金
+//出退席管理　金
 
 Route::get('/attendance', 'AttendanceRecordController@begin_finish_view')->name('get_begin_finish_view')->middleware("auth");
-//ユーザログイン状態で、「勤怠管理」をクリックすると、ROUTE「get_begin_finish_view」に従って、CONTROLLER「AttendanceRecordController」のファンクション「begin_finish_view」を実行する
+//ユーザログイン状態で、「出席管理」をクリックすると、ROUTE「get_begin_finish_view」に従って、CONTROLLER「AttendanceRecordController」のファンクション「begin_finish_view」を実行する
 Route::post('/attendance', 'AttendanceRecordController@attendance_begin_finish')->name('post_attendance_begin_finish')->middleware("auth");
-//ユーザログイン状態で、「出勤」「退勤」ボタンを押すと、ROUTE「post_attendance_begin_finish」に従って、CONTROLLER「AttendanceRecordController」のファンクション「attendance_begin_finish」を実行する
-Route::get('/user_attendance_rec', 'AttendanceRecordController@create_csv')->name('get_create_csv')->middleware("auth");
+//ユーザログイン状態で、「出席」「退席」ボタンを押すと、ROUTE「post_attendance_begin_finish」に従って、CONTROLLER「AttendanceRecordController」のファンクション「attendance_begin_finish」を実行する
+Route::get('/user_attendance_rec', 'AttendanceRecordController@create_csv')->name('get_create_csv')->middleware("auth")->middleware('admin');
 Route::get('/user_attendance_rec_1', 'AttendanceRecordController@create_csv_find')->name('get_create_csv_find')->middleware('admin')->middleware("auth");
 //ADMINログイン状態で、「csvファイルで出力」リンクをクリックすると、ファンクション「create_csv_find」を実行する
 

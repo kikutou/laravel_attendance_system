@@ -17,7 +17,7 @@ class CommandController extends Controller
     $temp_arr = array();//重複レコードのidを保存する一時的なarrayを定義。
     $i = 0;//上記のarrayのindexを定義。
     $count = 0;//重複レコードarrayの出現回数。
-    $records = AttendanceRecord::whereNotNull('attendance_date')->get();//出勤記録のあるレコードをすべて抽出。
+    $records = AttendanceRecord::whereNotNull('attendance_date')->get();//出席記録のあるレコードをすべて抽出。
     foreach($records as $record){
       $double_records = AttendanceRecord::where('user_id',$record->user_id)
                                         ->where('attendance_date',$record->attendance_date)
