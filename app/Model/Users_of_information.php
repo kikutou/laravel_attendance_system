@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Users_of_information extends Model
 {
-	protected $table='Users_of_informations';
+    protected $table='users_of_informations';
 
     public function user()
     {
