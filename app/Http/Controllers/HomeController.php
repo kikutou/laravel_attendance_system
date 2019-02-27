@@ -49,12 +49,15 @@ class HomeController extends Controller
      $late = AttendanceRecord::whereNotNull('reason')
        ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
        ->where('attendance_date', '<=' , Carbon::now()->lastOfMonth()->format('Y-m-d'))
+       ->where("user_id", Auth::user()->id)
        ->get()
        ->count();
      //本月请假次数
      $leave = AttendanceRecord::whereNotNull('leave_reason')
        ->where('attendance_date', '>=' , Carbon::now()->firstOfMonth()->format('Y-m-d'))
        ->where('attendance_date', '<=' , Carbon::today()->format('Y-m-d'))
+       ->where("user_id", Auth::user()->id)
+
        ->get()
        ->count();
     if($user->email_verified_at == null){
