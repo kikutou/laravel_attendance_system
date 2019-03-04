@@ -188,7 +188,9 @@ class AttendanceRecordController extends Controller
     if(!$one_attendance_record){
       $one_attendance_record = new AttendanceRecord;
       $one_attendance_record->user_id = $user->id;
-      $one_attendance_record->attendance_date = $request->attendance_date ?? Carbon::today();
+      $one_attendance_record->attendance_date = $request->attendance_date ? Carbon::createFromFormat("Y/m/d", $request->attendance_date) : Carbon::today();
+
+
     }
 
     $one_attendance_record->leave_start_time =  $leave_start_time;
